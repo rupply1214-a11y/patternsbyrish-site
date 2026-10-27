@@ -307,6 +307,8 @@ def main():
     os.makedirs(os.path.join(DIST, "tools"), exist_ok=True)
     if os.path.exists(os.path.join(ROOT, "data", "etsy_raw_sample.json")):
         shutil.copy(os.path.join(ROOT, "data", "etsy_raw_sample.json"), os.path.join(DIST, "tools", "etsy-raw-sample.json"))
+    if os.path.exists(os.path.join(ROOT, "data", "etsy_probe.json")):
+        shutil.copy(os.path.join(ROOT, "data", "etsy_probe.json"), os.path.join(DIST, "tools", "etsy-probe.json"))
     json.dump([dict(id=p["id"], n=p["short"], d=p["sub"], c=p["cats"], pr=p["price"], h=p["hidden"], s=p["slug"],
                     i=(p["images"][0]["medium"] or p["images"][0]["full"]) if p["images"] else "") for p in every],
               open(os.path.join(DIST, "tools", "listings.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
