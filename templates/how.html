@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% from "_macros.html" import tool %}
 {% block title %}How PDF Sewing Patterns Work: Buy, Print, Sew | Patterns by Rish{% endblock %}
 {% block description %}New to PDF sewing patterns? How to download from Etsy, print at the right scale, tape the pages and choose your size.{% endblock %}
 {% block schema %}
@@ -8,29 +8,28 @@
 </script>
 {% endblock %}
 {% block main %}
-<section class="page-head">
-  <div class="wrap narrow">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">How it works</span></nav>
-    <h1>How PDF sewing patterns work</h1>
-    <p class="lede">A PDF pattern is the same pattern you'd buy in an envelope, delivered as a file. You print it, tape the pages together and cut out your size.</p>
+<section class="list-hero tint-sky">
+  <div class="wrap list-hero-in">
+    <div class="list-hero-copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">How it works</span></nav>
+      <h1>How PDF sewing patterns work</h1>
+      <p class="lede">A PDF pattern is the same pattern you'd buy in an envelope, delivered as a file. You print it, tape the pages together and cut out your size.</p>
+    </div>
+    <div class="list-hero-art blog-art" aria-hidden="true">{{ tool("paper", "float f-spool") }}{{ tool("scissors", "float f-needle") }}{{ tool("tape", "float f-button") }}</div>
   </div>
 </section>
 <section class="band band-tight">
-  <div class="wrap narrow prose">
+  <div class="wrap narrow">
     <ol class="steps steps-long">
-      <li><h2>Buy the pattern on Etsy</h2><p>Each pattern on this site has a Buy on Etsy button. Checkout happens on Etsy, so you can use the payment method and account you already have.</p></li>
-      <li><h2>Download your files</h2><p>The download button appears on your order straight away. Save the files to your computer, or to your phone if you'll print from there.</p></li>
-      <li><h2>Print at actual size</h2><p>Open the PDF in a free reader such as Adobe Acrobat Reader. In the print settings choose 100 percent or actual size. Fit to page shrinks the pattern and changes the fit.</p></li>
-      <li><h2>Tape the pages together</h2><p>Trim one edge of each page, line up the marks, and tape. Work row by row. It usually takes 15 to 30 minutes, with a podcast on.</p></li>
-      <li><h2>Cut your size and sew</h2><p>Each size has its own line. Follow yours, or trace it onto tracing paper so you can make other sizes later. Then follow the instructions step by step.</p></li>
+      <li><span class="step-n">1</span>{{ tool("button") }}<h2>Buy the pattern on Etsy</h2><p>Each pattern on this site has a Buy on Etsy button. Checkout happens on Etsy, so you can use the payment method and account you already have.</p></li>
+      <li><span class="step-n">2</span>{{ tool("paper") }}<h2>Download your files</h2><p>The download button appears on your order straight away. Save the files to your computer, or to your phone if you'll print from there. If the zip won't open, use the Drive link PDF included with the files.</p></li>
+      <li><span class="step-n">3</span>{{ tool("tape") }}<h2>Print at actual size</h2><p>Open the PDF in a free reader such as Adobe Acrobat Reader and choose 100 percent or actual size. Fit to page shrinks the pattern and changes the fit. Prefer fewer pages? Send the A0 file to a copy shop.</p></li>
+      <li><span class="step-n">4</span>{{ tool("paper") }}<h2>Tape the pages together</h2><p>Trim one edge of each page, line up the marks and tape, row by row. It usually takes 15 to 30 minutes.</p></li>
+      <li><span class="step-n">5</span>{{ tool("scissors") }}<h2>Cut your size and sew</h2><p>Each size has its own line. Follow yours, or trace it onto tracing paper so you can make other sizes later. Then follow the instruction booklet step by step.</p></li>
     </ol>
-    <h2 id="faq" class="faq-h">Questions</h2>
-    <div class="faq">
-      {% for q, a in faqs %}
-      <details><summary>{{ q }}</summary><p>{{ a }}</p></details>
-      {% endfor %}
-    </div>
-    <p><a class="btn" href="{{ u('patterns/') }}">Browse patterns</a></p>
+    <h2 id="faq" class="stitch-h"><span>Questions</span></h2>
+    <div class="faq">{% for q, a in faqs %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</div>
+    <p class="center-row"><a class="btn" href="{{ u('patterns/') }}">Browse patterns</a> <a class="btn btn-ghost" href="{{ u('blog/') }}">Read the sewing guides</a></p>
   </div>
 </section>
 {% endblock %}

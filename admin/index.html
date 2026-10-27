@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Website admin | Patterns by Rish</title>
+<link rel="icon" href="../static/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin">
+<div class="tape" aria-hidden="true"></div>
+
+<!-- sign in -->
+<section class="login" id="login" hidden>
+  <form class="login-card" id="login-form">
+    <p class="buy-k">Patterns by Rish</p>
+    <h1>Website admin</h1>
+    <p class="muted">Sign in with the admin email you added in Supabase.</p>
+    <label class="field"><span>Email</span><input type="email" id="login-email" autocomplete="username" required></label>
+    <label class="field"><span>Password</span><input type="password" id="login-pass" autocomplete="current-password" required></label>
+    <button class="btn btn-big" type="submit">Sign in</button>
+    <p class="form-msg" id="login-msg" role="alert"></p>
+  </form>
+</section>
+
+<!-- app -->
+<div class="app" id="app" hidden>
+  <aside class="side-nav">
+    <a class="logo" href="../" target="_blank" rel="noopener"><svg class="tool logo-spool" viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="8" width="32" height="7" rx="2" class="t-fill"/><rect x="16" y="49" width="32" height="7" rx="2" class="t-fill"/><rect x="20" y="15" width="24" height="34" class="t-thread"/><path d="M20 21h24M20 27h24M20 33h24M20 39h24M20 45h24" class="t-line"/></svg><span class="logo-word">Admin</span></a>
+    <nav class="tabs" role="tablist" aria-label="Admin sections">
+      <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button role="tab" data-tab="banners" aria-selected="false">Banners</button>
+      <button role="tab" data-tab="topbar" aria-selected="false">Top bar &amp; sale</button>
+      <button role="tab" data-tab="home" aria-selected="false">Homepage</button>
+      <button role="tab" data-tab="patterns" aria-selected="false">Patterns</button>
+      <button role="tab" data-tab="blog" aria-selected="false">Blog</button>
+    </nav>
+    <div class="side-foot">
+      <p class="muted small" id="who"></p>
+      <button class="btn btn-ghost btn-small" id="logout" type="button">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="panel">
+    <div class="savebar" id="savebar" hidden>
+      <span>You have unsaved changes.</span>
+      <button class="btn btn-ghost btn-small" type="button" id="discard">Discard</button>
+      <button class="btn btn-small" type="button" id="save">Save changes</button>
+    </div>
+
+    <!-- overview -->
+    <section data-pane="overview">
+      <h1>Hello! Here's your website.</h1>
+      <div class="stat-row" id="stats"></div>
+      <div class="card-box">
+        <h2>When do changes show on the website?</h2>
+        <p>The website checks Etsy and this admin panel <b>every hour</b> and updates itself. New Etsy listings and anything you save here appear within an hour.</p>
+        <p>Need it sooner? Open the update page, click <b>Run workflow</b>, then the green <b>Run workflow</b> button. The site updates in about 2 minutes.</p>
+        <div class="btn-row">
+          <a class="btn" id="run-link" target="_blank" rel="noopener">Update the website now</a>
+          <a class="btn btn-ghost" href="../" target="_blank" rel="noopener">Open the website</a>
+        </div>
+      </div>
+      <div class="card-box">
+        <h2>Pinterest pins file</h2>
+        <p>Every update also makes a ready Pinterest bulk-upload file: up to 3 pins per pattern, scheduled at US times for the next 28 days. In Pinterest go to <b>Create, Bulk create Pins</b> and upload it.</p>
+        <div class="btn-row"><a class="btn btn-ghost" href="../tools/pinterest-pins.csv" target="_blank" rel="noopener">Open the Pinterest CSV</a></div>
+      </div>
+    </section>
+
+    <!-- banners -->
+    <section data-pane="banners" hidden>
+      <div class="pane-head"><h1>Homepage banners</h1><button class="btn btn-small" type="button" id="add-slide">Add a banner</button></div>
+      <p class="muted">The big sliding banners at the top of the homepage. The first one shows first. Pick up to 3 patterns for the photo collage, or upload your own photo.</p>
+      <div id="slides"></div>
+    </section>
+
+    <!-- top bar & sale -->
+    <section data-pane="topbar" hidden>
+      <h1>Top bar &amp; sale</h1>
+      <div class="card-box">
+        <h2>Sale on Etsy</h2>
+        <p class="muted">Set this to the same discount you are running on Etsy. The website shows the sale price with the old price crossed out. Use 0 when there is no sale.</p>
+        <label class="field field-inline"><span>Discount</span><input type="number" min="0" max="90" step="1" id="sale"><b>% off</b></label>
+      </div>
+      <div class="card-box">
+        <h2>Messages in the yellow tape bar</h2>
+        <p class="muted">These scroll across the very top of every page. Keep each one short.</p>
+        <div id="announcements"></div>
+        <button class="btn btn-ghost btn-small" type="button" id="add-ann">Add a message</button>
+      </div>
+    </section>
+
+    <!-- homepage -->
+    <section data-pane="home" hidden>
+      <h1>Homepage</h1>
+      <div class="card-box">
+        <h2>Category rows</h2>
+        <p class="muted">Each chosen category gets its own banner and a row of patterns on the homepage. Click to add or remove; they show in the order you pick them.</p>
+        <div class="chips" id="rows"></div>
+      </div>
+      <div class="card-box">
+        <h2>Bundle banner</h2>
+        <label class="field"><span>Heading</span><input id="promo-title"></label>
+        <label class="field"><span>Text</span><textarea id="promo-text" rows="2"></textarea></label>
+        <label class="field"><span>Button text</span><input id="promo-button"></label>
+      </div>
+      <div class="card-box">
+        <h2>Category page text</h2>
+        <p class="muted">The short description at the top of each category page. It also helps Google. Leave empty to keep the standard text.</p>
+        <div id="cat-texts"></div>
+      </div>
+    </section>
+
+    <!-- patterns -->
+    <section data-pane="patterns" hidden>
+      <h1>Patterns</h1>
+      <p class="muted">Patterns come from Etsy automatically. Here you can <b>feature</b> a pattern (it shows first on the homepage and in its category) or <b>hide</b> it from the website. Nothing changes on Etsy.</p>
+      <div class="toolbar admin-toolbar">
+        <label class="search-field"><span class="sr">Search patterns</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="search" id="pat-q" placeholder="Search patterns"></label>
+        <div class="chips" id="pat-filter"></div>
+      </div>
+      <ul class="pat-list" id="pat-list"></ul>
+    </section>
+
+    <!-- blog -->
+    <section data-pane="blog" hidden>
+      <div id="post-list-view">
+        <div class="pane-head"><h1>Blog</h1><button class="btn btn-small" type="button" id="new-post">Write a new post</button></div>
+        <p class="muted">Guides help people find your shop on Google. A post goes on the website once it's published.</p>
+        <ul class="post-rows" id="post-rows"></ul>
+      </div>
+      <form id="post-edit" hidden>
+        <div class="pane-head"><button class="btn btn-ghost btn-small" type="button" id="back-posts">All posts</button><div class="btn-row">
+          <button class="btn btn-ghost btn-small danger" type="button" id="del-post">Delete</button>
+          <button class="btn btn-small" type="submit">Save post</button></div></div>
+        <label class="field"><span>Title</span><input id="p-title" required></label>
+        <label class="field"><span>Web address</span><span class="slug-row"><span class="muted">/blog/</span><input id="p-slug" required pattern="[a-z0-9-]+"><span class="muted">/</span></span></label>
+        <label class="field"><span>Short summary (shown on Google and the blog page)</span><textarea id="p-desc" rows="2" maxlength="200"></textarea></label>
+        <div class="field"><span>Related patterns category</span><div class="chips" id="p-cat"></div></div>
+        <div class="two">
+          <label class="field"><span>Label</span><input id="p-tag" placeholder="Guide, Fabric, Fit"></label>
+          <label class="field"><span>Date</span><input type="date" id="p-date"></label>
+        </div>
+        <div class="field"><span>Cover photo</span>
+          <div class="cover-row"><img id="p-cover-img" alt="" hidden><div class="btn-row">
+            <label class="btn btn-ghost btn-small"><input type="file" accept="image/*" id="p-cover-file" hidden>Upload photo</label>
+            <button class="btn btn-ghost btn-small" type="button" id="p-cover-clear">Use a pattern photo</button></div></div>
+        </div>
+        <div class="field"><span>Post</span>
+          <div class="md-tools" role="toolbar" aria-label="Formatting">
+            <button type="button" data-md="h2">Heading</button><button type="button" data-md="b">Bold</button><button type="button" data-md="ul">List</button>
+            <button type="button" data-md="link">Link</button><label class="md-img">Photo<input type="file" accept="image/*" id="md-img" hidden></label>
+            <button type="button" data-md="preview" aria-pressed="false">Preview</button>
+          </div>
+          <textarea id="p-body" rows="22" class="md"></textarea>
+          <div class="prose md-preview" id="p-preview" hidden></div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="p-pub"><span></span>Published on the website</label>
+        <p class="form-msg" id="post-msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

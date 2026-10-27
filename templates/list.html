@@ -1,46 +1,72 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card %}
-{% block title %}{{ heading }} (PDF) | Patterns by Rish{% endblock %}
+{% from "_macros.html" import card, select, tool %}
+{% block title %}{{ heading }} (PDF){% if current %}, {{ items|length }} Designs{% endif %} | Patterns by Rish{% endblock %}
 {% block description %}{{ intro }} Printable PDF, instant download from Etsy.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
-{{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": heading, "description": intro, "url": canon() or none,
-   "mainEntity": {"@type": "ItemList", "numberOfItems": items|length, "itemListElement": (items[:30] | map(attribute='name') | list)}} | tojson }}
+{{ {"@context": "https://schema.org", "@graph": [
+  {"@type": "CollectionPage", "name": heading, "description": intro, "url": canon() or none,
+   "mainEntity": {"@type": "ItemList", "numberOfItems": items|length,
+     "itemListElement": (items[:30] | map(attribute='name') | list)}},
+  {"@type": "BreadcrumbList", "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": canon('') or none},
+    {"@type": "ListItem", "position": 2, "name": catmap[current][0] if current else "Patterns"}]}
+]} | tojson }}
 </script>
 {% endblock %}
 {% block main %}
-<section class="page-head">
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> {% if current %}<a href="{{ u('patterns/') }}">Patterns</a> <span aria-hidden="true">/</span> {% endif %}<span aria-current="page">{{ catmap[current][0] if current else 'Patterns' }}</span></nav>
-    <h1>{{ heading }}</h1>
-    <p class="lede">{{ intro }}</p>
-    <div class="filters" {% if js %}data-filters{% endif %}>
-      {% if js %}
-      <label class="search"><span class="sr">Search patterns</span>
-        <input type="search" placeholder="Search, for example linen maxi dress" autocomplete="off" data-q>
-      </label>
-      <div class="chip-row" role="group" aria-label="Filter by type">
-        <button type="button" class="pill" aria-pressed="true" data-cat="">All</button>
-        {% for c in cats %}<button type="button" class="pill" aria-pressed="false" data-cat="{{ c.slug }}">{{ c.name }}</button>{% endfor %}
-      </div>
-      <label class="sort"><span>Sort</span>
-        <select data-sort><option value="new">Newest</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option></select>
-      </label>
-      {% else %}
-      <div class="chip-row">
-        <a class="pill" href="{{ u('patterns/') }}">All patterns</a>
-        {% for c in cats %}<a class="pill" href="{{ u('category/' ~ c.slug ~ '/') }}" {% if c.slug == current %}aria-current="page"{% endif %}>{{ c.name }}</a>{% endfor %}
-      </div>
-      {% endif %}
+{% set c = cat_by[current] if current else none %}
+<section class="list-hero{{ (' tint-' ~ c.tint) if c else ' tint-lilac' }}">
+  <div class="wrap list-hero-in">
+    <div class="list-hero-copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span>{% if current %}<a href="{{ u('patterns/') }}">Patterns</a><span aria-hidden="true">/</span>{% endif %}<span aria-current="page">{{ c.name if c else 'Patterns' }}</span></nav>
+      <h1>{{ heading }}</h1>
+      <p class="lede">{{ intro }}</p>
+      <p class="list-count"><span><b>{{ items|length }}</b> patterns</span>{% if content.sale_percent %}<span class="list-sale">{{ content.sale_percent }}% off on Etsy right now</span>{% endif %}</p>
+    </div>
+    <div class="list-hero-art" aria-hidden="true">
+      {% for p in items if p.images %}{% if loop.index <= 3 %}<span class="sheet sheet-{{ loop.index }}"><span class="washi"></span><img src="{{ p.images[0].medium or p.images[0].full }}" alt="" {% if loop.index > 1 %}loading="lazy"{% endif %}></span>{% endif %}{% endfor %}
+      {{ tool("tape", "float f-tape") }}
     </div>
   </div>
 </section>
+
 <section class="band band-tight">
   <div class="wrap">
-    <p class="count" data-count aria-live="polite">{{ items|length }} pattern{{ 's' if items|length != 1 }}</p>
-    <div class="grid" data-grid>{% for p in items %}{{ card(p, u) }}{% endfor %}</div>
-    <p class="empty" data-empty hidden>No patterns match that search. Try a shorter word, like "maxi" or "linen", or <a href="{{ u('patterns/') }}">see every pattern</a>.</p>
+    <div class="toolbar" data-filters data-current="{{ current or '' }}">
+      <label class="search-field"><span class="sr">Search these patterns</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input type="search" id="list-q" placeholder="Search, e.g. linen, maxi, wrap" autocomplete="off" data-q>
+      </label>
+      <div class="select" data-select data-name="type">
+        <button type="button" class="select-btn" aria-haspopup="listbox" aria-expanded="false" id="sel-type">
+          <span class="select-label">Type</span><span class="select-value">{{ c.name if c else 'All types' }}</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+        </button>
+        <ul class="select-list" role="listbox" aria-labelledby="sel-type" tabindex="-1" hidden>
+          <li role="option" data-value="" aria-selected="{{ 'false' if current else 'true' }}">All types</li>
+          {% for x in cats %}<li role="option" data-value="{{ x.slug }}" aria-selected="{{ 'true' if x.slug == current else 'false' }}">{{ x.name }} <small>{{ x.count }}</small></li>{% endfor %}
+        </ul>
+      </div>
+      {{ select("size", "Size", [("", "Any size"), ("5XL", "Up to 5XL"), ("Ages", "Kids ages")], "") }}
+      {{ select("sort", "Sort", [("new", "Newest first"), ("low", "Price, low to high"), ("high", "Price, high to low"), ("az", "Name, A to Z")], "new") }}
+    </div>
+    <p class="count" data-count aria-live="polite">{{ items|length }} patterns</p>
+    <div class="grid" data-grid>{% for p in items %}{{ card(p, u, eager=loop.index <= 4) }}{% endfor %}</div>
+    <p class="empty" data-empty hidden>No patterns match. Try a shorter word like "maxi" or "linen", or <button type="button" class="link-btn" data-reset>clear the filters</button>.</p>
+    <div class="more-row"><button type="button" class="btn btn-ghost" data-more hidden>Show more patterns</button></div>
   </div>
 </section>
-{% if js %}<script type="application/json" id="catalog">{{ js | tojson }}</script>{% endif %}
+
+{% if current and posts %}
+{% for b in posts if b.category == current %}{% if loop.first %}
+<section class="band band-paper">
+  <div class="wrap guide-teaser">
+    {{ tool("needle") }}
+    <div><p class="guide-k">Before you cut</p><h2>{{ b.title }}</h2><p>{{ b.description }}</p></div>
+    <a class="btn" href="{{ u('blog/' ~ b.slug ~ '/') }}">Read the guide</a>
+  </div>
+</section>
+{% endif %}{% endfor %}
+{% endif %}
 {% endblock %}

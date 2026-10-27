@@ -1,0 +1,51 @@
+{
+  "sale_percent": 35,
+  "announcements": [
+    "35% off every pattern on Etsy right now",
+    "Instant PDF download, nothing to wait for",
+    "Most patterns come in sizes XS to 5XL",
+    "Print on A4, US Letter or A0"
+  ],
+  "hero_slides": [
+    {
+      "title": "Sew the dress you can't find in stores",
+      "text": "Linen maxis, tea dresses, wrap dresses and bridal gowns. Printable PDF patterns, graded XS to 5XL.",
+      "button": "Shop dress patterns",
+      "link": "category/dresses/",
+      "category": "dresses",
+      "product_ids": [],
+      "color": "blush",
+      "note": "cut 1 on fold"
+    },
+    {
+      "title": "Patterns drafted for every body",
+      "text": "Plus size dresses, trousers and tops with proper room through the bust, waist and hips.",
+      "button": "Shop plus size",
+      "link": "category/plus-size/",
+      "category": "plus-size",
+      "product_ids": [],
+      "color": "mint",
+      "note": "XS to 5XL"
+    },
+    {
+      "title": "More patterns, less money",
+      "text": "Matching sets and bundles cost less than buying each pattern on its own.",
+      "button": "See the bundles",
+      "link": "category/bundles/",
+      "category": "bundles",
+      "product_ids": [],
+      "color": "butter",
+      "note": "save with a set"
+    }
+  ],
+  "home_rows": ["dresses", "plus-size", "tops", "bottoms", "mens", "kids"],
+  "featured_ids": [],
+  "hidden_ids": [],
+  "category_text": {},
+  "promo": {
+    "title": "Build your own bundle",
+    "text": "Pick any 5 or any 20 patterns from the shop in one order and pay much less per pattern.",
+    "button": "See the bundles",
+    "link": "category/bundles/"
+  }
+}

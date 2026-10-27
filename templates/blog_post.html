@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card, tool %}
+{% block title %}{{ b.title }} | Patterns by Rish{% endblock %}
+{% block description %}{{ b.description }}{% endblock %}
+{% block og %}<meta property="og:type" content="article">{% if b.cover %}<meta property="og:image" content="{{ b.cover }}">{% endif %}{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "Article", "headline": b.title, "description": b.description, "datePublished": b.date,
+   "image": b.cover or none, "url": canon() or none, "author": {"@type": "Organization", "name": cfg.brand},
+   "publisher": {"@type": "Organization", "name": cfg.brand}} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<article class="article">
+  <header class="article-head tint-{{ cat_by[b.category].tint if b.category in cat_by else 'lilac' }}">
+    <div class="wrap article-head-in">
+      <div>
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><a href="{{ u('blog/') }}">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{{ b.tag }}</span></nav>
+        <h1>{{ b.title }}</h1>
+        <p class="lede">{{ b.description }}</p>
+        <p class="post-meta"><time datetime="{{ b.date }}">{{ b.nice_date }}</time><span class="dotsep">{{ b.minutes }} min read</span></p>
+      </div>
+      {% if b.cover %}<span class="sheet sheet-1 article-cover"><span class="washi"></span><img src="{{ b.cover }}" alt=""></span>{% endif %}
+    </div>
+  </header>
+  <div class="wrap article-body">
+    {% if b.toc %}
+    <nav class="toc" aria-label="In this guide">
+      <p class="toc-h">In this guide</p>
+      <ol>{% for t in b.toc %}{% for h in t.children or [t] %}<li><a href="#{{ h.id }}">{{ h.name }}</a></li>{% endfor %}{% endfor %}</ol>
+    </nav>
+    {% endif %}
+    <div class="prose">{{ b.html | safe }}</div>
+  </div>
+</article>
+{% if b.related %}
+<section class="band band-paper">
+  <div class="wrap">
+    <div class="head-row"><h2 class="stitch-h"><span>Patterns to try this on</span></h2>{% if b.category in cat_by %}<a class="more" href="{{ u('category/' ~ b.category ~ '/') }}">All {{ cat_by[b.category].name|lower }}</a>{% endif %}</div>
+    <div class="grid">{% for p in b.related %}{{ card(p, u) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% if more %}
+<section class="band">
+  <div class="wrap">
+    <h2 class="stitch-h"><span>Keep reading</span></h2>
+    <div class="post-grid">
+      {% for x in more %}
+      <a class="post-card" href="{{ u('blog/' ~ x.slug ~ '/') }}">
+        <span class="post-pic">{% if x.cover %}<img src="{{ x.cover }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ x.tag }}</span></span>
+        <span class="post-title">{{ x.title }}</span><span class="post-meta">{{ x.minutes }} min read</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

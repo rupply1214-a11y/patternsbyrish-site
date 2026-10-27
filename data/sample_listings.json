@@ -2,11 +2,11 @@
  "shop": {
   "shop_name": "PatternsByRish",
   "title": "Simple, Stylish & Innovative Digital Sewing Patterns",
-  "transaction_sold_count": 3826,
-  "review_average": 4.3,
-  "review_count": 177,
+  "transaction_sold_count": 4712,
+  "review_average": 4.4,
+  "review_count": 232,
   "url": "https://www.etsy.com/shop/PatternsByRish",
-  "listing_active_count": 144
+  "listing_active_count": 175
  },
  "sections": [
   {
@@ -52,168 +52,348 @@
  ],
  "listings": [
   {
-   "listing_id": 4501463807,
-   "title": "Deep V-Neck Linen Maxi Dress Sewing Pattern PDF, Sleeveless V Neck Linen Summer Outfit",
-   "url": "https://www.etsy.com/listing/4501463807",
+   "listing_id": 4602145557,
+   "title": "Wedding Dress | Sweetheart Neck Long Sleeve Bridal Gown | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4602145557",
    "price": {
-    "amount": 500,
+    "amount": 420,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1000,
-   "original_creation_timestamp": 1793076030,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1793081546,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/cbff6d/8781122377/il_fullxfull.8781122377_315c.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/cbff6d/8781122377/il_570xN.8781122377_315c.jpg",
+     "alt": "Wedding Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/3a485a/8733292854/il_fullxfull.8733292854_t2lz.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/3a485a/8733292854/il_570xN.8733292854_t2lz.jpg",
+     "alt": "Wedding Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4478088248,
-   "title": "Mens Linen Slim Fit Shirt Sewing Pattern PDF, Tailored Button Up Dress Shirt DIY",
-   "url": "https://www.etsy.com/listing/4478088248",
+   "listing_id": 4599189843,
+   "title": "Mens Linen Shirt | Long Sleeve Button-Up & Wide Leg Pants Bundle | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4599189843",
    "price": {
-    "amount": 396,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1002,
-   "original_creation_timestamp": 1792903230,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4467556320,
-   "title": "Wholeshop Sewing Pattern Bundle PDF, Dress Top Plus Size Collection Women Men",
-   "url": "https://www.etsy.com/listing/4467556320",
-   "price": {
-    "amount": 7527,
+    "amount": 760,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1009,
-   "original_creation_timestamp": 1792730430,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1792822346,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/a49a8a/8709057580/il_fullxfull.8709057580_p7z8.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/a49a8a/8709057580/il_570xN.8709057580_p7z8.jpg",
+     "alt": "Mens Linen Shirt sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/963f87/8756874703/il_fullxfull.8756874703_3lio.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/963f87/8756874703/il_570xN.8756874703_3lio.jpg",
+     "alt": "Mens Linen Shirt",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4502494080,
-   "title": "Vintage Cottagecore Pinafore Dress Sewing Pattern PDF, Scandinavian Linen Midi Dress DIY",
-   "url": "https://www.etsy.com/listing/4502494080",
+   "listing_id": 4600739599,
+   "title": "Wrap Dress | Surplice V-Neck Long Sleeve Fit and Flare Dress | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4600739599",
    "price": {
-    "amount": 499,
+    "amount": 410,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1000,
-   "original_creation_timestamp": 1792557630,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1792563146,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/5db02a/8721294902/il_fullxfull.8721294902_aidq.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/5db02a/8721294902/il_570xN.8721294902_aidq.jpg",
+     "alt": "Wrap Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/062dec/8721295252/il_fullxfull.8721295252_cpf6.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/062dec/8721295252/il_570xN.8721295252_cpf6.jpg",
+     "alt": "Wrap Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4503790149,
-   "title": "Plus Size Square Neck Maxi Dress Sewing Pattern PDF, Cottagecore Linen Dress DIY",
-   "url": "https://www.etsy.com/listing/4503790149",
+   "listing_id": 4587047452,
+   "title": "V Neck Trapeze Dress | Deep Plunging V-Neck Sleeveless Dress | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4587047452",
    "price": {
-    "amount": 770,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1001,
-   "original_creation_timestamp": 1792384830,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4504901189,
-   "title": "African Ankara Halter Maxi Dress Sewing Pattern PDF, Boho Evening Gown DIY",
-   "url": "https://www.etsy.com/listing/4504901189",
-   "price": {
-    "amount": 480,
+    "amount": 430,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1000,
-   "original_creation_timestamp": 1792212030,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1792303946,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/f193fc/8659997581/il_fullxfull.8659997581_2x0e.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/f193fc/8659997581/il_570xN.8659997581_2x0e.jpg",
+     "alt": "V Neck Trapeze Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/30d21f/8659998169/il_fullxfull.8659998169_11yi.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/30d21f/8659998169/il_570xN.8659998169_11yi.jpg",
+     "alt": "V Neck Trapeze Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4532390499,
-   "title": "Boat Neck Linen Dress Sewing Pattern Bundle (2 in 1), Sleeveless Maxi Mini PDF",
-   "url": "https://www.etsy.com/listing/4532390499",
+   "listing_id": 4580307903,
+   "title": "Ren Faire | V-Neck Bishop Sleeve Blouse & Gathered Maxi Skirt | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4580307903",
    "price": {
-    "amount": 774,
+    "amount": 600,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1009,
-   "original_creation_timestamp": 1792039230,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1792044746,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/43556c/8608881681/il_fullxfull.8608881681_p1z2.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/43556c/8608881681/il_570xN.8608881681_p1z2.jpg",
+     "alt": "Ren Faire sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/4ef79d/8561022818/il_fullxfull.8561022818_7enk.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/4ef79d/8561022818/il_570xN.8561022818_7enk.jpg",
+     "alt": "Ren Faire",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4525417608,
-   "title": "Plus Size V-Neck Linen Tea Dress Sewing Pattern PDF, Sleeveless A-Line Dress DIY",
-   "url": "https://www.etsy.com/listing/4525417608",
+   "listing_id": 4583499672,
+   "title": "V Back Dress | Plunging Back A-Line Mini Dress | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4583499672",
    "price": {
-    "amount": 512,
+    "amount": 400,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1001,
-   "original_creation_timestamp": 1791866430,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1791785546,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/a395b7/8584920442/il_fullxfull.8584920442_6yb0.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/a395b7/8584920442/il_570xN.8584920442_6yb0.jpg",
+     "alt": "V Back Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/d0c718/8584920638/il_fullxfull.8584920638_qxr0.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/d0c718/8584920638/il_570xN.8584920638_qxr0.jpg",
+     "alt": "V Back Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4502577803,
-   "title": "Wide Leg Linen Jumpsuit Sewing Pattern PDF, Scandinavian Minimalist Women Outfit DIY",
-   "url": "https://www.etsy.com/listing/4502577803",
-   "price": {
-    "amount": 509,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1006,
-   "original_creation_timestamp": 1791693630,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4564945787,
-   "title": "Gingham Mini Skirt Pattern | A-Line Woven Skirt PDF | Natural Waist XS-5XL",
-   "url": "https://www.etsy.com/listing/4564945787",
+   "listing_id": 4575750167,
+   "title": "Flare Leg Jeans | Full-Length Flared Denim Jeans | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4575750167",
    "price": {
     "amount": 400,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1005,
-   "original_creation_timestamp": 1791520830,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1791526346,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/6132b9/8574932761/il_fullxfull.8574932761_2yzw.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/6132b9/8574932761/il_570xN.8574932761_2yzw.jpg",
+     "alt": "Flare Leg Jeans sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/ef1fac/8527069078/il_fullxfull.8527069078_bzrv.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/ef1fac/8527069078/il_570xN.8527069078_bzrv.jpg",
+     "alt": "Flare Leg Jeans",
+     "w": null,
+     "h": null
+    }
+   ],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4586183452,
+   "title": "Linen Dress | Boatneck A-Line Tea Dress | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4586183452",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1791267146,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/5d0c10/8653230895/il_fullxfull.8653230895_dpyg.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/5d0c10/8653230895/il_570xN.8653230895_dpyg.jpg",
+     "alt": "Linen Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/3a0f82/8605393320/il_fullxfull.8605393320_ovz7.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/3a0f82/8605393320/il_570xN.8605393320_ovz7.jpg",
+     "alt": "Linen Dress",
+     "w": null,
+     "h": null
+    }
+   ],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4580233697,
+   "title": "Bishop Sleeve Top | Wide Scoop Neck Button Front Blouse | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4580233697",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1791007946,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/a09b85/8561527440/il_fullxfull.8561527440_4fbt.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/a09b85/8561527440/il_570xN.8561527440_4fbt.jpg",
+     "alt": "Bishop Sleeve Top sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/e440b4/8560461930/il_fullxfull.8560461930_n953.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/e440b4/8560461930/il_570xN.8560461930_n953.jpg",
+     "alt": "Bishop Sleeve Top",
+     "w": null,
+     "h": null
+    }
+   ],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4579425052,
+   "title": "Girls Linen Dress | Summer Strap Sundress Ages 2-16 | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4579425052",
+   "price": {
+    "amount": 330,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1008,
+   "original_creation_timestamp": 1790748746,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/c72f65/8554279556/il_fullxfull.8554279556_t2de.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/c72f65/8554279556/il_570xN.8554279556_t2de.jpg",
+     "alt": "Girls Linen Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/86882e/8602143835/il_fullxfull.8602143835_9qxo.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/86882e/8602143835/il_570xN.8602143835_9qxo.jpg",
+     "alt": "Girls Linen Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
    "listing_id": 4564791371,
-   "title": "Wide Leg Jumpsuit Sewing Pattern | Square Neck Cropped Jumpsuit | XS-5XL PDF",
+   "title": "Wide Leg Jumpsuit | Square Neck Cropped Jumpsuit | XS-5XL PDF",
    "url": "https://www.etsy.com/listing/4564791371",
    "price": {
     "amount": 400,
@@ -221,415 +401,373 @@
     "currency_code": "USD"
    },
    "shop_section_id": 1006,
-   "original_creation_timestamp": 1791348030,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1790489546,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/f5f6a1/8447628892/il_fullxfull.8447628892_d6fb.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/f5f6a1/8447628892/il_570xN.8447628892_d6fb.jpg",
+     "alt": "Wide Leg Jumpsuit sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/478635/8495486083/il_fullxfull.8495486083_51b2.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/478635/8495486083/il_570xN.8495486083_51b2.jpg",
+     "alt": "Wide Leg Jumpsuit",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4500897310,
-   "title": "Asymmetrical Wide Leg Jumpsuit Sewing Pattern PDF, One Shoulder Jumpsuit DIY",
-   "url": "https://www.etsy.com/listing/4500897310",
+   "listing_id": 4576308540,
+   "title": "Satin Dress | Full-Length Scoop Neck Maxi Dress Plus Size | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4576308540",
    "price": {
-    "amount": 360,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1006,
-   "original_creation_timestamp": 1791175230,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4530267030,
-   "title": "Very Flared Full Length Gown Sewing Pattern PDF, One Shoulder Evening Dress DIY",
-   "url": "https://www.etsy.com/listing/4530267030",
-   "price": {
-    "amount": 464,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1791002430,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4479154512,
-   "title": "Plus Size Wide Leg Trousers Sewing Pattern PDF, High Waist Palazzo Pants DIY",
-   "url": "https://www.etsy.com/listing/4479154512",
-   "price": {
-    "amount": 399,
+    "amount": 420,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1001,
-   "original_creation_timestamp": 1790829630,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1790230346,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/9e7fad/8588835273/il_fullxfull.8588835273_l689.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/9e7fad/8588835273/il_570xN.8588835273_l689.jpg",
+     "alt": "Satin Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/95c379/8578923795/il_fullxfull.8578923795_snpd.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/95c379/8578923795/il_570xN.8578923795_snpd.jpg",
+     "alt": "Satin Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4559251136,
-   "title": "Three Quarter Sleeve Top Sewing Pattern PDF | Boat Neck Flared Sleeve Knit Top | Relaxed Fit | XS to 5XL",
-   "url": "https://www.etsy.com/listing/4559251136",
+   "listing_id": 4564945787,
+   "title": "Gingham Mini Skirt | A-Line Woven Skirt | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4564945787",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1789971146,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/884af3/8496703077/il_fullxfull.8496703077_sfwx.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/884af3/8496703077/il_570xN.8496703077_sfwx.jpg",
+     "alt": "Gingham Mini Skirt sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/0732a5/8496703535/il_fullxfull.8496703535_jori.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/0732a5/8496703535/il_570xN.8496703535_jori.jpg",
+     "alt": "Gingham Mini Skirt",
+     "w": null,
+     "h": null
+    }
+   ],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4562889127,
+   "title": "Linen Palazzo Jumpsuit | Wide Leg | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4562889127",
+   "price": {
+    "amount": 500,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1006,
+   "original_creation_timestamp": 1789711946,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/a90669/8540955366/il_fullxfull.8540955366_blrt.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/a90669/8540955366/il_570xN.8540955366_blrt.jpg",
+     "alt": "Linen Palazzo Jumpsuit sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/f3716d/8481532257/il_fullxfull.8481532257_jo66.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/f3716d/8481532257/il_570xN.8481532257_jo66.jpg",
+     "alt": "Linen Palazzo Jumpsuit",
+     "w": null,
+     "h": null
+    }
+   ],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4572465954,
+   "title": "Satin Crop Top | Scoop Neck Spaghetti Strap | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4572465954",
    "price": {
     "amount": 400,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1004,
-   "original_creation_timestamp": 1790656830,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1789452746,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/cc43a1/8550387351/il_fullxfull.8550387351_8dzw.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/cc43a1/8550387351/il_570xN.8550387351_8dzw.jpg",
+     "alt": "Satin Crop Top sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/99d973/8550387795/il_fullxfull.8550387795_otcw.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/99d973/8550387795/il_570xN.8550387795_otcw.jpg",
+     "alt": "Satin Crop Top",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4503681983,
-   "title": "Linen Top Sewing Pattern PDF | V Neck Flared Sleeve",
-   "url": "https://www.etsy.com/listing/4503681983",
+   "listing_id": 4539745719,
+   "title": "Mens Wide Leg Capri | Knit Pull-On Pants | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4539745719",
    "price": {
-    "amount": 308,
+    "amount": 450,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1790484030,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1002,
+   "original_creation_timestamp": 1789193546,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/b7850e/8266396834/il_fullxfull.8266396834_262t.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/b7850e/8266396834/il_570xN.8266396834_262t.jpg",
+     "alt": "Mens Wide Leg Capri sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/86d061/8314311333/il_fullxfull.8314311333_gr1x.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/86d061/8314311333/il_570xN.8314311333_gr1x.jpg",
+     "alt": "Mens Wide Leg Capri",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
    "listing_id": 4543689887,
-   "title": "Cottagecore Boatneck Midi Dress PDF Sewing Pattern Bishop Sleeve Plus Size",
+   "title": "Cottagecore Boatneck Midi Dress | Bishop Sleeve Plus Size | XS-5XL PDF",
    "url": "https://www.etsy.com/listing/4543689887",
    "price": {
     "amount": 547,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1790311230,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1788934346,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/0cf37f/8343154057/il_fullxfull.8343154057_7uji.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/0cf37f/8343154057/il_570xN.8343154057_7uji.jpg",
+     "alt": "Cottagecore Boatneck Midi Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/15023c/8343155193/il_fullxfull.8343155193_ia3n.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/15023c/8343155193/il_570xN.8343155193_ia3n.jpg",
+     "alt": "Cottagecore Boatneck Midi Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4510472597,
-   "title": "Cottagecore Maxi Dress Sewing Pattern PDF, Floral Ruffle Hem Dress DIY",
-   "url": "https://www.etsy.com/listing/4510472597",
+   "listing_id": 4558521676,
+   "title": "Plus Size Linen Midi Dress | Ruffle Hem | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4558521676",
    "price": {
-    "amount": 476,
+    "amount": 450,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1790138430,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1788675146,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/d2a632/8449432439/il_fullxfull.8449432439_457f.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/d2a632/8449432439/il_570xN.8449432439_457f.jpg",
+     "alt": "Plus Size Linen Midi Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/df0967/8449419491/il_fullxfull.8449419491_ikbm.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/df0967/8449419491/il_570xN.8449419491_ikbm.jpg",
+     "alt": "Plus Size Linen Midi Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4540664681,
-   "title": "Gathered Waist Maxi Skirt PDF Sewing Pattern Plus Size A-Line Skirt",
-   "url": "https://www.etsy.com/listing/4540664681",
+   "listing_id": 4572441220,
+   "title": "Half Circle Skirt | Flared A-Line Skirt | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4572441220",
    "price": {
-    "amount": 459,
+    "amount": 400,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1005,
-   "original_creation_timestamp": 1789965630,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1788415946,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/0e79bf/8502324978/il_fullxfull.8502324978_qnzx.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/0e79bf/8502324978/il_570xN.8502324978_qnzx.jpg",
+     "alt": "Half Circle Skirt sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/96614d/8502326116/il_fullxfull.8502326116_m7ef.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/96614d/8502326116/il_570xN.8502326116_m7ef.jpg",
+     "alt": "Half Circle Skirt",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4503508508,
-   "title": "Linen Boat Neck Top Sewing Pattern PDF, Minimalist Summer Women Blouse DIY",
-   "url": "https://www.etsy.com/listing/4503508508",
+   "listing_id": 4558556007,
+   "title": "Choose Any 20 Bundle | Women | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4558556007",
    "price": {
-    "amount": 416,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1789792830,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4545996250,
-   "title": "African Ankara Dress Bundle PDF Sewing Pattern 2 in 1 Plus Size",
-   "url": "https://www.etsy.com/listing/4545996250",
-   "price": {
-    "amount": 714,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1009,
-   "original_creation_timestamp": 1789620030,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4502578965,
-   "title": "Linen Abaya Dress Sewing Pattern PDF, Modest Maxi Kaftan Women Dress DIY",
-   "url": "https://www.etsy.com/listing/4502578965",
-   "price": {
-    "amount": 510,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1789447230,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4512504708,
-   "title": "Linen Summer Slip Dress Sewing Pattern PDF, Ruffle Hem Mini Dress DIY",
-   "url": "https://www.etsy.com/listing/4512504708",
-   "price": {
-    "amount": 507,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1789274430,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4535017627,
-   "title": "2-in-1 Abaya Dress Sewing Pattern, Modest Maxi, Boat Neck, Linen Flare Sleeve (PDF Download)",
-   "url": "https://www.etsy.com/listing/4535017627",
-   "price": {
-    "amount": 766,
+    "amount": 5000,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1009,
-   "original_creation_timestamp": 1789101630,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1788156746,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/42203d/8449840473/il_fullxfull.8449840473_egy7.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/42203d/8449840473/il_570xN.8449840473_egy7.jpg",
+     "alt": "Choose Any 20 Bundle sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/309a6f/8401976744/il_fullxfull.8401976744_5otn.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/309a6f/8401976744/il_570xN.8401976744_5otn.jpg",
+     "alt": "Choose Any 20 Bundle",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4504929245,
-   "title": "Cottagecore Square Neck Dress Sewing Pattern PDF, Puff Sleeve Maxi Dress DIY",
-   "url": "https://www.etsy.com/listing/4504929245",
-   "price": {
-    "amount": 500,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1788928830,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4503690981,
-   "title": "Linen Midriff Crop Top Sewing Pattern PDF, Spaghetti Strap Camisole DIY",
-   "url": "https://www.etsy.com/listing/4503690981",
+   "listing_id": 4538672900,
+   "title": "Fitted Raglan Sleeve Top | Long Sleeve Knit Shirt | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4538672900",
    "price": {
     "amount": 410,
     "divisor": 100,
     "currency_code": "USD"
    },
    "shop_section_id": 1004,
-   "original_creation_timestamp": 1788756030,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4461168978,
-   "title": "Half Circle Maxi Skirt Sewing Pattern PDF, Flowing High Waist Women Skirt DIY",
-   "url": "https://www.etsy.com/listing/4461168978",
-   "price": {
-    "amount": 375,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1005,
-   "original_creation_timestamp": 1788583230,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4542502589,
-   "title": "Boatneck Above Knee Dress PDF Sewing Pattern Flared Sleeve Plus Size",
-   "url": "https://www.etsy.com/listing/4542502589",
-   "price": {
-    "amount": 506,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1788410430,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4501462709,
-   "title": "Maxi Dress Sewing Pattern PDF, Boat Neck Modest Tiered Women Everyday Elegant Wear",
-   "url": "https://www.etsy.com/listing/4501462709",
-   "price": {
-    "amount": 387,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1788237630,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4538078751,
-   "title": "Square Neck Midriff Top Sewing Pattern PDF, Sleeveless Knit Crop Top DIY",
-   "url": "https://www.etsy.com/listing/4538078751",
-   "price": {
-    "amount": 419,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1788064830,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4463387633,
-   "title": "Scoop Neck Tank Top Sewing Pattern PDF, Fitted Sleeveless Crop Top DIY",
-   "url": "https://www.etsy.com/listing/4463387633",
-   "price": {
-    "amount": 341,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1787892030,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4539221483,
-   "title": "Wide Scoop Neck Ballet Top Sewing Pattern PDF, Long Sleeve Knit Top DIY",
-   "url": "https://www.etsy.com/listing/4539221483",
-   "price": {
-    "amount": 431,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1787719230,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4502005384,
-   "title": "Trumpet Midi Skirt Sewing Pattern PDF, High Waist Flared Skirt DIY",
-   "url": "https://www.etsy.com/listing/4502005384",
-   "price": {
-    "amount": 432,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1005,
-   "original_creation_timestamp": 1787546430,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4502578269,
-   "title": "A Line Micro Mini Skirt Sewing Pattern PDF, Scandinavian Linen Skirt DIY",
-   "url": "https://www.etsy.com/listing/4502578269",
-   "price": {
-    "amount": 358,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1005,
-   "original_creation_timestamp": 1787373630,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4537077810,
-   "title": "Meadow Corset Vest Sewing Pattern PDF, Cottagecore Button Front Vest DIY",
-   "url": "https://www.etsy.com/listing/4537077810",
-   "price": {
-    "amount": 459,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1787200830,
-   "tags": [],
-   "description": "",
-   "images": [],
-   "num_favorers": 0
-  },
-  {
-   "listing_id": 4541259212,
-   "title": "Linen Workwear Blouse PDF Sewing Pattern V Neck Top Plus Size XS-5XL",
-   "url": "https://www.etsy.com/listing/4541259212",
-   "price": {
-    "amount": 390,
-    "divisor": 100,
-    "currency_code": "USD"
-   },
-   "shop_section_id": 1004,
-   "original_creation_timestamp": 1787028030,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1787897546,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/7b6ecf/8258041460/il_fullxfull.8258041460_paja.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/7b6ecf/8258041460/il_570xN.8258041460_paja.jpg",
+     "alt": "Fitted Raglan Sleeve Top sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/6ab194/8258055822/il_fullxfull.8258055822_6bw1.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/6ab194/8258055822/il_570xN.8258055822_6bw1.jpg",
+     "alt": "Fitted Raglan Sleeve Top",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
    "listing_id": 4527831515,
-   "title": "Trumpet Boat Neck Linen Midi Dress Sewing Pattern PDF, Sleeveless Flared Dress DIY",
+   "title": "Trumpet Boat Neck Linen Midi Dress | Sleeveless Flared Dress | XS-5XL PDF",
    "url": "https://www.etsy.com/listing/4527831515",
    "price": {
     "amount": 449,
@@ -637,42 +775,96 @@
     "currency_code": "USD"
    },
    "shop_section_id": 1000,
-   "original_creation_timestamp": 1786855230,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "original_creation_timestamp": 1787638346,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/7a6e43/8225367015/il_fullxfull.8225367015_2skt.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/7a6e43/8225367015/il_570xN.8225367015_2skt.jpg",
+     "alt": "Trumpet Boat Neck Linen Midi Dress sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/c84ccc/8225368739/il_fullxfull.8225368739_4st9.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/c84ccc/8225368739/il_570xN.8225368739_4st9.jpg",
+     "alt": "Trumpet Boat Neck Linen Midi Dress",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4516187659,
-   "title": "Cottagecore Fit & Flare Dress Sewing Pattern PDF | Knit Dress XS\u20135XL | A4 A0 US Letter",
-   "url": "https://www.etsy.com/listing/4516187659",
+   "listing_id": 4524522765,
+   "title": "Mother Daughter | Matching Dress | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4524522765",
    "price": {
-    "amount": 429,
+    "amount": 500,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1786682430,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1009,
+   "original_creation_timestamp": 1787379146,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/2e784e/8154948434/il_fullxfull.8154948434_kq4l.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/2e784e/8154948434/il_570xN.8154948434_kq4l.jpg",
+     "alt": "Mother Daughter sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/ca8414/8202868567/il_fullxfull.8202868567_m0q9.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/ca8414/8202868567/il_570xN.8202868567_m0q9.jpg",
+     "alt": "Mother Daughter",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   },
   {
-   "listing_id": 4501995371,
-   "title": "Linen Cottagecore Maxi Dress Sewing Pattern PDF, Boatneck Long Women Dress DIY",
-   "url": "https://www.etsy.com/listing/4501995371",
+   "listing_id": 4543251875,
+   "title": "Womens Palazzo Linen Trousers | Wide Leg Plus Size | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4543251875",
    "price": {
-    "amount": 504,
+    "amount": 499,
     "divisor": 100,
     "currency_code": "USD"
    },
-   "shop_section_id": 1000,
-   "original_creation_timestamp": 1786509630,
-   "tags": [],
-   "description": "",
-   "images": [],
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1787119946,
+   "tags": [
+    "sewing pattern",
+    "pdf pattern"
+   ],
+   "description": "Create a timeless piece with this printable PDF sewing pattern.\nAvailable in sizes XS\u20135XL, with A4, A0, and US Letter printing formats.\nFeatures:\n\u2022 Woven fabric\n\u2022 Full length\n\u2022 Invisible zipper closure\nWhat\u2019s Included:\n\u2022 PDF sewing pattern files - English language\n\u2022 Step-by-step instruction booklet (PDF)\n\u2022 Technical sketch files (PNG & SVG)\n\u2022 Fabric Requirement\nDigital pattern only; no physical item will be shipped.",
+   "images": [
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/002939/8340201743/il_fullxfull.8340201743_oqsj.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/002939/8340201743/il_570xN.8340201743_oqsj.jpg",
+     "alt": "Womens Palazzo Linen Trousers sewing pattern",
+     "w": null,
+     "h": null
+    },
+    {
+     "full": "https://i.etsystatic.com/63693525/r/il/5f97cd/8340389127/il_fullxfull.8340389127_7gl4.jpg",
+     "medium": "https://i.etsystatic.com/63693525/r/il/5f97cd/8340389127/il_570xN.8340389127_7gl4.jpg",
+     "alt": "Womens Palazzo Linen Trousers",
+     "w": null,
+     "h": null
+    }
+   ],
    "num_favorers": 0
   }
  ],

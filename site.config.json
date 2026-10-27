@@ -30,5 +30,8 @@
       "bundles": "Sewing Pattern Bundles",
       "hoodies": "Hoodie & Sweatshirt Sewing Patterns"
     }
-  }
+  },
+  "supabase_url": "https://odqwfposfokhipejjaps.supabase.co",
+  "supabase_key": "sb_publishable_c-88cgkbsndqZmIZ7kxPAQ_44fXGY5y",
+  "github_repo": "rupply1214-a11y/patternsbyrish-site"
 }

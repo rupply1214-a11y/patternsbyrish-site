@@ -1,58 +1,98 @@
+{# ---------- sewing illustrations, drawn as line art so they recolour with the theme ---------- #}
+{% macro tool(name, cls="") %}
+<svg class="tool {{ cls }}" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+{% if name == "spool" %}
+  <rect x="16" y="8" width="32" height="7" rx="2" class="t-fill"/><rect x="16" y="49" width="32" height="7" rx="2" class="t-fill"/>
+  <rect x="20" y="15" width="24" height="34" class="t-thread"/>
+  <path d="M20 21h24M20 27h24M20 33h24M20 39h24M20 45h24" class="t-line"/>
+  <path d="M44 30 C56 32, 58 44, 50 52" class="t-loose"/>
+{% elif name == "scissors" %}
+  <circle cx="16" cy="46" r="8" class="t-ring"/><circle cx="34" cy="52" r="8" class="t-ring"/>
+  <path d="M22 41 L56 10 M28 46 L58 22" class="t-blade"/><circle cx="31" cy="38" r="2" class="t-dot"/>
+{% elif name == "needle" %}
+  <path d="M8 56 L54 10" class="t-blade"/><ellipse cx="51" cy="13" rx="2" ry="4.5" transform="rotate(45 51 13)" class="t-eye"/>
+  <path d="M52 12 C60 20, 46 30, 52 40 S 40 58, 30 54" class="t-loose"/>
+{% elif name == "button" %}
+  <circle cx="32" cy="32" r="22" class="t-fill"/><circle cx="32" cy="32" r="16" class="t-line"/>
+  <circle cx="26" cy="26" r="3" class="t-hole"/><circle cx="38" cy="26" r="3" class="t-hole"/><circle cx="26" cy="38" r="3" class="t-hole"/><circle cx="38" cy="38" r="3" class="t-hole"/>
+{% elif name == "pins" %}
+  <path d="M14 54 L34 22 M30 56 L42 20 M46 54 L50 18" class="t-blade"/>
+  <circle cx="34" cy="20" r="5" class="t-head1"/><circle cx="42" cy="18" r="5" class="t-head2"/><circle cx="50" cy="16" r="5" class="t-head3"/>
+{% elif name == "tape" %}
+  <rect x="6" y="20" width="52" height="16" rx="3" class="t-tape"/>
+  <path d="M12 20v6M18 20v4M24 20v6M30 20v4M36 20v6M42 20v4M48 20v6M54 20v4" class="t-line"/>
+  <path d="M6 36 C6 48, 22 52, 30 46" class="t-tape-tail"/>
+{% elif name == "fabric" %}
+  <path d="M8 18 L40 10 L56 22 L24 30 Z" class="t-fill"/><path d="M8 18 L8 40 L24 52 L24 30" class="t-thread"/>
+  <path d="M24 52 L56 44 L56 22" class="t-line"/><path d="M12 24 L20 30 M12 32 L20 38" class="t-line"/>
+{% elif name == "thread" %}
+  <ellipse cx="32" cy="12" rx="14" ry="4" class="t-fill"/><path d="M18 12 L22 52 M46 12 L42 52" class="t-line"/>
+  <ellipse cx="32" cy="52" rx="10" ry="3" class="t-fill"/><path d="M21 22h22M21 30h22M22 38h20M22 46h20" class="t-thread-l"/>
+{% elif name == "paper" %}
+  <rect x="10" y="10" width="34" height="44" rx="2" class="t-fill"/><rect x="20" y="16" width="34" height="44" rx="2" class="t-paper"/>
+  <path d="M26 30 L36 26 L46 30 L44 50 L28 50 Z" class="t-dash"/>
+{% endif %}
+</svg>
+{% endmacro %}
+
 {% macro garment(kind) %}
 <svg class="g" viewBox="0 0 200 240" aria-hidden="true" focusable="false">
   {% if kind == "dress" %}
-  <path d="M78 30 L92 40 Q100 46 108 40 L122 30 L134 36 L130 70 Q124 90 128 104 L160 210 Q100 222 40 210 L72 104 Q76 90 70 70 L66 36 Z"/>
-  <path class="s" d="M72 104 Q100 112 128 104"/>
-  {% elif kind == "top" %}
-  <path d="M70 50 L88 42 Q100 54 112 42 L130 50 L160 72 L148 94 L134 86 L136 172 Q100 178 64 172 L66 86 L52 94 L40 72 Z"/>
-  <path class="s" d="M66 160 Q100 166 134 160"/>
-  {% elif kind == "shirt" %}
-  <path d="M70 50 L88 42 L100 58 L112 42 L130 50 L160 72 L152 150 L138 150 L136 92 L136 180 L64 180 L64 92 L62 150 L48 150 L40 72 Z"/>
-  <path class="s" d="M100 58 L100 180"/><circle cx="106" cy="80" r="2.4"/><circle cx="106" cy="104" r="2.4"/><circle cx="106" cy="128" r="2.4"/><circle cx="106" cy="152" r="2.4"/>
+  <path d="M78 30 L92 40 Q100 46 108 40 L122 30 L134 36 L130 70 Q124 90 128 104 L160 210 Q100 222 40 210 L72 104 Q76 90 70 70 L66 36 Z"/><path class="s" d="M72 104 Q100 112 128 104"/>
+  {% elif kind in ("top", "shirt", "vest", "hoodie") %}
+  <path d="M70 50 L88 42 Q100 54 112 42 L130 50 L160 72 L148 94 L134 86 L136 172 Q100 178 64 172 L66 86 L52 94 L40 72 Z"/><path class="s" d="M66 160 Q100 166 134 160"/>
   {% elif kind == "skirt" %}
-  <path d="M72 50 L128 50 L130 64 L162 196 Q100 210 38 196 L70 64 Z"/>
-  <path class="s" d="M70 64 L130 64"/><path class="s" d="M100 64 L100 120"/>
+  <path d="M72 50 L128 50 L130 64 L162 196 Q100 210 38 196 L70 64 Z"/><path class="s" d="M70 64 L130 64"/>
   {% elif kind == "pants" %}
-  <path d="M70 40 L130 40 L134 60 L152 206 L112 206 L100 96 L88 206 L48 206 L66 60 Z"/>
-  <path class="s" d="M66 60 L134 60"/>
+  <path d="M70 40 L130 40 L134 60 L152 206 L112 206 L100 96 L88 206 L48 206 L66 60 Z"/><path class="s" d="M66 60 L134 60"/>
   {% elif kind == "jumpsuit" %}
   <path d="M80 26 L92 34 Q100 42 108 34 L120 26 L130 32 L126 80 L130 100 L152 212 L112 212 L100 132 L88 212 L48 212 L70 100 L74 80 L70 32 Z"/>
-  <path class="s" d="M72 100 Q100 106 128 100"/>
-  {% elif kind == "hoodie" %}
-  <path d="M76 52 Q78 18 100 18 Q122 18 124 52 L160 74 L150 160 L136 160 L136 186 L64 186 L64 160 L50 160 L40 74 Z"/>
-  <path class="s" d="M84 52 Q100 66 116 52"/><path class="s" d="M76 140 L124 140 L118 164 L82 164 Z"/>
-  {% elif kind == "vest" %}
-  <path d="M76 40 L92 36 L100 84 L108 36 L124 40 L132 62 L130 166 L70 166 L68 62 Z"/>
-  <path class="s" d="M100 84 L100 166"/><circle cx="106" cy="104" r="2.4"/><circle cx="106" cy="126" r="2.4"/><circle cx="106" cy="148" r="2.4"/>
   {% else %}
-  <rect x="44" y="50" width="96" height="128" rx="6" transform="rotate(-7 92 114)"/>
-  <rect x="58" y="56" width="96" height="128" rx="6" transform="rotate(4 106 120)"/>
-  <path d="M96 84 L104 90 Q108 93 112 90 L120 84 L126 88 L124 106 L136 158 Q108 166 80 158 L92 106 L90 88 Z" transform="rotate(4 106 120)"/>
+  <rect x="44" y="50" width="96" height="128" rx="6" transform="rotate(-7 92 114)"/><rect x="58" y="56" width="96" height="128" rx="6" transform="rotate(4 106 120)"/>
   {% endif %}
 </svg>
 {% endmacro %}
 
-{% macro picture(p, u, size="medium", eager=False) %}
-<div class="pic" style="--tint: {{ p.tint }}">
-  {% if p.images %}
-  <img src="{{ p.images[0][size] or p.images[0].full }}" alt="{{ p.images[0].alt or p.name }}" {% if not eager %}loading="lazy"{% endif %} decoding="async"
-       {% if p.images[0].w %}width="{{ p.images[0].w }}" height="{{ p.images[0].h }}"{% endif %}>
-  {% else %}
-  {{ garment(p.kind) }}
-  {% endif %}
+{% macro img(p, n=0, size="medium", cls="", eager=False) %}
+{% set im = p.images[n] %}
+<img class="{{ cls }}" src="{{ im[size] or im.full }}" alt="{{ im.alt or (p.short ~ ' sewing pattern') }}" {% if not eager %}loading="lazy"{% endif %} decoding="async"{% if im.w %} width="{{ im.w }}" height="{{ im.h }}"{% endif %}>
+{% endmacro %}
+
+{% macro price(p, big=False) %}
+<span class="price-line{{ ' big' if big }}"><span class="price">{{ p.price }}</span>{% if p.was %} <s class="was" aria-label="was {{ p.was }}">{{ p.was }}</s>{% endif %}</span>
+{% endmacro %}
+
+{% macro card(p, u, eager=False) %}
+<article class="card" data-id="{{ p.id }}" data-c="{{ p.cats|join(' ') }}" data-p="{{ p.price_value }}" data-t="{{ p.created }}" data-z="{{ p.sizes }}" data-n="{{ p.short|lower }}" data-k="{{ (p.title ~ ' ' ~ p.tags|join(' '))|lower }}">
+  <a href="{{ u('pattern/' ~ p.slug ~ '/') }}" class="card-link">
+    <div class="card-pic tint-{{ p.tint }}">
+      {% if p.images %}
+        {{ img(p, 0, eager=eager) }}
+        {% if p.images|length > 1 %}{{ img(p, 1, cls="alt") }}{% endif %}
+      {% else %}{{ garment(p.kind) }}{% endif %}
+      {% if p.off %}<span class="hang-tag" aria-label="{{ p.off }} percent off">−{{ p.off }}%</span>{% endif %}
+    </div>
+    <h3 class="card-title">{{ p.short }}</h3>
+    {% if p.sub %}<p class="card-sub">{{ p.sub }}</p>{% endif %}
+  </a>
+  <p class="card-meta">{{ price(p) }}{% if p.sizes %}<span class="chip-size">{{ p.sizes }}</span>{% endif %}</p>
+</article>
+{% endmacro %}
+
+{# A themed dropdown. JS turns it into a keyboard-friendly listbox and fires "change" with detail.value. #}
+{% macro select(name, label, options, value) %}
+<div class="select" data-select data-name="{{ name }}">
+  <button type="button" class="select-btn" aria-haspopup="listbox" aria-expanded="false" id="sel-{{ name }}">
+    <span class="select-label">{{ label }}</span>
+    <span class="select-value">{% for v, t in options if v == value %}{{ t }}{% endfor %}</span>
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+  </button>
+  <ul class="select-list" role="listbox" aria-labelledby="sel-{{ name }}" tabindex="-1" hidden>
+    {% for v, t in options %}<li role="option" data-value="{{ v }}" aria-selected="{{ 'true' if v == value else 'false' }}">{{ t }}</li>{% endfor %}
+  </ul>
 </div>
 {% endmacro %}
 
-{% macro card(p, u) %}
-<article class="card" data-id="{{ p.id }}">
-  <a href="{{ u('pattern/' ~ p.slug ~ '/') }}" class="card-link">
-    {{ picture(p, u) }}
-    <h3>{{ p.short }}</h3>
-    {% if p.sub %}<p class="card-sub">{{ p.sub }}</p>{% endif %}
-  </a>
-  <p class="card-meta">
-    <span class="price">{{ p.price }}</span>
-    {% if p.sizes %}<span class="sizes">{{ p.sizes }}</span>{% elif p.plus %}<span class="sizes">Plus size</span>{% endif %}
-  </p>
-</article>
+{% macro heading(text, tag="h2", cls="") %}
+<{{ tag }} class="stitch-h {{ cls }}"><span>{{ text }}</span></{{ tag }}>
 {% endmacro %}

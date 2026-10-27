@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card, garment %}
+{% from "_macros.html" import card, garment, price, tool %}
 {% block title %}{{ p.short }} Sewing Pattern PDF{{ (', ' ~ p.sub) if p.sub else '' }}{{ (', ' ~ p.sizes) if p.sizes else '' }} | Patterns by Rish{% endblock %}
 {% block description %}{{ p.meta }}{% endblock %}
 {% block og %}
@@ -12,32 +12,36 @@
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
   {"@type": "Product", "name": p.name, "description": p.meta, "sku": p.id|string, "url": canon() or none,
-   "image": (p.images[:6] | map(attribute='full') | list) or none, "brand": {"@type": "Brand", "name": cfg.brand},
-   "category": "Sewing pattern",
+   "image": (p.images[:6] | map(attribute='full') | list) or none, "brand": {"@type": "Brand", "name": cfg.brand}, "category": "Sewing pattern",
    "offers": {"@type": "Offer", "url": p.etsy, "price": '%.2f'|format(p.price_value), "priceCurrency": p.currency,
               "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": cfg.brand}}},
   {"@type": "BreadcrumbList", "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Home", "item": canon('') or none},
     {"@type": "ListItem", "position": 2, "name": catmap[p.cat][0], "item": canon('category/' ~ p.cat ~ '/') or none},
-    {"@type": "ListItem", "position": 3, "name": p.name}]}
+    {"@type": "ListItem", "position": 3, "name": p.short}]}
 ]} | tojson }}
 </script>
 {% endblock %}
 {% block main %}
 <section class="product">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> <a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ p.short }}</span></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ p.short }}</span></nav>
     <div class="product-in">
       <div class="gallery" data-gallery>
-        <div class="gallery-main pic" style="--tint: {{ p.tint }}">
+        <div class="gallery-main tint-{{ p.tint }}">
           {% if p.images %}
           <img src="{{ p.images[0].full }}" alt="{{ p.images[0].alt or p.name }}" data-main {% if p.images[0].w %}width="{{ p.images[0].w }}" height="{{ p.images[0].h }}"{% endif %}>
+          {% if p.images|length > 1 %}
+          <button type="button" class="round-btn g-prev" data-g="-1" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="round-btn g-next" data-g="1" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          {% endif %}
           {% else %}{{ garment(p.kind) }}{% endif %}
+          {% if p.off %}<span class="hang-tag big" aria-hidden="true">−{{ p.off }}%</span>{% endif %}
         </div>
         {% if p.images|length > 1 %}
-        <div class="thumbs" role="group" aria-label="More photos">
+        <div class="thumbs" role="group" aria-label="Choose a photo">
           {% for im in p.images[:10] %}
-          <button type="button" class="thumb" data-src="{{ im.full }}" data-alt="{{ im.alt or p.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-label="Photo {{ loop.index }}">
+          <button type="button" class="thumb" data-src="{{ im.full }}" data-alt="{{ im.alt or p.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-label="Photo {{ loop.index }} of {{ p.images[:10]|length }}">
             <img src="{{ im.medium or im.full }}" alt="" loading="lazy">
           </button>
           {% endfor %}
@@ -45,35 +49,57 @@
         {% endif %}
       </div>
       <div class="buy">
-        <h1>{{ p.name }}</h1>
-                <p class="buy-price"><span class="price">{{ p.price }}</span> <span class="price-note">Any Etsy sale price is applied at checkout</span></p>
-        <ul class="facts">
-          <li><span>Format</span><strong>PDF, instant download</strong></li>
-          {% if p.sizes %}<li><span>Sizes</span><strong>{{ p.sizes }}</strong></li>{% endif %}
-          {% if p.formats %}<li><span>Print on</span><strong>{{ p.formats | join(', ') }}</strong></li>{% endif %}
-          <li><span>Delivered</span><strong>Through your Etsy purchases</strong></li>
-        </ul>
-        <a class="btn btn-big" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=product" rel="noopener">Buy on Etsy for {{ p.price }}</a>
-        {% if p.images %}
-        <a class="btn btn-ghost" href="https://www.pinterest.com/pin/create/button/?url={{ (canon() or p.etsy)|urlencode }}&media={{ p.images[0].full|urlencode }}&description={{ (p.name ~ ' sewing pattern PDF')|urlencode }}" rel="noopener" target="_blank">Save to Pinterest</a>
-        {% endif %}
-        <p class="buy-help">New to PDF patterns? <a href="{{ u('how-it-works/') }}">See how printing works</a>.</p>
+        <div class="buy-card">
+          <p class="buy-k">{{ catmap[p.cat][0] }} sewing pattern</p>
+          <h1>{{ p.short }}</h1>
+          {% if p.sub %}<p class="buy-sub">{{ p.sub }}</p>{% endif %}
+          <div class="buy-price">{{ price(p, big=True) }}{% if p.off %}<span class="save-pill">Save {{ p.off }}% on Etsy</span>{% endif %}</div>
+          <ul class="facts">
+            <li>{{ tool("paper") }}<span>Format</span><strong>PDF, instant download</strong></li>
+            {% if p.sizes %}<li>{{ tool("tape") }}<span>Sizes</span><strong>{{ p.sizes }}</strong></li>{% endif %}
+            {% if p.formats %}<li>{{ tool("scissors") }}<span>Print on</span><strong>{{ p.formats | join(', ') }}</strong></li>{% endif %}
+            <li>{{ tool("thread") }}<span>Delivered</span><strong>Through your Etsy purchases</strong></li>
+          </ul>
+          <a class="btn btn-big" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=product" rel="noopener">Buy on Etsy for {{ p.price }}</a>
+          <div class="buy-row">
+            {% if p.images %}<a class="btn btn-ghost" href="https://www.pinterest.com/pin/create/button/?url={{ (canon() or p.etsy)|urlencode }}&media={{ p.images[0].full|urlencode }}&description={{ (p.name ~ ' sewing pattern PDF')|urlencode }}" rel="noopener" target="_blank">Save to Pinterest</a>{% endif %}
+            <button type="button" class="btn btn-ghost" data-share data-title="{{ p.short }} sewing pattern">Copy link</button>
+          </div>
+          <p class="buy-help">Prices in US dollars. Etsy shows your own currency at checkout. New to PDF patterns? <a href="{{ u('how-it-works/') }}">See how printing works</a>.</p>
+        </div>
       </div>
     </div>
-    {% if p.desc_html %}
-    <div class="desc">
-      <h2>About this pattern</h2>
-      {{ p.desc_html | safe }}
+
+    <div class="detail-grid">
+      <div class="desc">
+        <h2>About this pattern</h2>
+        {% if p.desc_html %}{{ p.desc_html | safe }}{% else %}<p>{{ p.name }}. A printable PDF sewing pattern with an instant download from our Etsy shop.</p>{% endif %}
+      </div>
+      <aside class="side">
+        <div class="side-card">
+          <h2>Buying a PDF pattern</h2>
+          <div class="faq faq-small">{% for q, a in faqs[:4] %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</div>
+        </div>
+        {% if guide %}
+        <a class="side-card side-guide" href="{{ u('blog/' ~ guide.slug ~ '/') }}">
+          {{ tool("needle") }}<span class="guide-k">Sewing guide</span><b>{{ guide.title }}</b><span>{{ guide.minutes }} min read</span>
+        </a>
+        {% endif %}
+      </aside>
     </div>
-    {% endif %}
   </div>
 </section>
 {% if related %}
-<section class="band">
+<section class="band band-paper">
   <div class="wrap">
-    <div class="head-row"><h2>More patterns like this</h2><a class="more" href="{{ u('category/' ~ p.cat ~ '/') }}">See all</a></div>
-    <div class="grid">{% for q in related %}{{ card(q, u) }}{% endfor %}</div>
+    <div class="head-row"><h2 class="stitch-h"><span>More {{ catmap[p.cat][0]|lower }} to sew</span></h2><a class="more" href="{{ u('category/' ~ p.cat ~ '/') }}">See all {{ catmap[p.cat][0]|lower }}</a></div>
+    <div class="grid">{% for q in related[:4] %}{{ card(q, u) }}{% endfor %}</div>
   </div>
 </section>
 {% endif %}
+<div class="buy-bar" data-buybar>
+  <span class="buy-bar-name">{{ p.short }}</span>
+  <span class="buy-bar-price">{{ price(p) }}</span>
+  <a class="btn btn-small" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=sticky" rel="noopener">Buy on Etsy</a>
+</div>
 {% endblock %}

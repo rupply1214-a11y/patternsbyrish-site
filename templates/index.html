@@ -1,118 +1,199 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card, garment %}
-{% block title %}PDF Sewing Patterns for Dresses, Tops & Plus Size | Patterns by Rish{% endblock %}
-{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts and jumpsuits, many in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
+{% from "_macros.html" import card, tool, img, heading %}
+{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish{% endblock %}
+{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
   {"@type": "Organization", "name": cfg.brand, "url": canon('') or none, "sameAs": [shop.url or ("https://www.etsy.com/shop/" ~ cfg.etsy_shop_name)]},
-  {"@type": "WebSite", "name": cfg.brand, "url": canon('') or none}
+  {"@type": "WebSite", "name": cfg.brand, "url": canon('') or none,
+   "potentialAction": {"@type": "SearchAction", "target": (canon('patterns/') or '') ~ "?q={search_term_string}", "query-input": "required name=search_term_string"}}
 ]} | tojson }}
 </script>
 {% endblock %}
 {% block main %}
-<section class="hero">
-  <div class="wrap hero-in">
-    <div class="hero-copy">
-      <h1>Sewing patterns you can print tonight.</h1>
-      <p class="lede">PDF patterns for linen dresses, easy tops, skirts and jumpsuits. Most are graded from XS to 5XL. Buy on Etsy, download in seconds, print at home.</p>
-      <div class="hero-cta">
-        <a class="btn" href="{{ u('patterns/') }}">Browse {{ products|length }} patterns</a>
-        <a class="btn btn-ghost" href="{{ u('how-it-works/') }}">How PDF patterns work</a>
+
+{# ---------- banner carousel ---------- #}
+<section class="hero" data-hero aria-roledescription="carousel" aria-label="Featured patterns">
+  <div class="hero-slides">
+    {% for s in slides %}
+    {% set first = loop.first %}
+    <div class="slide tint-{{ s.color }}{{ ' is-on' if first }}" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} of {{ slides|length }}" {% if not first %}aria-hidden="true" inert{% endif %}>
+      <div class="wrap slide-in">
+        <div class="slide-copy">
+          <p class="slide-note">{{ s.note }}</p>
+          {% if first %}<h1 class="slide-title">{{ s.title }}</h1>{% else %}<h2 class="slide-title">{{ s.title }}</h2>{% endif %}
+          <p class="slide-text">{{ s.text }}</p>
+          <div class="slide-cta">
+            <a class="btn" href="{{ u(s.link) }}">{{ s.button }}</a>
+            <a class="btn btn-ghost" href="{{ u('patterns/') }}">All {{ products|length }} patterns</a>
+          </div>
+        </div>
+        <div class="slide-art">
+          {% for p in s.picks %}
+          <a class="sheet sheet-{{ loop.index }}" href="{{ u('pattern/' ~ p.slug ~ '/') }}" tabindex="-1" aria-hidden="true">
+            <span class="washi"></span>
+            {% if p.images %}{{ img(p, 0, size="full" if loop.first else "medium", eager=first) }}{% endif %}
+          </a>
+          {% endfor %}
+          {% if s.picks %}<span class="price-tag" aria-hidden="true"><b>{{ s.picks[0].price }}</b>{% if content.sale_percent %}<small>{{ content.sale_percent }}% off</small>{% endif %}</span>{% endif %}
+          {{ tool("spool", "float f-spool") }}
+          {{ tool("button", "float f-button") }}
+          {{ tool("pins", "float f-pins") }}
+        </div>
       </div>
-      {% if stats.sold or stats.reviews %}
-      <ul class="proof" aria-label="Shop record on Etsy">
-        {% if stats.sold %}<li><strong>{{ stats.sold }}</strong> patterns sold on Etsy</li>{% endif %}
-        {% if cfg.show_rating and stats.rating %}<li><strong>{{ '%.1f'|format(stats.rating) }} ★</strong> from {{ stats.reviews }} reviews</li>{% endif %}
-        <li><strong>Instant</strong> download</li>
-      </ul>
-      {% endif %}
     </div>
-    <figure class="sheet" aria-label="A multi-size dress pattern piece, with one cutting line for each size from XS to 5XL">
-      <svg class="sheet-svg" viewBox="0 0 330 480" role="img" aria-hidden="true">
-        <g class="marks">
-          <path class="fold" d="M40 40 L40 470"/>
-          <text class="mark-text" transform="translate(30 330) rotate(-90)">place on fold</text>
-          <path class="grain" d="M90 140 L90 270 M84 150 L90 140 L96 150 M84 260 L90 270 M96 260 L90 270"/>
-          <text class="mark-text big" x="72" y="300">Front</text>
-          <text class="mark-text" x="72" y="320">cut 1 on fold</text>
-        </g>
-        {% for l in hero %}
-        <path class="size-line" data-size="{{ l.size }}" d="{{ l.d }}" pathLength="1" style="--c: {{ l.color }}; --i: {{ l.i }}"/>
-        {% endfor %}
-      </svg>
-      <figcaption>
-        <span class="cap">One pattern, every size:</span>
-        <span class="chips">{% for l in hero %}<button type="button" class="chip" data-size="{{ l.size }}" style="--c: {{ l.color }}">{{ l.size }}</button>{% endfor %}</span>
-      </figcaption>
-    </figure>
+    {% endfor %}
   </div>
+  <div class="hero-ui wrap">
+    <div class="hero-dots" role="tablist" aria-label="Choose a banner">
+      {% for s in slides %}<button type="button" class="dot" role="tab" aria-selected="{{ 'true' if loop.first else 'false' }}" aria-label="Banner {{ loop.index }}: {{ s.title }}">{{ tool("button") }}</button>{% endfor %}
+    </div>
+    <div class="hero-arrows">
+      <button type="button" class="round-btn" data-prev aria-label="Previous banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" class="round-btn" data-pause aria-label="Pause banners" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M9 6v12M15 6v12"/><path class="i-play" d="M8 5l11 7-11 7z"/></svg></button>
+      <button type="button" class="round-btn" data-next aria-label="Next banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <div class="hero-cut" aria-hidden="true"><span class="cut-dash"></span>{{ tool("scissors", "hero-scissors") }}</div>
 </section>
 
+{# ---------- trust strip ---------- #}
+<section class="proof-strip" aria-label="Why sew with us">
+  <ul class="wrap proof">
+    {% if stats.sold %}<li>{{ tool("thread") }}<span><b>{{ stats.sold }}</b> patterns sold on Etsy</span></li>{% endif %}
+    {% if stats.reviews %}<li>{{ tool("button") }}<span><b>{{ '%.1f'|format(stats.rating) }} out of 5</b> from {{ stats.reviews }} reviews</span></li>{% endif %}
+    <li>{{ tool("tape") }}<span><b>XS to 5XL</b> on most patterns</span></li>
+    <li>{{ tool("paper") }}<span><b>A4, US Letter, A0</b> print files</span></li>
+  </ul>
+</section>
+
+{# ---------- category swatches ---------- #}
 <section class="band">
   <div class="wrap">
-    <div class="head-row">
-      <h2>Shop by what you want to sew</h2>
-    </div>
-    <ul class="cats">
+    <div class="head-row">{{ heading("Pick your next make") }}<a class="more" href="{{ u('patterns/') }}">All patterns</a></div>
+    <ul class="swatches">
       {% for c in cats %}
-      <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="cat">
-        <span class="cat-art">{{ garment(c.kind) }}</span>
-        <span class="cat-name">{{ c.name }}</span>
-        <span class="cat-count">{{ c.count }} pattern{{ 's' if c.count != 1 }}</span>
+      <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="swatch-link">
+        <span class="swatch tint-{{ c.tint }}">{% if c.photos %}<img src="{{ c.photos[0].medium or c.photos[0].full }}" alt="" loading="lazy">{% endif %}</span>
+        <span class="swatch-name">{{ c.name }}</span><span class="swatch-count">{{ c.count }} pattern{{ 's' if c.count != 1 }}</span>
       </a></li>
       {% endfor %}
     </ul>
   </div>
 </section>
 
-<section class="band">
+{# ---------- newest ---------- #}
+<section class="band band-paper">
   <div class="wrap">
-    <div class="head-row">
-      <h2>New in the shop</h2>
-      <a class="more" href="{{ u('patterns/') }}">See all patterns</a>
-    </div>
+    <div class="head-row">{{ heading("Fresh off the cutting table") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>
     <div class="grid">{% for p in newest %}{{ card(p, u) }}{% endfor %}</div>
   </div>
 </section>
 
-<section class="band steps-band">
+{# ---------- category rows ---------- #}
+{% for r in rows %}
+<section class="band cat-row-band">
+  <div class="wrap cat-row{{ ' flip' if loop.index is even }}">
+    <a class="cat-banner tint-{{ r.c.tint }}" href="{{ u('category/' ~ r.c.slug ~ '/') }}">
+      <span class="cat-banner-photos" aria-hidden="true">
+        {% for ph in r.c.photos[:3] %}<img src="{{ ph.medium or ph.full }}" alt="" loading="lazy" class="cbp-{{ loop.index }}">{% endfor %}
+      </span>
+      <span class="cat-banner-copy">
+        <span class="cat-banner-count">{{ r.c.count }} pattern{{ 's' if r.c.count != 1 }}</span>
+        <span class="cat-banner-title">{{ r.c.name }}</span>
+        <span class="cat-banner-text">{{ r.c.intro }}</span>
+        <span class="btn btn-small">Shop {{ r.c.name|lower }}</span>
+      </span>
+    </a>
+    <div class="row-scroll">
+      <div class="row-track" data-scroller tabindex="0" role="region" aria-label="{{ r.c.name }} patterns, scroll sideways">
+        {% for p in r.picks %}{{ card(p, u) }}{% endfor %}
+      </div>
+      <div class="row-arrows">
+        <button type="button" class="round-btn" data-scroll="-1" aria-label="Show earlier {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="round-btn" data-scroll="1" aria-label="Show more {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+{% if loop.index == 2 and bundles %}
+<section class="band">
   <div class="wrap">
-    <h2>From Etsy checkout to sewing machine</h2>
+    <a class="promo" href="{{ u(content.promo.link) }}">
+      <span class="promo-copy">
+        <span class="promo-k">{{ tool("scissors") }} Bundles</span>
+        <span class="promo-title">{{ content.promo.title }}</span>
+        <span class="promo-text">{{ content.promo.text }}</span>
+        <span class="btn">{{ content.promo.button }}</span>
+      </span>
+      <span class="promo-photos" aria-hidden="true">
+        {% for p in bundles if p.images %}<img src="{{ p.images[0].medium or p.images[0].full }}" alt="" loading="lazy" class="pp-{{ loop.index }}">{% endfor %}
+      </span>
+    </a>
+  </div>
+</section>
+{% endif %}
+{% endfor %}
+
+{# ---------- sewing kit on a cutting mat ---------- #}
+<section class="mat">
+  <div class="wrap">
+    <div class="mat-head">
+      {{ heading("What you need to sew a PDF pattern", cls="on-dark") }}
+      <p>No special machine or paper. If you have a home printer and these basics, you can start tonight.</p>
+    </div>
+    <ul class="kit">
+      {% for key, name, text in kit %}
+      <li class="kit-item">{{ tool(key) }}<h3>{{ name }}</h3><p>{{ text }}</p></li>
+      {% endfor %}
+    </ul>
+    {% for b in posts if 'tools' in b.slug %}{% if loop.first %}<a class="btn btn-light" href="{{ u('blog/' ~ b.slug ~ '/') }}">Read the beginner's kit guide</a>{% endif %}{% endfor %}
+  </div>
+</section>
+
+{# ---------- how it works ---------- #}
+<section class="band">
+  <div class="wrap">
+    {{ heading("From Etsy checkout to sewing machine") }}
     <ol class="steps">
-      <li><h3>Buy on Etsy</h3><p>Every pattern links to our Etsy shop. You pay there, through Etsy's secure checkout.</p></li>
-      <li><h3>Download the PDF</h3><p>Your files appear straight away under Purchases on Etsy. Nothing is posted, so there's no shipping wait from any country.</p></li>
-      <li><h3>Print, tape and cut</h3><p>Print at home, tape the pages together and cut your size. Then follow the instructions step by step.</p></li>
+      <li><span class="step-n">1</span>{{ tool("button") }}<h3>Buy on Etsy</h3><p>Every pattern links to our Etsy shop. You pay there, through Etsy's secure checkout, in your own currency.</p></li>
+      <li><span class="step-n">2</span>{{ tool("paper") }}<h3>Download the files</h3><p>The download appears on your order straight away. Nothing is posted, so there's no shipping wait from any country.</p></li>
+      <li><span class="step-n">3</span>{{ tool("scissors") }}<h3>Print, tape and cut</h3><p>Print at actual size, tape the pages, cut your size and follow the step-by-step booklet.</p></li>
     </ol>
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap included">
-    <div>
-      <h2>What comes with our patterns</h2>
-      <ul class="ticks">{% for i in cfg.included %}<li>{{ i }}</li>{% endfor %}</ul>
-      <a class="btn btn-ghost" href="{{ u('how-it-works/') }}">Printing and sizing help</a>
-    </div>
-    {% if featured_plus %}
-    <div>
-      <h2 class="h-sub">Drafted for plus size too</h2>
-      <div class="grid grid-2">{% for p in featured_plus %}{{ card(p, u) }}{% endfor %}</div>
-      <a class="more" href="{{ u('category/plus-size/') }}">All plus size patterns</a>
-    </div>
-    {% endif %}
-  </div>
-</section>
-
-{% if bundles %}
-<section class="band bundles-band">
+{# ---------- blog ---------- #}
+{% if posts %}
+<section class="band band-paper">
   <div class="wrap">
-    <div class="head-row">
-      <h2>Save with a bundle</h2>
-      <a class="more" href="{{ u('category/bundles/') }}">All bundles</a>
+    <div class="head-row">{{ heading("From the sewing blog") }}<a class="more" href="{{ u('blog/') }}">All guides</a></div>
+    <div class="post-grid">
+      {% for b in posts[:3] %}
+      <a class="post-card" href="{{ u('blog/' ~ b.slug ~ '/') }}">
+        <span class="post-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ b.tag }}</span></span>
+        <span class="post-title">{{ b.title }}</span>
+        <span class="post-desc">{{ b.description }}</span>
+        <span class="post-meta">{{ b.minutes }} min read</span>
+      </a>
+      {% endfor %}
     </div>
-    <div class="grid grid-3">{% for p in bundles %}{{ card(p, u) }}{% endfor %}</div>
   </div>
 </section>
 {% endif %}
+
+{# ---------- questions ---------- #}
+<section class="band">
+  <div class="wrap faq-wrap">
+    <div>
+      {{ heading("Good to know before you buy") }}
+      <p class="lede">Short answers to what new PDF pattern buyers ask us most.</p>
+      <a class="btn btn-ghost" href="{{ u('how-it-works/') }}#faq">All questions</a>
+    </div>
+    <div class="faq">
+      {% for q, a in faqs %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}
