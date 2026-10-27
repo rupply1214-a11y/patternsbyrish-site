@@ -3,6 +3,7 @@ name: Sync from Etsy and publish website
 on:
   schedule:
     - cron: "17 * * * *"   # every hour: new Etsy listings and admin changes go live within the hour
+    - cron: "2 19 * * *"   # just after midnight in India, when the daily Etsy sale changes
   workflow_dispatch:          # "Run workflow" button for an instant update
   push:
     branches: [main]
@@ -30,12 +31,6 @@ jobs:
           ETSY_API_KEY: ${{ secrets.ETSY_API_KEY }}
           ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
         run: python sync_etsy.py
-      - name: Check Etsy sale price fields (read only)
-        continue-on-error: true
-        env:
-          ETSY_API_KEY: ${{ secrets.ETSY_API_KEY }}
-          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
-        run: python probe_etsy.py
       - name: Read admin panel content
         run: python fetch_admin.py
       - name: Build website

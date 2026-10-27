@@ -139,7 +139,6 @@
 
   /* ---------- top bar & sale ---------- */
   function topbar() {
-    $("#sale").value = content.sale_percent ?? 0;
     const box = $("#announcements"); box.innerHTML = "";
     (content.announcements || []).forEach((a, k) => {
       const row = document.createElement("div"); row.className = "ann-row";
@@ -149,7 +148,6 @@
       box.appendChild(row);
     });
   }
-  $("#sale").addEventListener("input", (e) => { content.sale_percent = Math.max(0, Math.min(90, parseInt(e.target.value || "0", 10))); dirty(); });
   $("#add-ann").addEventListener("click", () => { (content.announcements = content.announcements || []).push(""); topbar(); $("#announcements input:last-of-type") && $$("#announcements input").pop().focus(); dirty(); });
 
   /* ---------- homepage ---------- */

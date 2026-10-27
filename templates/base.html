@@ -28,7 +28,8 @@
 <div class="tape" role="region" aria-label="Shop news">
   <div class="tape-track">
     {% for round in [1, 2] %}<ul class="tape-items" {% if round == 2 %}aria-hidden="true"{% endif %}>
-      {% for a in content.announcements %}<li>{{ a }}</li>{% endfor %}
+      {% if sale %}<li class="sale-bit" data-sale-end="{{ sale.end }}">{{ sale.off }}% off {{ 'every pattern' if sale.every else 'patterns' }} on Etsy today, ends in <span data-countdown="{{ sale.end }}">a few hours</span></li>{% endif %}
+      {% for a in content.announcements if a and '% off' not in a %}<li>{{ a }}</li>{% endfor %}
     </ul>{% endfor %}
   </div>
 </div>

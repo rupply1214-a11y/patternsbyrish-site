@@ -22,7 +22,7 @@
       <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span>{% if current %}<a href="{{ u('patterns/') }}">Patterns</a><span aria-hidden="true">/</span>{% endif %}<span aria-current="page">{{ c.name if c else 'Patterns' }}</span></nav>
       <h1>{{ heading }}</h1>
       <p class="lede">{{ intro }}</p>
-      <p class="list-count"><span><b>{{ items|length }}</b> patterns</span>{% if content.sale_percent %}<span class="list-sale">{{ content.sale_percent }}% off on Etsy right now</span>{% endif %}</p>
+      <p class="list-count"><span><b>{{ items|length }}</b> patterns</span>{% if sale %}<span class="list-sale sale-bit" data-sale-end="{{ sale.end }}">{{ sale.off }}% off on Etsy, <span data-countdown="{{ sale.end }}">limited time</span></span>{% endif %}</p>
     </div>
     <div class="list-hero-art" aria-hidden="true">
       {% for p in items if p.images %}{% if loop.index <= 3 %}<span class="sheet sheet-{{ loop.index }}"><span class="washi"></span><img src="{{ p.images[0].medium or p.images[0].full }}" alt="" {% if loop.index > 1 %}loading="lazy"{% endif %}></span>{% endif %}{% endfor %}

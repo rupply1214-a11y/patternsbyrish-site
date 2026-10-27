@@ -59,7 +59,7 @@
 {% endmacro %}
 
 {% macro price(p, big=False) %}
-<span class="price-line{{ ' big' if big }}"><span class="price">{{ p.price }}</span>{% if p.was %} <s class="was" aria-label="was {{ p.was }}">{{ p.was }}</s>{% endif %}</span>
+<span class="price-line{{ ' big' if big }}"{% if p.off %} data-sale-end="{{ p.sale_end }}" data-sale-start="{{ p.sale_start }}" data-orig="{{ p.orig }}"{% endif %}><span class="price">{{ p.price }}</span>{% if p.was %} <s class="was"><span class="sr">Original price </span>{{ p.was }}</s>{% endif %}</span>
 {% endmacro %}
 
 {% macro card(p, u, eager=False) %}
@@ -69,7 +69,7 @@
       {% if p.images %}
         {{ img(p, 0, eager=eager) }}
       {% else %}{{ garment(p.kind) }}{% endif %}
-      {% if p.off %}<span class="hang-tag" aria-label="{{ p.off }} percent off">−{{ p.off }}%</span>{% endif %}
+      {% if p.off %}<span class="hang-tag sale-bit">{{ p.off }}% off</span>{% endif %}
     </div>
     <h3 class="card-title">{{ p.short }}</h3>
     {% if p.sub %}<p class="card-sub">{{ p.sub }}</p>{% endif %}

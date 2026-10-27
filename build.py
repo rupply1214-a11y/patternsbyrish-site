@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone, date
 from decimal import Decimal, ROUND_HALF_UP
 from zoneinfo import ZoneInfo
 import markdown
+import studio
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -127,7 +128,7 @@ def para(desc):
 
 
 TINTS = ["blush", "butter", "mint", "sky", "lilac"]
-SALE = Decimal(str(CONTENT.get("sale_percent") or 0))
+NOW = int(datetime.now(timezone.utc).timestamp())
 hidden = {str(i) for i in CONTENT.get("hidden_ids") or []}
 sections = {s["shop_section_id"]: s["title"] for s in DATA.get("sections", [])}
 products = []
@@ -153,15 +154,23 @@ for l in DATA["listings"]:
         cats.append("mens")
     lid = l["listing_id"]
     pr = l.get("price") or {"amount": 0, "divisor": 100, "currency_code": "USD"}
-    base_v = Decimal(pr["amount"]) / Decimal(pr.get("divisor") or 100)
-    sale_v = (base_v * (100 - SALE) / 100).quantize(Decimal("0.01"), ROUND_HALF_UP) if SALE else base_v
-    cur = pr.get("currency_code", "USD")
+    bp = l.get("buyer_price") or {}
+    orig = bp.get("original_price") or pr
+    base_v = Decimal(orig["amount"]) / Decimal(orig.get("divisor") or 100)
+    cur = orig.get("currency_code", "USD")
+    sale = None
+    if bp.get("has_discount") and bp.get("discounted_price") and (bp.get("discount_end_epoch") or 0) > NOW:
+        dp = bp["discounted_price"]
+        sale = dict(price=Decimal(dp["amount"]) / Decimal(dp.get("divisor") or 100), off=int(bp.get("discount_percentage") or 0),
+                    start=int(bp.get("discount_start_epoch") or 0), end=int(bp.get("discount_end_epoch") or 0))
+    sale_v = sale["price"] if sale else base_v
     desc_plain = re.sub(r"\s+", " ", desc_body).strip()
     products.append(dict(
         id=lid, title=title, name=(f"{head}: {detail}" if detail else head), short=head, sub=detail,
         slug=f"{slugify(head + ' ' + detail, 9)}-{lid}", kind=kind, cats=cats, cat=cats[0] if cats else "dresses", section=sec,
         etsy=l.get("url") or f"https://www.etsy.com/listing/{lid}", currency=cur,
-        price=money(sale_v, cur), price_value=float(sale_v), was=money(base_v, cur) if SALE else "", off=int(SALE),
+        price=money(sale_v, cur), price_value=float(sale_v), was=money(base_v, cur) if sale else "", off=sale["off"] if sale else 0,
+        orig=money(base_v, cur), orig_value=float(base_v), sale_start=sale["start"] if sale else 0, sale_end=sale["end"] if sale else 0,
         images=l.get("images") or [], sizes=size_range(full), formats=formats(full), tags=list(l.get("tags") or []),
         desc_html=para(desc_body), created=l.get("original_creation_timestamp") or 0, favs=l.get("num_favorers") or 0,
         meta=(desc_plain[:155].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else (desc_plain or f"{head}. {detail}. Printable PDF sewing pattern with instant download from Etsy."),
@@ -172,6 +181,13 @@ products.sort(key=lambda p: -p["created"])
 every = products  # the admin panel lists hidden patterns too
 products = [p for p in products if not p["hidden"]]
 by_id = {str(p["id"]): p for p in products}
+from collections import Counter
+_sales = Counter((p["off"], p["sale_end"]) for p in products if p["off"])
+SALE_INFO = None
+if _sales:
+    (off, end), n = _sales.most_common(1)[0]
+    SALE_INFO = dict(off=off, end=end, start=next(p["sale_start"] for p in products if p["off"] == off and p["sale_end"] == end),
+                     every=n == len(products), count=n)
 featured = [by_id[str(i)] for i in CONTENT.get("featured_ids") or [] if str(i) in by_id]
 by_cat = {c: [p for p in products if c in p["cats"]] for c in CATS}
 for c in by_cat:  # featured patterns lead their categories
@@ -261,6 +277,7 @@ KIT = [  # the "sewing kit" section; links go to the blog guide
 # ---------- rendering ----------
 env = Environment(loader=FileSystemLoader(os.path.join(ROOT, "templates")), autoescape=select_autoescape(["html", "xml"]),
                   trim_blocks=True, lstrip_blocks=True)
+env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
 
 
 def render(path, template, **ctx):
@@ -281,7 +298,7 @@ def render(path, template, **ctx):
         return (SITE_URL + "/" + target) if SITE_URL else ""
 
     out = env.get_template(template).render(u=u, canon=canon, path=path, cfg=CFG, shop=shop, cats=cat_list, cat_by=cat_by, catmap=CATS,
-                                            content=CONTENT, year=datetime.now().year, sample=DATA.get("sample"), posts=posts, **ctx)
+                                            content=CONTENT, sale=SALE_INFO, year=datetime.now().year, sample=DATA.get("sample"), posts=posts, **ctx)
     dest = os.path.join(DIST, path, "index.html") if not path.endswith(".html") else os.path.join(DIST, path)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     open(dest, "w", encoding="utf-8").write(out)
@@ -305,10 +322,6 @@ def main():
     json.dump(catalog, open(os.path.join(DIST, "static", "catalog.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     os.makedirs(os.path.join(DIST, "tools"), exist_ok=True)
-    if os.path.exists(os.path.join(ROOT, "data", "etsy_raw_sample.json")):
-        shutil.copy(os.path.join(ROOT, "data", "etsy_raw_sample.json"), os.path.join(DIST, "tools", "etsy-raw-sample.json"))
-    if os.path.exists(os.path.join(ROOT, "data", "etsy_probe.json")):
-        shutil.copy(os.path.join(ROOT, "data", "etsy_probe.json"), os.path.join(DIST, "tools", "etsy-probe.json"))
     json.dump([dict(id=p["id"], n=p["short"], d=p["sub"], c=p["cats"], pr=p["price"], h=p["hidden"], s=p["slug"],
                     i=(p["images"][0]["medium"] or p["images"][0]["full"]) if p["images"] else "") for p in every],
               open(os.path.join(DIST, "tools", "listings.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
@@ -331,6 +344,7 @@ def main():
     render("blog/", "blog_index.html")
     for b in posts:
         render(f"blog/{b['slug']}/", "blog_post.html", b=b, more=[x for x in posts if x is not b][:3])
+    render("studio/", "studio.html", st=studio.data(), stats=stats)
     render("how-it-works/", "how.html", faqs=FAQS)
     render("about/", "about.html", stats=stats)
     render("404.html", "404.html")
@@ -338,7 +352,7 @@ def main():
     base = SITE_URL or ""
     open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
     if base:
-        urls = ["", "patterns/", "blog/", "how-it-works/", "about/"] + [f"category/{c['slug']}/" for c in cat_list] + \
+        urls = ["", "patterns/", "studio/", "blog/", "how-it-works/", "about/"] + [f"category/{c['slug']}/" for c in cat_list] + \
                [f"pattern/{p['slug']}/" for p in products] + [f"blog/{b['slug']}/" for b in posts]
         now = datetime.now(timezone.utc).date().isoformat()
         open(os.path.join(DIST, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

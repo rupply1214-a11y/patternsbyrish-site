@@ -36,7 +36,7 @@
             {% if p.images %}{{ img(p, 0, eager=first) }}{% endif %}
           </a>
           {% endfor %}
-          {% if s.picks %}<span class="price-tag" aria-hidden="true"><b>{{ s.picks[0].price }}</b>{% if content.sale_percent %}<small>{{ content.sale_percent }}% off</small>{% endif %}</span>{% endif %}
+          {% if s.picks %}<span class="price-tag" aria-hidden="true"><b>{{ s.picks[0].price }}</b>{% if s.picks[0].off %}<small class="sale-bit">{{ s.picks[0].off }}% off today</small>{% else %}<small>instant PDF</small>{% endif %}</span>{% endif %}
           {{ tool("spool", "float f-spool") }}
           {{ tool("button", "float f-button") }}
           {{ tool("pins", "float f-pins") }}

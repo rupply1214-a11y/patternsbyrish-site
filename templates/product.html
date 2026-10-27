@@ -14,6 +14,7 @@
   {"@type": "Product", "name": p.name, "description": p.meta, "sku": p.id|string, "url": canon() or none,
    "image": (p.images[:6] | map(attribute='full') | list) or none, "brand": {"@type": "Brand", "name": cfg.brand}, "category": "Sewing pattern",
    "offers": {"@type": "Offer", "url": p.etsy, "price": '%.2f'|format(p.price_value), "priceCurrency": p.currency,
+              "priceValidUntil": (p.sale_end | isodate) if p.off else none,
               "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": cfg.brand}}},
   {"@type": "BreadcrumbList", "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Home", "item": canon('') or none},
@@ -36,7 +37,7 @@
           <button type="button" class="round-btn g-next" data-g="1" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
           {% endif %}
           {% else %}{{ garment(p.kind) }}{% endif %}
-          {% if p.off %}<span class="hang-tag big" aria-hidden="true">−{{ p.off }}%</span>{% endif %}
+          {% if p.off %}<span class="hang-tag big sale-bit" aria-hidden="true">{{ p.off }}% off</span>{% endif %}
         </div>
         {% if p.images|length > 1 %}
         <div class="thumbs" role="group" aria-label="Choose a photo">
@@ -53,14 +54,15 @@
           <p class="buy-k">{{ catmap[p.cat][0] }} sewing pattern</p>
           <h1>{{ p.short }}</h1>
           {% if p.sub %}<p class="buy-sub">{{ p.sub }}</p>{% endif %}
-          <div class="buy-price">{{ price(p, big=True) }}{% if p.off %}<span class="save-pill">Save {{ p.off }}% on Etsy</span>{% endif %}</div>
+          <div class="buy-price">{{ price(p, big=True) }}{% if p.off %}<span class="save-pill sale-bit">{{ p.off }}% off</span>{% endif %}</div>
+          {% if p.off %}<p class="sale-clock sale-bit" data-sale-end="{{ p.sale_end }}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span>Sale ends in <b data-countdown="{{ p.sale_end }}" data-precise>a few hours</b></span></p>{% endif %}
           <ul class="facts">
             <li>{{ tool("paper") }}<span>Format</span><strong>PDF, instant download</strong></li>
             {% if p.sizes %}<li>{{ tool("tape") }}<span>Sizes</span><strong>{{ p.sizes }}</strong></li>{% endif %}
             {% if p.formats %}<li>{{ tool("scissors") }}<span>Print on</span><strong>{{ p.formats | join(', ') }}</strong></li>{% endif %}
             <li>{{ tool("thread") }}<span>Delivered</span><strong>Through your Etsy purchases</strong></li>
           </ul>
-          <a class="btn btn-big" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=product" rel="noopener">Buy on Etsy for {{ p.price }}</a>
+          <a class="btn btn-big" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=product" rel="noopener"><span>Buy on Etsy for <span data-live-price>{{ p.price }}</span></span></a>
           <div class="buy-row">
             {% if p.images %}<a class="btn btn-ghost" href="https://www.pinterest.com/pin/create/button/?url={{ (canon() or p.etsy)|urlencode }}&media={{ p.images[0].full|urlencode }}&description={{ (p.name ~ ' sewing pattern PDF')|urlencode }}" rel="noopener" target="_blank">Save to Pinterest</a>{% endif %}
             <button type="button" class="btn btn-ghost" data-share data-title="{{ p.short }} sewing pattern">Copy link</button>

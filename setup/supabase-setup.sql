@@ -17,12 +17,11 @@ create table if not exists public.site_content (
   updated_at timestamptz default now()
 );
 insert into public.site_content (id, data) values (1, $q${
-  "sale_percent": 35,
   "announcements": [
-    "35% off every pattern on Etsy right now",
     "Instant PDF download, nothing to wait for",
     "Most patterns come in sizes XS to 5XL",
-    "Print on A4, US Letter or A0"
+    "Print on A4, US Letter or A0",
+    "New patterns added every week"
   ],
   "hero_slides": [
     {
@@ -56,7 +55,14 @@ insert into public.site_content (id, data) values (1, $q${
       "note": "save with a set"
     }
   ],
-  "home_rows": ["dresses", "plus-size", "tops", "bottoms", "mens", "kids"],
+  "home_rows": [
+    "dresses",
+    "plus-size",
+    "tops",
+    "bottoms",
+    "mens",
+    "kids"
+  ],
   "featured_ids": [],
   "hidden_ids": [],
   "category_text": {},
@@ -66,8 +72,7 @@ insert into public.site_content (id, data) values (1, $q${
     "button": "See the bundles",
     "link": "category/bundles/"
   }
-}
-$q$::jsonb) on conflict (id) do nothing;
+}$q$::jsonb) on conflict (id) do nothing;
 
 -- 3. Blog posts
 create table if not exists public.posts (

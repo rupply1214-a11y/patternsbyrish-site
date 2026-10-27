@@ -7,6 +7,33 @@
   const base = rootAttr.replace(/index\.html$/, "");
   const page = (p) => base + p + (preview && p.endsWith("/") ? "index.html" : "");
 
+  /* ---------- live Etsy sale: countdown, and back to the normal price once it ends ---------- */
+  const fmtLeft = (s, precise) => {
+    const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    if (precise) return (d ? d + "d " : "") + `${h}h ${String(m).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
+    if (d >= 1) return `${d} day${d > 1 ? "s" : ""} ${h}h`;
+    if (h >= 1) return `${h}h ${m}m`;
+    return `${Math.max(1, m)} min`;
+  };
+  const saleTick = () => {
+    const now = Math.floor(Date.now() / 1000);
+    $$("[data-countdown]").forEach((el) => { const left = +el.dataset.countdown - now; if (left > 0) el.textContent = fmtLeft(left, el.hasAttribute("data-precise")); });
+    $$("[data-sale-end]").forEach((el) => {
+      const end = +el.dataset.saleEnd, start = +(el.dataset.saleStart || 0);
+      if (now < end && now >= start) return;
+      // sale over (or not started yet): show the normal Etsy price and remove the sale labels
+      if (el.classList.contains("price-line")) {
+        const p = $(".price", el); if (p && el.dataset.orig) p.textContent = el.dataset.orig;
+        const w = $(".was", el); if (w) w.remove();
+        const box = el.closest(".card, .product, .buy-bar");
+        if (box) { $$(".sale-bit", box).forEach((x) => x.remove()); $$("[data-live-price]", box).forEach((x) => (x.textContent = el.dataset.orig)); }
+        el.removeAttribute("data-sale-end");
+      } else el.remove();
+    });
+  };
+  saleTick();
+  setInterval(saleTick, 1000);
+
   /* ---------- mobile menu ---------- */
   const nav = $("#nav"), menuBtn = $("[data-menu]"), header = $("[data-header]");
   if (menuBtn && nav) {
