@@ -188,7 +188,8 @@ p { margin: 0 0 1em; }
 .buy .btn { margin-bottom: 10px; width: 100%; }
 .buy-help { font-size: .92rem; color: var(--ink-2); margin-top: 8px; }
 .desc { max-width: 760px; margin-top: clamp(40px, 5vw, 64px); }
-.desc ul { padding-left: 1.2em; }
+.desc ul { padding-left: 1.2em; margin: 0 0 1em; }
+.desc h3 { margin: 1.4em 0 .4em; font-family: var(--head); font-size: 1.1rem; }
 .desc p, .desc li { color: var(--ink); }
 
 /* prose + faq */

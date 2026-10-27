@@ -133,8 +133,13 @@ def price_text(p):
 def para(desc):
     """Etsy plain-text description -> safe HTML blocks."""
     out, items = [], []
-    for raw in (desc or "").replace("\r", "").split("\n"):
+    for raw in html.unescape(desc or "").replace("\r", "").split("\n"):
         line = raw.strip()
+        if line.endswith(":") and len(line) < 60:
+            if items:
+                out.append("<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"); items = []
+            out.append(f"<h3>{html.escape(line[:-1])}</h3>")
+            continue
         bullet = re.match(r"^([•\-*✔✓✅☑►▶➤→◆♦★☆✨🔹🔸💗🌸]+)\s*(.+)", line)
         if bullet:
             items.append(html.escape(bullet.group(2)))
@@ -169,14 +174,18 @@ for l in DATA["listings"]:
         cats.append("mens")
     lid = l["listing_id"]
     slug = f"{slugify(head + ' ' + detail, 9)}-{lid}"
-    desc_plain = re.sub(r"\s+", " ", l.get("description") or "").strip()
+    desc_body = html.unescape(l.get("description") or "")
+    first = desc_body.strip().split("\n", 1)
+    if first and first[0].strip() == title.strip():  # many descriptions start by repeating the title
+        desc_body = first[1] if len(first) > 1 else ""
+    desc_plain = re.sub(r"\s+", " ", desc_body).strip()
     products.append(dict(
         id=lid, title=title, name=(f"{head}: {detail}" if detail else head), short=head, sub=detail, slug=slug, kind=kind, cats=cats,
         cat=cats[0] if cats else "dresses", section=sec, etsy=l.get("url") or f"https://www.etsy.com/listing/{lid}",
         price=price_text(l.get("price")), price_value=(l.get("price") or {}).get("amount", 0) / ((l.get("price") or {}).get("divisor") or 100),
         currency=(l.get("price") or {}).get("currency_code", "USD"), images=l.get("images") or [],
         sizes=size_range(full), formats=formats(full), tags=[t for t in (l.get("tags") or [])],
-        desc_html=para(l.get("description")), created=l.get("original_creation_timestamp") or 0,
+        desc_html=para(desc_body), created=l.get("original_creation_timestamp") or 0,
         meta=(desc_plain[:155].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else (desc_plain or f"{head}. {detail}. Printable PDF sewing pattern with instant download from Etsy."),
         tint=TINTS[int(hashlib.md5(str(lid).encode()).hexdigest(), 16) % len(TINTS)],
         plus="plus-size" in cats,

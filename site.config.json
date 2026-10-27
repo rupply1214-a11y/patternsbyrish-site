@@ -5,15 +5,20 @@
   "custom_domain": "",
   "tagline": "PDF sewing patterns for dresses, tops, skirts and jumpsuits",
   "included": [
-    "Printable PDF pattern pieces with layered sizes, so you print only the size you need",
-    "Step-by-step sewing instructions",
-    "Instant download from your Etsy purchases, no waiting for post"
+    "PDF pattern files to print on A4 or US Letter at home, or A0 at a copy shop",
+    "A step-by-step instruction booklet (PDF)",
+    "Technical sketches and the fabric you'll need",
+    "Instant download from your Etsy purchases, with nothing posted"
   ],
   "show_rating": true,
   "pinterest": {
     "days_ahead": 28,
     "pins_per_day": 3,
-    "post_times_us_eastern": ["08:30", "13:00", "20:30"],
+    "post_times_us_eastern": [
+      "08:30",
+      "13:00",
+      "20:30"
+    ],
     "boards": {
       "dresses": "Dress Sewing Patterns",
       "tops": "Top & Blouse Sewing Patterns",
