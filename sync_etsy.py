@@ -72,6 +72,15 @@ def main():
         batch = e.get("/listings/batch", listing_ids=",".join(map(str, ids[i:i + 100])), includes="Images")
         listings += batch.get("results") or []
 
+    # one-off check: which fields does Etsy send? (no secrets in here)
+    raw = {"listing_keys": sorted(listings[0].keys()) if listings else [], "sample": listings[:2]}
+    try:
+        inv = e.get(f"/listings/{ids[0]}/inventory")
+        raw["inventory_sample"] = inv
+    except SystemExit as err:
+        raw["inventory_error"] = str(err)
+    json.dump(raw, open(os.path.join(os.path.dirname(OUT), "etsy_raw_sample.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
     keep = ["listing_id", "title", "description", "url", "tags", "shop_section_id", "original_creation_timestamp",
             "last_modified_timestamp", "price", "num_favorers", "views", "skus", "materials"]
     clean = []
