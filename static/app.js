@@ -142,6 +142,30 @@
     update();
   });
 
+  /* ---------- home category tabs ---------- */
+  $$("[data-tabs]").forEach((box) => {
+    const tabs = $$("[role=tab]", box);
+    const pick = (t, focus) => {
+      tabs.forEach((x) => {
+        const on = x === t;
+        x.setAttribute("aria-selected", on ? "true" : "false");
+        x.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(x.getAttribute("aria-controls"));
+        if (panel) { panel.hidden = !on; if (on) { panel.classList.remove("tab-in"); void panel.offsetWidth; panel.classList.add("tab-in"); const tr = $(".row-track", panel); if (tr) tr.scrollLeft = 0; } }
+      });
+      if (focus) t.focus();
+      t.scrollIntoView({ block: "nearest", inline: "center", behavior: still ? "auto" : "smooth" });
+      dispatchEvent(new Event("resize"));
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => pick(t));
+      t.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (d) { e.preventDefault(); pick(tabs[(i + d + tabs.length) % tabs.length], true); }
+      });
+    });
+  });
+
   /* ---------- themed dropdowns ---------- */
   $$("[data-select]").forEach((sel) => {
     const btn = $(".select-btn", sel), list = $(".select-list", sel), value = $(".select-value", sel);

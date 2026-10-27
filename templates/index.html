@@ -68,8 +68,58 @@
   </ul>
 </section>
 
+{# ---------- newest ---------- #}
+<section class="band">
+  <div class="wrap">
+    <div class="head-row">{{ heading("Fresh off the cutting table") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>
+    <div class="grid home-new">{% for p in newest %}{{ card(p, u, eager=loop.index <= 4) }}{% endfor %}</div>
+  </div>
+</section>
+
+{# ---------- shop by category (tabs) ---------- #}
+{% if rows %}
+<section class="band band-paper shop-tabs" data-tabs>
+  <div class="wrap">
+    <div class="head-row">{{ heading("Pick your next make") }}<a class="more" href="{{ u('patterns/') }}">All {{ products|length }} patterns</a></div>
+    <div class="tab-row" role="tablist" aria-label="Pattern categories">
+      {% for r in rows %}
+      <button type="button" class="tab-chip" role="tab" id="tab-{{ r.c.slug }}" aria-controls="panel-{{ r.c.slug }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>
+        {{ catswatch(r.c, "tab-sw") }}<span class="tab-name">{{ r.c.name }}</span><small>{{ r.c.count }}</small>
+      </button>
+      {% endfor %}
+    </div>
+    {% for r in rows %}
+    <div class="tab-panel" role="tabpanel" id="panel-{{ r.c.slug }}" aria-labelledby="tab-{{ r.c.slug }}" {% if not loop.first %}hidden{% endif %}>
+      <div class="cat-row">
+        <a class="cat-banner tint-{{ r.c.tint }}" href="{{ u('category/' ~ r.c.slug ~ '/') }}">
+          <span class="cat-banner-photos" aria-hidden="true">
+            {% for ph in r.c.photos[:3] %}<img src="{{ ph.medium or ph.full }}" alt="" loading="lazy" class="cbp-{{ loop.index }}">{% endfor %}
+          </span>
+          <span class="cat-banner-copy">
+            <span class="cat-banner-count">{{ r.c.count }} pattern{{ 's' if r.c.count != 1 }}</span>
+            <span class="cat-banner-title">{{ r.c.name }}</span>
+            <span class="cat-banner-text">{{ r.c.intro }}</span>
+            <span class="btn btn-small">Shop all {{ r.c.name|lower }}</span>
+          </span>
+        </a>
+        <div class="row-scroll">
+          <div class="row-track" data-scroller tabindex="0" role="region" aria-label="{{ r.c.name }} patterns, scroll sideways">
+            {% for p in r.picks %}{{ card(p, u) }}{% endfor %}
+          </div>
+          <div class="row-arrows">
+            <button type="button" class="round-btn" data-scroll="-1" aria-label="Show earlier {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button type="button" class="round-btn" data-scroll="1" aria-label="Show more {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 {# ---------- brand film ---------- #}
-<section class="film-band band-paper">
+<section class="film-band">
   <div class="wrap">
     <div class="film-head">
       <p class="brand-label">Inside our studio</p>
@@ -78,21 +128,6 @@
     </div>
     {% include "_film.html" %}
     <p class="center-row"><a class="btn btn-ghost" href="{{ u('studio/') }}">Visit our studio</a></p>
-  </div>
-</section>
-
-{# ---------- category swatches ---------- #}
-<section class="band">
-  <div class="wrap">
-    <div class="head-row">{{ heading("Pick your next make") }}<a class="more" href="{{ u('patterns/') }}">All patterns</a></div>
-    <ul class="swatches">
-      {% for c in cats %}
-      <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="swatch-link">
-        {{ catswatch(c) }}
-        <span class="swatch-name">{{ c.name }}</span><span class="swatch-count">{{ c.count }} pattern{{ 's' if c.count != 1 }}</span>
-      </a></li>
-      {% endfor %}
-    </ul>
   </div>
 </section>
 
@@ -113,41 +148,8 @@
 </section>
 {% endif %}
 
-{# ---------- newest ---------- #}
-<section class="band band-paper">
-  <div class="wrap">
-    <div class="head-row">{{ heading("Fresh off the cutting table") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>
-    <div class="grid">{% for p in newest %}{{ card(p, u) }}{% endfor %}</div>
-  </div>
-</section>
-
-{# ---------- category rows ---------- #}
-{% for r in rows %}
-<section class="band cat-row-band">
-  <div class="wrap cat-row{{ ' flip' if loop.index is even }}">
-    <a class="cat-banner tint-{{ r.c.tint }}" href="{{ u('category/' ~ r.c.slug ~ '/') }}">
-      <span class="cat-banner-photos" aria-hidden="true">
-        {% for ph in r.c.photos[:3] %}<img src="{{ ph.medium or ph.full }}" alt="" loading="lazy" class="cbp-{{ loop.index }}">{% endfor %}
-      </span>
-      <span class="cat-banner-copy">
-        <span class="cat-banner-count">{{ r.c.count }} pattern{{ 's' if r.c.count != 1 }}</span>
-        <span class="cat-banner-title">{{ r.c.name }}</span>
-        <span class="cat-banner-text">{{ r.c.intro }}</span>
-        <span class="btn btn-small">Shop {{ r.c.name|lower }}</span>
-      </span>
-    </a>
-    <div class="row-scroll">
-      <div class="row-track" data-scroller tabindex="0" role="region" aria-label="{{ r.c.name }} patterns, scroll sideways">
-        {% for p in r.picks %}{{ card(p, u) }}{% endfor %}
-      </div>
-      <div class="row-arrows">
-        <button type="button" class="round-btn" data-scroll="-1" aria-label="Show earlier {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <button type="button" class="round-btn" data-scroll="1" aria-label="Show more {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-      </div>
-    </div>
-  </div>
-</section>
-{% if loop.index == 2 and bundles %}
+{# ---------- bundle promo ---------- #}
+{% if bundles %}
 <section class="band">
   <div class="wrap">
     <a class="promo" href="{{ u(content.promo.link) }}">
@@ -164,7 +166,6 @@
   </div>
 </section>
 {% endif %}
-{% endfor %}
 
 {# ---------- sewing kit on a cutting mat ---------- #}
 <section class="mat">
@@ -199,7 +200,7 @@
 <section class="band band-paper">
   <div class="wrap">
     <div class="head-row">{{ heading("From the Stitch Journal") }}<a class="more" href="{{ u('journal/') }}">All stories</a></div>
-    <div class="post-grid">
+    <div class="post-grid home-posts">
       {% for b in posts[:3] %}
       <a class="post-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
         <span class="post-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ b.tag }}</span></span>
@@ -219,7 +220,7 @@
     <div>
       {{ heading("Good to know before you buy") }}
       <p class="lede">Short answers to what new PDF pattern buyers ask us most.</p>
-      <a class="btn btn-ghost" href="{{ u('how-it-works/') }}#faq">All questions</a>
+      <a class="btn btn-ghost" href="{{ u('answers/') }}">All sewing answers</a>
     </div>
     <div class="faq">
       {% for q, a in faqs %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
