@@ -56,16 +56,19 @@ def hero_lines():
     return out
 
 
-def kind_of(title):
-    t = title.lower()
-    for words, k in [(("bundle", "2 in 1", "2-in-1", "wholeshop"), "bundle"), (("jumpsuit", "romper", "overall"), "jumpsuit"),
-                     (("hoodie", "sweatshirt"), "hoodie"), (("vest", "corset"), "vest"), (("shirt",), "shirt"),
-                     (("dress", "gown", "abaya", "kaftan", "pinafore"), "dress"), (("skirt",), "skirt"),
-                     (("trouser", "pant", "palazzo", "short"), "pants"), (("top", "blouse", "camisole", "tank", "tee"), "top")]:
-        if any(w in t for w in words):
-            if k == "shirt" and not any(w in t for w in ("mens", "men's", "button")):
-                continue
-            return k
+KIND_WORDS = [("bundle", r"bundle|\d.in.1|wholeshop|mother daughter"), ("jumpsuit", r"jumpsuit|romper|overall"),
+              ("hoodie", r"hoodie|sweatshirt"), ("vest", r"\bvest|corset"), ("mens-shirt", r"\bmen'?s?\b.*(shirt|tee)"),
+              ("dress", r"dress|gown|abaya|kaftan|pinafore|sundress"), ("skirt", r"skirt"),
+              ("pants", r"trouser|pants|palazzo|\bshorts\b|jeans|capri|chino"), ("top", r"\btops?\b|blouse|camisole|tank|\btee\b|t-shirt|t shirt|shirt|peplum")]
+
+
+def kind_of(text):
+    """Garment type, read from the start of the title first (the main keyword), then the rest."""
+    for chunk in ([text] if isinstance(text, str) else text):
+        t = chunk.lower()
+        for k, rx in KIND_WORDS:
+            if re.search(rx, t):
+                return "shirt" if k == "mens-shirt" else k
     return "dress"
 
 
@@ -83,18 +86,35 @@ def clean_name(title):
     return re.sub(r"\s+PDF\b", "", first).strip(" -|")
 
 
+SIZE = r"\b(XXS|XS|S|M|L|XL|XXL|[2-6]XL)\b"
+SIZE_ANY = r"(?:XXS|XS|S|M|L|XL|XXL|[2-6]XL)"
+JUNK = r"\b(PDF|Sewing Patterns?|Patterns?|DIY|Digital Download|Instant Download|Printable)\b"
+
+
+def parts(title):
+    """Etsy title 'Linen Dress Pattern | Boatneck A-Line Tea Dress | XS-5XL PDF' -> ('Linen Dress', 'Boatneck A-Line Tea Dress')."""
+    out = []
+    for s in re.split(r"\s[|]\s|,|\(|\)", title):
+        c = re.sub(JUNK, "", s, flags=re.I)
+        c = re.sub(r"\b" + SIZE_ANY + r"\s*(?:-|–|to)\s*" + SIZE_ANY + r"\b", "", c)
+        c = re.sub(r"\s{2,}", " ", c).strip(" -–|,&:")
+        if c and len(c) > 2 and not re.fullmatch(r"(ages?\s*[\d\- ]+|natural waist|summer sewing)", c, flags=re.I):
+            out.append(c)
+    return (out[0] if out else title), (out[1] if len(out) > 1 else "")
+
+
 def short_name(title):
     n = clean_name(title)
     n = re.sub(r"\b(PDF|Sewing Pattern|Pattern|DIY)\b", "", n, flags=re.I)
     return re.sub(r"\s{2,}", " ", n).strip(" -|,") or clean_name(title)
 
 
-SIZE = r"(XXS|XS|S|M|L|XL|XXL|[2-6]XL)"
-
-
 def size_range(text):
     m = re.search(SIZE + r"\s*(?:-|–|to)\s*" + SIZE, text)
-    return f"{m.group(1)} to {m.group(2)}" if m else ""
+    if m:
+        return f"{m.group(1)} to {m.group(2)}"
+    m = re.search(r"\bAges?\s*(\d{1,2})\s*(?:-|–|to)\s*(\d{1,2})\b", text, flags=re.I)
+    return f"Ages {m.group(1)} to {m.group(2)}" if m else ""
 
 
 def formats(text):
@@ -135,7 +155,8 @@ for l in DATA["listings"]:
     title = html.unescape(l["title"])
     full = title + " " + (l.get("description") or "")
     sec = sections.get(l.get("shop_section_id"), "")
-    kind = kind_of(title)
+    head, detail = parts(title)
+    kind = "bundle" if re.search(r"\bbundle\b|\d.in.1", title, flags=re.I) else kind_of([head, detail, title])
     cats = []
     for key, cat in SECTION_TO_CAT:
         if key in sec.lower() and cat not in cats:
@@ -144,19 +165,19 @@ for l in DATA["listings"]:
         cats.append(KIND_CAT[kind])
     if "plus size" in title.lower() and "plus-size" not in cats:
         cats.append("plus-size")
-    if re.search(r"\bmen'?s?\b", title.lower()) and "mens" not in cats:
+    if re.search(r"\bmen'?s?\b", head.lower()) and "mens" not in cats:
         cats.append("mens")
     lid = l["listing_id"]
-    slug = f"{slugify(clean_name(title))}-{lid}"
+    slug = f"{slugify(head + ' ' + detail, 9)}-{lid}"
     desc_plain = re.sub(r"\s+", " ", l.get("description") or "").strip()
     products.append(dict(
-        id=lid, title=title, name=clean_name(title), short=short_name(title), slug=slug, kind=kind, cats=cats,
+        id=lid, title=title, name=(f"{head}: {detail}" if detail else head), short=head, sub=detail, slug=slug, kind=kind, cats=cats,
         cat=cats[0] if cats else "dresses", section=sec, etsy=l.get("url") or f"https://www.etsy.com/listing/{lid}",
         price=price_text(l.get("price")), price_value=(l.get("price") or {}).get("amount", 0) / ((l.get("price") or {}).get("divisor") or 100),
         currency=(l.get("price") or {}).get("currency_code", "USD"), images=l.get("images") or [],
         sizes=size_range(full), formats=formats(full), tags=[t for t in (l.get("tags") or [])],
         desc_html=para(l.get("description")), created=l.get("original_creation_timestamp") or 0,
-        meta=(desc_plain[:155].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else (desc_plain or f"{clean_name(title)}. Instant PDF download. Buy securely on Etsy."),
+        meta=(desc_plain[:155].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else (desc_plain or f"{head}. {detail}. Printable PDF sewing pattern with instant download from Etsy."),
         tint=TINTS[int(hashlib.md5(str(lid).encode()).hexdigest(), 16) % len(TINTS)],
         plus="plus-size" in cats,
     ))

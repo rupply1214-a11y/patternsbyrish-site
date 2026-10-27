@@ -48,6 +48,7 @@
   <a href="{{ u('pattern/' ~ p.slug ~ '/') }}" class="card-link">
     {{ picture(p, u) }}
     <h3>{{ p.short }}</h3>
+    {% if p.sub %}<p class="card-sub">{{ p.sub }}</p>{% endif %}
   </a>
   <p class="card-meta">
     <span class="price">{{ p.price }}</span>

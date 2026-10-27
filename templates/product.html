@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, garment %}
-{% block title %}{{ p.name }}{{ '' if 'pattern' in p.name|lower else ' Sewing Pattern' }} PDF{{ (' ' ~ p.sizes) if p.sizes else '' }} | Patterns by Rish{% endblock %}
+{% block title %}{{ p.short }} Sewing Pattern PDF{{ (', ' ~ p.sub) if p.sub else '' }}{{ (', ' ~ p.sizes) if p.sizes else '' }} | Patterns by Rish{% endblock %}
 {% block description %}{{ p.meta }}{% endblock %}
 {% block og %}
 <meta property="og:type" content="product">
@@ -46,8 +46,7 @@
       </div>
       <div class="buy">
         <h1>{{ p.name }}</h1>
-        {% if p.name != p.title %}<p class="full-title">{{ p.title }}</p>{% endif %}
-        <p class="buy-price"><span class="price">{{ p.price }}</span> <span class="price-note">Any Etsy sale price is applied at checkout</span></p>
+                <p class="buy-price"><span class="price">{{ p.price }}</span> <span class="price-note">Any Etsy sale price is applied at checkout</span></p>
         <ul class="facts">
           <li><span>Format</span><strong>PDF, instant download</strong></li>
           {% if p.sizes %}<li><span>Sizes</span><strong>{{ p.sizes }}</strong></li>{% endif %}
