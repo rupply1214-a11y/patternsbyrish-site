@@ -9,6 +9,9 @@
   // hero: highlight one size line
   const sheet = document.querySelector(".sheet");
   if (sheet) {
+    // draw the size lines once, only when someone can actually see it; otherwise they simply stay drawn
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!still && document.visibilityState === "visible") sheet.classList.add("draw");
     const chips = sheet.querySelectorAll(".chip");
     let pinned = null;
     const show = (size) => {

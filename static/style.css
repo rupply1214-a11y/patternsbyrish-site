@@ -74,10 +74,10 @@ p { margin: 0 0 1em; }
 .sheet::before, .sheet::after { content: ""; position: absolute; width: 96px; height: 28px; background: rgba(246, 198, 207, .75); top: -12px; left: 28px; transform: rotate(-6deg); }
 .sheet::after { background: rgba(191, 230, 211, .8); left: auto; right: 24px; top: auto; bottom: -10px; transform: rotate(4deg); }
 .sheet-svg { width: 100%; height: auto; max-height: 520px; display: block; }
-.size-line { fill: none; stroke: var(--c); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: draw 1.15s cubic-bezier(.6, .1, .3, 1) forwards; animation-delay: calc(var(--i) * .13s + .25s); transition: opacity .25s, stroke-width .25s; }
+.size-line { fill: none; stroke: var(--c); stroke-width: 2; stroke-linejoin: round; transition: opacity .25s, stroke-width .25s; }
+.sheet.draw .size-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.15s cubic-bezier(.6, .1, .3, 1) forwards; animation-delay: calc(var(--i) * .13s + .15s); }
 .size-tag { fill: var(--c); font: 700 13px var(--head); opacity: 0; animation: fade .4s forwards; animation-delay: calc(var(--i) * .13s + 1.1s); transition: opacity .25s; }
-.marks { opacity: 0; animation: fade .6s 2.3s forwards; }
+.sheet.draw .marks { opacity: 0; animation: fade .6s 1.9s forwards; }
 .fold { stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 10 5 2 5; fill: none; }
 .grain { stroke: var(--ink-2); stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .mark-text { fill: var(--ink-2); font: 500 12px var(--body); letter-spacing: .02em; }
@@ -100,7 +100,7 @@ p { margin: 0 0 1em; }
 .more { font-weight: 600; white-space: nowrap; }
 .h-sub { font-size: clamp(1.3rem, 2.2vw, 1.6rem); }
 
-.cats { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 12px; }
+.cats { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 12px; }
 .cat { display: grid; grid-template-rows: auto auto auto; justify-items: start; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 14px 16px 16px; text-decoration: none; color: var(--ink); transition: border-color .15s, background .15s; }
 .cat:hover { border-color: var(--plum); background: var(--lilac); color: var(--ink); }
@@ -242,5 +242,4 @@ p { margin: 0 0 1em; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition: none !important; scroll-behavior: auto !important; }
-  .size-line { stroke-dashoffset: 0; }
 }
