@@ -250,6 +250,5 @@
       io.unobserve(e.target);
     }), { rootMargin: "0px 0px -10% 0px" });
     $$(".stitch-h").forEach((h) => { if (below(h)) io.observe(h); });
-    $$(".band .grid, .swatches, .post-grid, .kit, .steps, .promo, .cat-row").forEach((el) => { if (below(el)) { el.classList.add("reveal", "pre"); io.observe(el); } });
   }
 })();

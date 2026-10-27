@@ -68,7 +68,6 @@
     <div class="card-pic tint-{{ p.tint }}">
       {% if p.images %}
         {{ img(p, 0, eager=eager) }}
-        {% if p.images|length > 1 %}{{ img(p, 1, cls="alt") }}{% endif %}
       {% else %}{{ garment(p.kind) }}{% endif %}
       {% if p.off %}<span class="hang-tag" aria-label="{{ p.off }} percent off">−{{ p.off }}%</span>{% endif %}
     </div>
