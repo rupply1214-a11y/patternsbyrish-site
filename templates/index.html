@@ -33,7 +33,7 @@
           {% for p in s.picks %}
           <a class="sheet sheet-{{ loop.index }}" href="{{ u('pattern/' ~ p.slug ~ '/') }}" tabindex="-1" aria-hidden="true">
             <span class="washi"></span>
-            {% if p.images %}{{ img(p, 0, size="full" if loop.first else "medium", eager=first) }}{% endif %}
+            {% if p.images %}{{ img(p, 0, eager=first) }}{% endif %}
           </a>
           {% endfor %}
           {% if s.picks %}<span class="price-tag" aria-hidden="true"><b>{{ s.picks[0].price }}</b>{% if content.sale_percent %}<small>{{ content.sale_percent }}% off</small>{% endif %}</span>{% endif %}
