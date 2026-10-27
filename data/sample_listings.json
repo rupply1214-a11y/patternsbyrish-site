@@ -1,0 +1,681 @@
+{
+ "shop": {
+  "shop_name": "PatternsByRish",
+  "title": "Simple, Stylish & Innovative Digital Sewing Patterns",
+  "transaction_sold_count": 3826,
+  "review_average": 4.3,
+  "review_count": 177,
+  "url": "https://www.etsy.com/shop/PatternsByRish",
+  "listing_active_count": 144
+ },
+ "sections": [
+  {
+   "shop_section_id": 1000,
+   "title": "Dresses"
+  },
+  {
+   "shop_section_id": 1001,
+   "title": "Womens Plus Size"
+  },
+  {
+   "shop_section_id": 1002,
+   "title": "Mens"
+  },
+  {
+   "shop_section_id": 1003,
+   "title": "Mens Plus size"
+  },
+  {
+   "shop_section_id": 1004,
+   "title": "Top"
+  },
+  {
+   "shop_section_id": 1005,
+   "title": "Bottoms"
+  },
+  {
+   "shop_section_id": 1006,
+   "title": "Jumpsuite"
+  },
+  {
+   "shop_section_id": 1007,
+   "title": "Hoodies & Sweatshirts"
+  },
+  {
+   "shop_section_id": 1008,
+   "title": "Kids Clothing"
+  },
+  {
+   "shop_section_id": 1009,
+   "title": "Bundles"
+  }
+ ],
+ "listings": [
+  {
+   "listing_id": 4501463807,
+   "title": "Deep V-Neck Linen Maxi Dress Sewing Pattern PDF, Sleeveless V Neck Linen Summer Outfit",
+   "url": "https://www.etsy.com/listing/4501463807",
+   "price": {
+    "amount": 500,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1793076030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4478088248,
+   "title": "Mens Linen Slim Fit Shirt Sewing Pattern PDF, Tailored Button Up Dress Shirt DIY",
+   "url": "https://www.etsy.com/listing/4478088248",
+   "price": {
+    "amount": 396,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1002,
+   "original_creation_timestamp": 1792903230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4467556320,
+   "title": "Wholeshop Sewing Pattern Bundle PDF, Dress Top Plus Size Collection Women Men",
+   "url": "https://www.etsy.com/listing/4467556320",
+   "price": {
+    "amount": 7527,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1009,
+   "original_creation_timestamp": 1792730430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4502494080,
+   "title": "Vintage Cottagecore Pinafore Dress Sewing Pattern PDF, Scandinavian Linen Midi Dress DIY",
+   "url": "https://www.etsy.com/listing/4502494080",
+   "price": {
+    "amount": 499,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1792557630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4503790149,
+   "title": "Plus Size Square Neck Maxi Dress Sewing Pattern PDF, Cottagecore Linen Dress DIY",
+   "url": "https://www.etsy.com/listing/4503790149",
+   "price": {
+    "amount": 770,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1792384830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4504901189,
+   "title": "African Ankara Halter Maxi Dress Sewing Pattern PDF, Boho Evening Gown DIY",
+   "url": "https://www.etsy.com/listing/4504901189",
+   "price": {
+    "amount": 480,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1792212030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4532390499,
+   "title": "Boat Neck Linen Dress Sewing Pattern Bundle (2 in 1), Sleeveless Maxi Mini PDF",
+   "url": "https://www.etsy.com/listing/4532390499",
+   "price": {
+    "amount": 774,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1009,
+   "original_creation_timestamp": 1792039230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4525417608,
+   "title": "Plus Size V-Neck Linen Tea Dress Sewing Pattern PDF, Sleeveless A-Line Dress DIY",
+   "url": "https://www.etsy.com/listing/4525417608",
+   "price": {
+    "amount": 512,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1791866430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4502577803,
+   "title": "Wide Leg Linen Jumpsuit Sewing Pattern PDF, Scandinavian Minimalist Women Outfit DIY",
+   "url": "https://www.etsy.com/listing/4502577803",
+   "price": {
+    "amount": 509,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1006,
+   "original_creation_timestamp": 1791693630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4564945787,
+   "title": "Gingham Mini Skirt Pattern | A-Line Woven Skirt PDF | Natural Waist XS-5XL",
+   "url": "https://www.etsy.com/listing/4564945787",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1791520830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4564791371,
+   "title": "Wide Leg Jumpsuit Sewing Pattern | Square Neck Cropped Jumpsuit | XS-5XL PDF",
+   "url": "https://www.etsy.com/listing/4564791371",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1006,
+   "original_creation_timestamp": 1791348030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4500897310,
+   "title": "Asymmetrical Wide Leg Jumpsuit Sewing Pattern PDF, One Shoulder Jumpsuit DIY",
+   "url": "https://www.etsy.com/listing/4500897310",
+   "price": {
+    "amount": 360,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1006,
+   "original_creation_timestamp": 1791175230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4530267030,
+   "title": "Very Flared Full Length Gown Sewing Pattern PDF, One Shoulder Evening Dress DIY",
+   "url": "https://www.etsy.com/listing/4530267030",
+   "price": {
+    "amount": 464,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1791002430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4479154512,
+   "title": "Plus Size Wide Leg Trousers Sewing Pattern PDF, High Waist Palazzo Pants DIY",
+   "url": "https://www.etsy.com/listing/4479154512",
+   "price": {
+    "amount": 399,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1001,
+   "original_creation_timestamp": 1790829630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4559251136,
+   "title": "Three Quarter Sleeve Top Sewing Pattern PDF | Boat Neck Flared Sleeve Knit Top | Relaxed Fit | XS to 5XL",
+   "url": "https://www.etsy.com/listing/4559251136",
+   "price": {
+    "amount": 400,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1790656830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4503681983,
+   "title": "Linen Top Sewing Pattern PDF | V Neck Flared Sleeve",
+   "url": "https://www.etsy.com/listing/4503681983",
+   "price": {
+    "amount": 308,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1790484030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4543689887,
+   "title": "Cottagecore Boatneck Midi Dress PDF Sewing Pattern Bishop Sleeve Plus Size",
+   "url": "https://www.etsy.com/listing/4543689887",
+   "price": {
+    "amount": 547,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1790311230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4510472597,
+   "title": "Cottagecore Maxi Dress Sewing Pattern PDF, Floral Ruffle Hem Dress DIY",
+   "url": "https://www.etsy.com/listing/4510472597",
+   "price": {
+    "amount": 476,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1790138430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4540664681,
+   "title": "Gathered Waist Maxi Skirt PDF Sewing Pattern Plus Size A-Line Skirt",
+   "url": "https://www.etsy.com/listing/4540664681",
+   "price": {
+    "amount": 459,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1789965630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4503508508,
+   "title": "Linen Boat Neck Top Sewing Pattern PDF, Minimalist Summer Women Blouse DIY",
+   "url": "https://www.etsy.com/listing/4503508508",
+   "price": {
+    "amount": 416,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1789792830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4545996250,
+   "title": "African Ankara Dress Bundle PDF Sewing Pattern 2 in 1 Plus Size",
+   "url": "https://www.etsy.com/listing/4545996250",
+   "price": {
+    "amount": 714,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1009,
+   "original_creation_timestamp": 1789620030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4502578965,
+   "title": "Linen Abaya Dress Sewing Pattern PDF, Modest Maxi Kaftan Women Dress DIY",
+   "url": "https://www.etsy.com/listing/4502578965",
+   "price": {
+    "amount": 510,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1789447230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4512504708,
+   "title": "Linen Summer Slip Dress Sewing Pattern PDF, Ruffle Hem Mini Dress DIY",
+   "url": "https://www.etsy.com/listing/4512504708",
+   "price": {
+    "amount": 507,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1789274430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4535017627,
+   "title": "2-in-1 Abaya Dress Sewing Pattern, Modest Maxi, Boat Neck, Linen Flare Sleeve (PDF Download)",
+   "url": "https://www.etsy.com/listing/4535017627",
+   "price": {
+    "amount": 766,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1009,
+   "original_creation_timestamp": 1789101630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4504929245,
+   "title": "Cottagecore Square Neck Dress Sewing Pattern PDF, Puff Sleeve Maxi Dress DIY",
+   "url": "https://www.etsy.com/listing/4504929245",
+   "price": {
+    "amount": 500,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1788928830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4503690981,
+   "title": "Linen Midriff Crop Top Sewing Pattern PDF, Spaghetti Strap Camisole DIY",
+   "url": "https://www.etsy.com/listing/4503690981",
+   "price": {
+    "amount": 410,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1788756030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4461168978,
+   "title": "Half Circle Maxi Skirt Sewing Pattern PDF, Flowing High Waist Women Skirt DIY",
+   "url": "https://www.etsy.com/listing/4461168978",
+   "price": {
+    "amount": 375,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1788583230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4542502589,
+   "title": "Boatneck Above Knee Dress PDF Sewing Pattern Flared Sleeve Plus Size",
+   "url": "https://www.etsy.com/listing/4542502589",
+   "price": {
+    "amount": 506,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1788410430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4501462709,
+   "title": "Maxi Dress Sewing Pattern PDF, Boat Neck Modest Tiered Women Everyday Elegant Wear",
+   "url": "https://www.etsy.com/listing/4501462709",
+   "price": {
+    "amount": 387,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1788237630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4538078751,
+   "title": "Square Neck Midriff Top Sewing Pattern PDF, Sleeveless Knit Crop Top DIY",
+   "url": "https://www.etsy.com/listing/4538078751",
+   "price": {
+    "amount": 419,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1788064830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4463387633,
+   "title": "Scoop Neck Tank Top Sewing Pattern PDF, Fitted Sleeveless Crop Top DIY",
+   "url": "https://www.etsy.com/listing/4463387633",
+   "price": {
+    "amount": 341,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1787892030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4539221483,
+   "title": "Wide Scoop Neck Ballet Top Sewing Pattern PDF, Long Sleeve Knit Top DIY",
+   "url": "https://www.etsy.com/listing/4539221483",
+   "price": {
+    "amount": 431,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1787719230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4502005384,
+   "title": "Trumpet Midi Skirt Sewing Pattern PDF, High Waist Flared Skirt DIY",
+   "url": "https://www.etsy.com/listing/4502005384",
+   "price": {
+    "amount": 432,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1787546430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4502578269,
+   "title": "A Line Micro Mini Skirt Sewing Pattern PDF, Scandinavian Linen Skirt DIY",
+   "url": "https://www.etsy.com/listing/4502578269",
+   "price": {
+    "amount": 358,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1005,
+   "original_creation_timestamp": 1787373630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4537077810,
+   "title": "Meadow Corset Vest Sewing Pattern PDF, Cottagecore Button Front Vest DIY",
+   "url": "https://www.etsy.com/listing/4537077810",
+   "price": {
+    "amount": 459,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1787200830,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4541259212,
+   "title": "Linen Workwear Blouse PDF Sewing Pattern V Neck Top Plus Size XS-5XL",
+   "url": "https://www.etsy.com/listing/4541259212",
+   "price": {
+    "amount": 390,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1004,
+   "original_creation_timestamp": 1787028030,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4527831515,
+   "title": "Trumpet Boat Neck Linen Midi Dress Sewing Pattern PDF, Sleeveless Flared Dress DIY",
+   "url": "https://www.etsy.com/listing/4527831515",
+   "price": {
+    "amount": 449,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1786855230,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4516187659,
+   "title": "Cottagecore Fit & Flare Dress Sewing Pattern PDF | Knit Dress XS\u20135XL | A4 A0 US Letter",
+   "url": "https://www.etsy.com/listing/4516187659",
+   "price": {
+    "amount": 429,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1786682430,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  },
+  {
+   "listing_id": 4501995371,
+   "title": "Linen Cottagecore Maxi Dress Sewing Pattern PDF, Boatneck Long Women Dress DIY",
+   "url": "https://www.etsy.com/listing/4501995371",
+   "price": {
+    "amount": 504,
+    "divisor": 100,
+    "currency_code": "USD"
+   },
+   "shop_section_id": 1000,
+   "original_creation_timestamp": 1786509630,
+   "tags": [],
+   "description": "",
+   "images": [],
+   "num_favorers": 0
+  }
+ ],
+ "synced_at": null,
+ "sample": true
+}

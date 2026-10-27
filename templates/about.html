@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}About Patterns by Rish | PDF Sewing Pattern Designers{% endblock %}
+{% block description %}Patterns by Rish designs simple, stylish PDF sewing patterns for dresses, tops and plus size sewists, sold on Etsy.{% endblock %}
+{% block main %}
+<section class="page-head">
+  <div class="wrap narrow">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">About</span></nav>
+    <h1>We draw the patterns. You make the clothes.</h1>
+    <p class="lede">Patterns by Rish is a small design studio making simple, wearable sewing patterns: linen dresses, easy tops, skirts, jumpsuits and menswear, with plus size sewists drafted in from the start rather than added later.</p>
+  </div>
+</section>
+<section class="band band-tight">
+  <div class="wrap narrow prose">
+    <p>We sell every pattern through our Etsy shop. It keeps checkout simple and safe for sewists in every country, and your files are always waiting in your Etsy purchases if you lose them.</p>
+    {% if stats.sold %}<p>So far, sewists have bought {{ stats.sold }} of our patterns on Etsy{% if cfg.show_rating and stats.reviews %} and left {{ stats.reviews }} reviews{% endif %}. New designs are added regularly.</p>{% endif %}
+    <p>Have a question about a pattern, sizing or printing? Message us through Etsy and we'll get back to you.</p>
+    <p><a class="btn" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Visit our Etsy shop</a></p>
+  </div>
+</section>
+{% endblock %}

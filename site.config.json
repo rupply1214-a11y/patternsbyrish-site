@@ -1,0 +1,29 @@
+{
+  "brand": "Patterns by Rish",
+  "etsy_shop_name": "PatternsByRish",
+  "site_url": "",
+  "custom_domain": "",
+  "tagline": "PDF sewing patterns for dresses, tops, skirts and jumpsuits",
+  "included": [
+    "Printable PDF pattern pieces with layered sizes, so you print only the size you need",
+    "Step-by-step sewing instructions",
+    "Instant download from your Etsy purchases, no waiting for post"
+  ],
+  "show_rating": true,
+  "pinterest": {
+    "days_ahead": 28,
+    "pins_per_day": 3,
+    "post_times_us_eastern": ["08:30", "13:00", "20:30"],
+    "boards": {
+      "dresses": "Dress Sewing Patterns",
+      "tops": "Top & Blouse Sewing Patterns",
+      "bottoms": "Skirt & Pants Sewing Patterns",
+      "jumpsuits": "Jumpsuit Sewing Patterns",
+      "plus-size": "Plus Size Sewing Patterns",
+      "mens": "Men's Sewing Patterns",
+      "kids": "Kids Sewing Patterns",
+      "bundles": "Sewing Pattern Bundles",
+      "hoodies": "Hoodie & Sweatshirt Sewing Patterns"
+    }
+  }
+}

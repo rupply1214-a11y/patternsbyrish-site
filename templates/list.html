@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card %}
+{% block title %}{{ heading }} (PDF) | Patterns by Rish{% endblock %}
+{% block description %}{{ intro }} Printable PDF, instant download from Etsy.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": heading, "description": intro, "url": canon() or none,
+   "mainEntity": {"@type": "ItemList", "numberOfItems": items|length, "itemListElement": (items[:30] | map(attribute='name') | list)}} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<section class="page-head">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> {% if current %}<a href="{{ u('patterns/') }}">Patterns</a> <span aria-hidden="true">/</span> {% endif %}<span aria-current="page">{{ catmap[current][0] if current else 'Patterns' }}</span></nav>
+    <h1>{{ heading }}</h1>
+    <p class="lede">{{ intro }}</p>
+    <div class="filters" {% if js %}data-filters{% endif %}>
+      {% if js %}
+      <label class="search"><span class="sr">Search patterns</span>
+        <input type="search" placeholder="Search, for example linen maxi dress" autocomplete="off" data-q>
+      </label>
+      <div class="chip-row" role="group" aria-label="Filter by type">
+        <button type="button" class="pill" aria-pressed="true" data-cat="">All</button>
+        {% for c in cats %}<button type="button" class="pill" aria-pressed="false" data-cat="{{ c.slug }}">{{ c.name }}</button>{% endfor %}
+      </div>
+      <label class="sort"><span>Sort</span>
+        <select data-sort><option value="new">Newest</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option></select>
+      </label>
+      {% else %}
+      <div class="chip-row">
+        <a class="pill" href="{{ u('patterns/') }}">All patterns</a>
+        {% for c in cats %}<a class="pill" href="{{ u('category/' ~ c.slug ~ '/') }}" {% if c.slug == current %}aria-current="page"{% endif %}>{{ c.name }}</a>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+<section class="band band-tight">
+  <div class="wrap">
+    <p class="count" data-count aria-live="polite">{{ items|length }} pattern{{ 's' if items|length != 1 }}</p>
+    <div class="grid" data-grid>{% for p in items %}{{ card(p, u) }}{% endfor %}</div>
+    <p class="empty" data-empty hidden>No patterns match that search. Try a shorter word, like "maxi" or "linen", or <a href="{{ u('patterns/') }}">see every pattern</a>.</p>
+  </div>
+</section>
+{% if js %}<script type="application/json" id="catalog">{{ js | tojson }}</script>{% endif %}
+{% endblock %}

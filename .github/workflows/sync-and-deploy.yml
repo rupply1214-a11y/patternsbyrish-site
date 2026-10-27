@@ -1,0 +1,52 @@
+name: Sync from Etsy and publish website
+
+on:
+  schedule:
+    - cron: "17 */4 * * *"   # every 4 hours
+  workflow_dispatch:          # "Run workflow" button for an instant update
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Read listings from Etsy (read only)
+        env:
+          ETSY_API_KEY: ${{ secrets.ETSY_API_KEY }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+        run: python sync_etsy.py
+      - name: Build website
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: python build.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pinterest-pins
+          path: dist/tools/pinterest-pins.csv
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

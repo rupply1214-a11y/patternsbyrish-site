@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ cfg.brand }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ cfg.tagline }}. Printable PDF patterns with instant download, sold on Etsy.{% endblock %}">
+{% if canon() %}<link rel="canonical" href="{{ canon() }}">{% endif %}
+<meta property="og:site_name" content="{{ cfg.brand }}">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ self.description() }}">
+{% if canon() %}<meta property="og:url" content="{{ canon() }}">{% endif %}
+{% block og %}<meta property="og:type" content="website">{% endblock %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FAF7FD">
+<link rel="alternate" type="application/rss+xml" title="New patterns" href="{{ u('feed.xml') }}">
+<link rel="icon" href="{{ u('static/favicon.svg') }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ u('static/style.css') }}">
+{% block schema %}{% endblock %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="logo" href="{{ u('') }}" aria-label="{{ cfg.brand }} home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M8 26 C14 14, 26 30, 32 14"/><circle cx="32" cy="14" r="2.6"/></svg>
+      <span>Patterns by Rish</span>
+    </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav" aria-label="Main">
+      <a href="{{ u('patterns/') }}" {% if path == 'patterns/' %}aria-current="page"{% endif %}>All patterns</a>
+      {% for c in cats if c.slug in ['dresses','tops','bottoms','plus-size'] %}
+      <a href="{{ u('category/' ~ c.slug ~ '/') }}" {% if path == 'category/' ~ c.slug ~ '/' %}aria-current="page"{% endif %}>{{ c.name }}</a>
+      {% endfor %}
+      <a href="{{ u('how-it-works/') }}" {% if path == 'how-it-works/' %}aria-current="page"{% endif %}>How it works</a>
+      <a class="btn btn-small" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Shop on Etsy</a>
+    </nav>
+  </div>
+</header>
+{% if sample %}<p class="sample-note">Preview with sample data. Photos and full details appear once the site is connected to your Etsy API key.</p>{% endif %}
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <p class="foot-brand">Patterns by Rish</p>
+      <p>{{ shop.title or cfg.tagline }}. Every pattern is sold and delivered through our Etsy shop, so checkout and downloads stay safe and familiar.</p>
+    </div>
+    <div>
+      <p class="foot-h">Patterns</p>
+      <ul>{% for c in cats %}<li><a href="{{ u('category/' ~ c.slug ~ '/') }}">{{ c.name }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <p class="foot-h">Help</p>
+      <ul>
+        <li><a href="{{ u('how-it-works/') }}">How PDF patterns work</a></li>
+        <li><a href="{{ u('how-it-works/') }}#faq">Questions</a></li>
+        <li><a href="{{ u('about/') }}">About us</a></li>
+        <li><a href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Our Etsy shop</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="wrap fine">© {{ year }} Patterns by Rish. The term "Etsy" is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
+</footer>
+<script src="{{ u('static/app.js') }}" defer></script>
+</body>
+</html>

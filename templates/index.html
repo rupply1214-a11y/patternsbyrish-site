@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card, garment %}
+{% block title %}PDF Sewing Patterns for Dresses, Tops & Plus Size | Patterns by Rish{% endblock %}
+{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts and jumpsuits, many in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@graph": [
+  {"@type": "Organization", "name": cfg.brand, "url": canon('') or none, "sameAs": [shop.url or ("https://www.etsy.com/shop/" ~ cfg.etsy_shop_name)]},
+  {"@type": "WebSite", "name": cfg.brand, "url": canon('') or none}
+]} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <h1>Sewing patterns you can print tonight.</h1>
+      <p class="lede">PDF patterns for linen dresses, easy tops, skirts and jumpsuits. Most are graded from XS to 5XL. Buy on Etsy, download in seconds, print at home.</p>
+      <div class="hero-cta">
+        <a class="btn" href="{{ u('patterns/') }}">Browse {{ products|length }} patterns</a>
+        <a class="btn btn-ghost" href="{{ u('how-it-works/') }}">How PDF patterns work</a>
+      </div>
+      {% if stats.sold or stats.reviews %}
+      <ul class="proof" aria-label="Shop record on Etsy">
+        {% if stats.sold %}<li><strong>{{ stats.sold }}</strong> patterns sold on Etsy</li>{% endif %}
+        {% if cfg.show_rating and stats.rating %}<li><strong>{{ '%.1f'|format(stats.rating) }} ★</strong> from {{ stats.reviews }} reviews</li>{% endif %}
+        <li><strong>Instant</strong> download</li>
+      </ul>
+      {% endif %}
+    </div>
+    <figure class="sheet" aria-label="A multi-size dress pattern piece, with one cutting line for each size from XS to 5XL">
+      <svg class="sheet-svg" viewBox="0 0 330 480" role="img" aria-hidden="true">
+        <g class="marks">
+          <path class="fold" d="M40 40 L40 470"/>
+          <text class="mark-text" transform="translate(30 330) rotate(-90)">place on fold</text>
+          <path class="grain" d="M90 140 L90 270 M84 150 L90 140 L96 150 M84 260 L90 270 M96 260 L90 270"/>
+          <text class="mark-text big" x="72" y="300">Front</text>
+          <text class="mark-text" x="72" y="320">cut 1 on fold</text>
+        </g>
+        {% for l in hero %}
+        <path class="size-line" data-size="{{ l.size }}" d="{{ l.d }}" pathLength="1" style="--c: {{ l.color }}; --i: {{ l.i }}"/>
+        {% endfor %}
+      </svg>
+      <figcaption>
+        <span class="cap">One pattern, every size:</span>
+        <span class="chips">{% for l in hero %}<button type="button" class="chip" data-size="{{ l.size }}" style="--c: {{ l.color }}">{{ l.size }}</button>{% endfor %}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>Shop by what you want to sew</h2>
+    </div>
+    <ul class="cats">
+      {% for c in cats %}
+      <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="cat">
+        <span class="cat-art">{{ garment(c.kind) }}</span>
+        <span class="cat-name">{{ c.name }}</span>
+        <span class="cat-count">{{ c.count }} pattern{{ 's' if c.count != 1 }}</span>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>New in the shop</h2>
+      <a class="more" href="{{ u('patterns/') }}">See all patterns</a>
+    </div>
+    <div class="grid">{% for p in newest %}{{ card(p, u) }}{% endfor %}</div>
+  </div>
+</section>
+
+<section class="band steps-band">
+  <div class="wrap">
+    <h2>From Etsy checkout to sewing machine</h2>
+    <ol class="steps">
+      <li><h3>Buy on Etsy</h3><p>Every pattern links to our Etsy shop. You pay there, through Etsy's secure checkout.</p></li>
+      <li><h3>Download the PDF</h3><p>Your files appear straight away under Purchases on Etsy. Nothing is posted, so there's no shipping wait from any country.</p></li>
+      <li><h3>Print, tape and cut</h3><p>Print at home, tape the pages together and cut your size. Then follow the instructions step by step.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap included">
+    <div>
+      <h2>What comes with every pattern</h2>
+      <ul class="ticks">{% for i in cfg.included %}<li>{{ i }}</li>{% endfor %}</ul>
+      <a class="btn btn-ghost" href="{{ u('how-it-works/') }}">Printing and sizing help</a>
+    </div>
+    {% if featured_plus %}
+    <div>
+      <h2 class="h-sub">Drafted for plus size too</h2>
+      <div class="grid grid-2">{% for p in featured_plus %}{{ card(p, u) }}{% endfor %}</div>
+      <a class="more" href="{{ u('category/plus-size/') }}">All plus size patterns</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if bundles %}
+<section class="band bundles-band">
+  <div class="wrap">
+    <div class="head-row">
+      <h2>Save with a bundle</h2>
+      <a class="more" href="{{ u('category/bundles/') }}">All bundles</a>
+    </div>
+    <div class="grid grid-3">{% for p in bundles %}{{ card(p, u) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

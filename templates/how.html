@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}How PDF Sewing Patterns Work: Buy, Print, Sew | Patterns by Rish{% endblock %}
+{% block description %}New to PDF sewing patterns? How to download from Etsy, print at the right scale, tape the pages and choose your size.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for q, a in faqs %}{"@type": "Question", "name": {{ q|tojson }}, "acceptedAnswer": {"@type": "Answer", "text": {{ a|tojson }}}}{{ ", " if not loop.last }}{% endfor %}]}
+</script>
+{% endblock %}
+{% block main %}
+<section class="page-head">
+  <div class="wrap narrow">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">How it works</span></nav>
+    <h1>How PDF sewing patterns work</h1>
+    <p class="lede">A PDF pattern is the same pattern you'd buy in an envelope, delivered as a file. You print it, tape the pages together and cut out your size.</p>
+  </div>
+</section>
+<section class="band band-tight">
+  <div class="wrap narrow prose">
+    <ol class="steps steps-long">
+      <li><h2>Buy the pattern on Etsy</h2><p>Each pattern on this site has a Buy on Etsy button. Checkout happens on Etsy, so you can use the payment method and account you already have.</p></li>
+      <li><h2>Download your files</h2><p>The download button appears on your order straight away. Save the files to your computer, or to your phone if you'll print from there.</p></li>
+      <li><h2>Print at actual size</h2><p>Open the PDF in a free reader such as Adobe Acrobat Reader. In the print settings choose 100 percent or actual size. Fit to page shrinks the pattern and changes the fit.</p></li>
+      <li><h2>Tape the pages together</h2><p>Trim one edge of each page, line up the marks, and tape. Work row by row. It usually takes 15 to 30 minutes, with a podcast on.</p></li>
+      <li><h2>Cut your size and sew</h2><p>Each size has its own line. Follow yours, or trace it onto tracing paper so you can make other sizes later. Then follow the instructions step by step.</p></li>
+    </ol>
+    <h2 id="faq" class="faq-h">Questions</h2>
+    <div class="faq">
+      {% for q, a in faqs %}
+      <details><summary>{{ q }}</summary><p>{{ a }}</p></details>
+      {% endfor %}
+    </div>
+    <p><a class="btn" href="{{ u('patterns/') }}">Browse patterns</a></p>
+  </div>
+</section>
+{% endblock %}
