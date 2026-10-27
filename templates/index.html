@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, tool, img, heading %}
-{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish<script src="{{ u('static/film.js') }}" defer></script>
-{% endblock %}
-{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.<script src="{{ u('static/film.js') }}" defer></script>
-{% endblock %}
+{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish{% endblock %}
+{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
@@ -12,7 +10,6 @@
    "potentialAction": {"@type": "SearchAction", "target": (canon('patterns/') or '') ~ "?q={search_term_string}", "query-input": "required name=search_term_string"}}
 ]} | tojson }}
 </script>
-<script src="{{ u('static/film.js') }}" defer></script>
 {% endblock %}
 {% block main %}
 
