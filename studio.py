@@ -77,12 +77,18 @@ SCENES = [
          text="Each Patterns by Rish style begins as a sketch and a stack of fabric swatches, long before it becomes a pattern."),
     dict(key="grade", title="Drafted, then graded size by size", dur=6600,
          text="The sketch becomes a pattern, drafted by hand and graded across its size range so the fit carries through every size."),
+    dict(key="download", title="Yours in seconds", dur=6400,
+         text="Buy on Etsy and the PDF files are yours straight away. No shipping and no waiting, wherever you live."),
+    dict(key="measure", title="Measure, then pick your size", dur=6400,
+         text="A soft tape around your bust, waist and hips, checked against the size chart in the pattern, tells you which size to cut."),
     dict(key="print", title="Printed on your own printer", dur=6600,
-         text="Patterns arrive as PDF files. Print them at home or at a copy shop, tape the pages together and the full pieces appear."),
+         text="Print the PDF at home or at a copy shop, tape the pages together and the full pieces appear."),
     dict(key="cut", title="Cut from the fabric you love", dur=7200,
          text="Pin the paper pieces to your fabric and cut around them. This is where your dress starts to take shape."),
     dict(key="sew", title="Sewn one step at a time", dur=7000,
-         text="Every pattern comes with an illustrated booklet that walks you through the sewing, step by step."),
+         text="Every pattern comes with step-by-step PDF instructions, with drawings that walk you through the sewing."),
+    dict(key="press", title="Pressed as you go", dur=6400,
+         text="A quick press after each seam is the secret to a garment that looks shop-bought rather than home-made."),
     dict(key="wear", title="And then it's yours", dur=7200,
          text="The moment you wear something you made yourself is what we design every pattern for."),
 ]
@@ -91,5 +97,5 @@ SCENES = [
 def data():
     return dict(sketch=flat(600, top=148, hw=128, hem=400), grade=size_lines(), tiles=tiles(),
                 swatches=[dict(x=x, y=y, r=r, fab=f, d=pinking(x, y, 112, 112)) for x, y, r, f in SWATCHES],
-                cut=CUT_PIECE, finished=flat(600, top=136, hw=150, hem=430),
+                cut=CUT_PIECE, wrinkles=[dict(x=x, d=f"M{x} 404 q8 -6 16 0 t16 0 t16 0", at=round(0.5 + (840 - x) / 520 * 4, 2)) for x in range(360, 800, 70)], finished=flat(600, top=136, hw=150, hem=430),
                 scenes=SCENES, total=sum(s["dur"] for s in SCENES))

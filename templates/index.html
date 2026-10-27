@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card, tool, img, heading %}
+{% from "_macros.html" import card, tool, img, heading, catswatch, garment %}
 {% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish{% endblock %}
 {% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
 {% block schema %}
@@ -88,13 +88,30 @@
     <ul class="swatches">
       {% for c in cats %}
       <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="swatch-link">
-        <span class="swatch tint-{{ c.tint }}">{% if c.photos %}<img src="{{ c.photos[0].medium or c.photos[0].full }}" alt="" loading="lazy">{% endif %}</span>
+        {{ catswatch(c) }}
         <span class="swatch-name">{{ c.name }}</span><span class="swatch-count">{{ c.count }} pattern{{ 's' if c.count != 1 }}</span>
       </a></li>
       {% endfor %}
     </ul>
   </div>
 </section>
+
+{# ---------- sewing worlds ---------- #}
+{% if worlds_nav %}
+<section class="band band-paper">
+  <div class="wrap">
+    <div class="head-row">{{ heading("Choose your sewing world") }}<a class="more" href="{{ u('worlds/') }}">All {{ worlds_nav|length }} worlds</a></div>
+    <ul class="home-worlds">
+      {% for w in worlds_nav %}
+      <li><a class="world tint-{{ w.tint }}" href="{{ u('worlds/' ~ w.slug ~ '/') }}" style="--tilt: 0deg">
+        <span class="world-art" aria-hidden="true"><span class="world-disc"><span class="swatch-stitch"></span>{{ garment(w.icon) }}</span>{% for pr in w.props %}{{ tool(pr, "world-prop wp" ~ loop.index) }}{% endfor %}</span>
+        <span class="world-copy"><span class="world-count">{{ w.count }} patterns</span><span class="world-name">{{ w.name }}</span><span class="world-line">{{ w.line }}</span></span>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
 
 {# ---------- newest ---------- #}
 <section class="band band-paper">
@@ -161,7 +178,7 @@
       <li class="kit-item">{{ tool(key) }}<h3>{{ name }}</h3><p>{{ text }}</p></li>
       {% endfor %}
     </ul>
-    {% for b in posts if 'tools' in b.slug %}{% if loop.first %}<a class="btn btn-light" href="{{ u('blog/' ~ b.slug ~ '/') }}">Read the beginner's kit guide</a>{% endif %}{% endfor %}
+    {% for b in posts if 'tools' in b.slug %}{% if loop.first %}<a class="btn btn-light" href="{{ u('journal/' ~ b.slug ~ '/') }}">Read the beginner's kit guide</a>{% endif %}{% endfor %}
   </div>
 </section>
 
@@ -172,7 +189,7 @@
     <ol class="steps">
       <li><span class="step-n">1</span>{{ tool("button") }}<h3>Buy on Etsy</h3><p>Every pattern links to our Etsy shop. You pay there, through Etsy's secure checkout, in your own currency.</p></li>
       <li><span class="step-n">2</span>{{ tool("paper") }}<h3>Download the files</h3><p>The download appears on your order straight away. Nothing is posted, so there's no shipping wait from any country.</p></li>
-      <li><span class="step-n">3</span>{{ tool("scissors") }}<h3>Print, tape and cut</h3><p>Print at actual size, tape the pages, cut your size and follow the step-by-step booklet.</p></li>
+      <li><span class="step-n">3</span>{{ tool("scissors") }}<h3>Print, tape and cut</h3><p>Print at actual size, tape the pages, cut your size and follow the step-by-step PDF instructions.</p></li>
     </ol>
   </div>
 </section>
@@ -181,10 +198,10 @@
 {% if posts %}
 <section class="band band-paper">
   <div class="wrap">
-    <div class="head-row">{{ heading("From the sewing blog") }}<a class="more" href="{{ u('blog/') }}">All guides</a></div>
+    <div class="head-row">{{ heading("From the Stitch Journal") }}<a class="more" href="{{ u('journal/') }}">All stories</a></div>
     <div class="post-grid">
       {% for b in posts[:3] %}
-      <a class="post-card" href="{{ u('blog/' ~ b.slug ~ '/') }}">
+      <a class="post-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
         <span class="post-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ b.tag }}</span></span>
         <span class="post-title">{{ b.title }}</span>
         <span class="post-desc">{{ b.description }}</span>

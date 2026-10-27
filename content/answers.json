@@ -1,0 +1,66 @@
+[
+  {"slug": "buying", "name": "Buying & downloading", "icon": "button", "tint": "butter", "qs": [
+    ["Where do I buy a pattern?", "Every pattern on this site links to our Etsy shop. Click Buy on Etsy, check out there, and the files are yours straight away."],
+    ["How do I download my pattern after buying?", "On Etsy go to You, then Purchases and reviews, and click Download files next to your order. The download is also linked on the order confirmation page and in the email Etsy sends you."],
+    ["Can I download on my phone?", "Yes, the Etsy app shows your purchases too. Most people find it easier to download on a computer, because printing and opening zip files is simpler there."],
+    ["I can't open the zip file. What now?", "Most of our listings include a PDF with a direct Google Drive link to the same files, so you can get them without unzipping. If you still get stuck, message us through Etsy and we'll help."],
+    ["Will anything be posted to me?", "No. Our patterns are digital PDFs only, so nothing is shipped. That also means no postage costs and no customs waits, wherever you live."],
+    ["Can I pay in my own currency?", "Etsy shows prices in your local currency and accepts cards and PayPal in most countries. Prices on this website are shown in US dollars."],
+    ["Do you offer refunds?", "Because digital files download instantly, they can't be returned. If a file won't open or something looks wrong, message us through Etsy and we'll sort it out with you."],
+    ["Why does the price change from day to day?", "We often run sales on Etsy. This website shows the same sale price and how long it lasts, and switches back to the normal price when the sale ends."]
+  ]},
+  {"slug": "printing", "name": "Printing your pattern", "icon": "paper", "tint": "sky", "qs": [
+    ["Which file should I print?", "Pick the file that matches your paper: A4 for most of the world, US Letter in the US and Canada. The A0 file is for copy shops and prints the whole pattern on large sheets."],
+    ["What printer settings do I need?", "Print at 100% or Actual size. Turn off Fit to page, Shrink oversized pages and any scaling option. Colour or black and white both work."],
+    ["What is the test square for?", "It checks your printer scale before you print every page. Print that page first and measure the square with a ruler. If it matches the size printed beside it, print the rest."],
+    ["My test square is the wrong size. What went wrong?", "Usually a scaling setting. Open the PDF in a free reader like Adobe Acrobat Reader rather than a web browser, choose Actual size or 100%, and print the test page again."],
+    ["How do I put the pages together?", "Lay the pages out in order using the page numbers, trim or fold one edge of each page, line up the marks so the pattern lines run straight across, and tape row by row."],
+    ["Can I print at a copy shop?", "Yes. Send the A0 file and ask for it printed at 100%, black and white, on plain paper. You get the whole pattern on a few large sheets and skip the taping."],
+    ["Can I use a projector instead of printing?", "Some sewists project patterns straight onto fabric. If a pattern doesn't include a projector file, printing is the way to go. Check the listing for the formats included."]
+  ]},
+  {"slug": "fit", "name": "Sizes & fit", "icon": "tape", "tint": "blush", "qs": [
+    ["How do I choose my size?", "Measure your bust, waist and hips with a soft tape and compare them with the size chart in the pattern, not with your shop size. Sewing pattern sizes run differently from ready-to-wear."],
+    ["How do I measure myself?", "Wear thin clothes and keep the tape level and snug. Bust: around the fullest part. Waist: your natural waist, the narrowest point. Hips: around the fullest part of your bottom."],
+    ["What if I'm between sizes?", "You can blend: start on one size line and draw a smooth curve across to the other where your measurements change. For a first try, cut the larger size and take in the side seams."],
+    ["Which measurement matters most?", "For dresses and tops, choose by bust, since shoulders and bust are hardest to alter. For skirts and trousers, choose by hip, then adjust the waist."],
+    ["What is ease?", "Ease is the difference between your body measurement and the finished garment. A fitted dress has little ease, a relaxed linen dress has a lot. Finished measurements in the pattern show you how much."],
+    ["Should I make a test version first?", "For fitted styles or expensive fabric, yes. Sew a quick version in cheap fabric (sewists call it a toile or muslin), adjust the fit, then copy the changes to your paper pattern."],
+    ["How do I shorten or lengthen a pattern?", "Use the lengthen and shorten lines if the pattern has them. Cut along the line and spread or overlap the pieces evenly, then smooth the side seams. Otherwise, adjust the hem length."],
+    ["Do you make plus size patterns?", "Yes. Many of our patterns are graded up to 5XL and we have plus size styles drafted with room through the bust, waist and hips. See the Curvy & Confident world."]
+  ]},
+  {"slug": "before", "name": "Before you sew", "icon": "scissors", "tint": "mint", "qs": [
+    ["Do I need to wash fabric first?", "Yes, for most fabrics. Linen, cotton and viscose can shrink the first time they're washed. Wash and dry your fabric the way you'll wash the finished garment, then press it."],
+    ["What does grainline mean?", "The grainline arrow on each piece should run parallel to the fabric's selvedge (the finished side edges). Cutting on grain keeps the garment hanging straight."],
+    ["What does 'cut on fold' mean?", "Fold the fabric so the selvedges meet, and place the marked edge of the pattern piece right on the fold. When you open it out you get one symmetrical piece."],
+    ["What are notches and why mark them?", "Notches are small marks on the edges of pattern pieces. They show which edges join and where they line up. Snip a tiny cut or mark them with chalk so seams match."],
+    ["How much fabric do I need?", "Each pattern lists fabric requirements for every size. Buy a little extra if your fabric might shrink or has checks or stripes to match."],
+    ["Should I pin or use weights?", "Either works. Pins are easy on most fabrics; pattern weights (or tins from the kitchen) are better for slippery or delicate fabric that pins might mark."],
+    ["Do I trace my size or cut it out?", "Cutting your size is fastest. Tracing onto tracing or dot paper keeps the other sizes, which is handy if you sew for others or your size changes."]
+  ]},
+  {"slug": "techniques", "name": "Sewing techniques", "icon": "needle", "tint": "lilac", "qs": [
+    ["What is seam allowance?", "It's the distance between the stitching line and the raw edge of the fabric. Our patterns include seam allowance; check the instructions for the width used in each pattern."],
+    ["What is staystitching?", "A line of stitching just inside the seam line on curved edges like necklines, sewn before construction to stop them stretching out of shape."],
+    ["What is understitching?", "Stitching the seam allowance to the facing or lining close to the seam. It helps facings roll to the inside so they don't peek out."],
+    ["Why clip curves?", "Small cuts into the seam allowance on curves let the fabric spread or overlap when turned, so curved seams like necklines lie flat."],
+    ["How do I finish seams without an overlocker?", "Use a zigzag stitch along the raw edge, French seams for light fabrics, pinking shears for stable cottons, or a bias binding for an extra neat finish."],
+    ["How do I sew an invisible zipper?", "Press the zipper coils flat, sew each side close to the coils with an invisible zipper foot before closing the seam below, then stitch the seam from the zipper end down. Baste first if you're new to it."],
+    ["How do I gather fabric?", "Sew two parallel rows of long stitches inside the seam allowance, leaving thread tails. Pull the bobbin threads gently to gather, spread the gathers evenly, then sew."],
+    ["What is the burrito method?", "A way to finish armholes or a yoke with clean edges by rolling the garment body up inside the facing, sewing, then pulling everything out through an opening. Follow the drawings in the pattern instructions."],
+    ["Why press as I sew?", "Pressing each seam before crossing it with another makes the biggest difference between home-made and hand-made. Press, don't drag the iron."]
+  ]},
+  {"slug": "tools", "name": "Machines, needles & thread", "icon": "spool", "tint": "butter", "qs": [
+    ["Do I need an expensive sewing machine?", "No. A basic machine with straight stitch and zigzag sews all of our woven and knit patterns."],
+    ["Which needle should I use?", "Universal 80/12 for most woven cottons and linens, microtex for fine or slippery fabrics, ballpoint or stretch for knits, and denim or jeans needles for heavy fabric."],
+    ["How often should I change my needle?", "A common rule is after every project or about every eight hours of sewing, and straight away if you hear a thump, see skipped stitches or snag the fabric."],
+    ["Which thread is best?", "A good all-purpose polyester thread suits most fabrics. Use a colour slightly darker than your fabric if you can't match it exactly."],
+    ["Do I need an overlocker (serger)?", "It's nice to have, not essential. It trims and finishes seams in one go, but zigzag stitch or French seams on a regular machine work too."],
+    ["What other tools help most?", "Sharp fabric scissors, a soft tape measure, pins or clips, a seam ripper, chalk or a fabric marker, clear tape for joining pages, and an iron."]
+  ]},
+  {"slug": "knits", "name": "Knits & stretch", "icon": "thread", "tint": "mint", "qs": [
+    ["Can I use knit fabric for a woven pattern?", "Usually not the other way round, but a woven pattern sewn in a stable knit can come out looser. Patterns drafted for knits are cut smaller and rely on stretch, so always use the fabric type the pattern lists."],
+    ["How do I check stretch percentage?", "Mark 10 cm on the fabric, stretch it gently across the width and measure. If 10 cm reaches 14 cm, that's 40% stretch. Compare it with the pattern's requirement."],
+    ["Which stitch do I use for knits?", "A narrow zigzag or your machine's stretch stitch, so seams can stretch with the fabric. A walking foot helps stop wavy seams."],
+    ["Why are my knit seams wavy?", "The fabric is being stretched as you sew. Lower the presser foot pressure if you can, use a walking foot, and let the machine feed the fabric without pulling."],
+    ["How do I hem knits?", "A twin needle gives a stretchy, professional-looking hem. A narrow zigzag works too. Knits don't fray, so you can turn the hem up just once."]
+  ]}
+]

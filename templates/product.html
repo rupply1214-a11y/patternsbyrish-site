@@ -83,7 +83,7 @@
           <div class="faq faq-small">{% for q, a in faqs[:4] %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</div>
         </div>
         {% if guide %}
-        <a class="side-card side-guide" href="{{ u('blog/' ~ guide.slug ~ '/') }}">
+        <a class="side-card side-guide" href="{{ u('journal/' ~ guide.slug ~ '/') }}">
           {{ tool("needle") }}<span class="guide-k">Sewing guide</span><b>{{ guide.title }}</b><span>{{ guide.minutes }} min read</span>
         </a>
         {% endif %}

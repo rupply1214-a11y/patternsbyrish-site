@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card, select, tool %}
+{% from "_macros.html" import card, select, tool, garment %}
 {% block title %}{{ heading }} (PDF){% if current %}, {{ items|length }} Designs{% endif %} | Patterns by Rish{% endblock %}
 {% block description %}{{ intro }} Printable PDF, instant download from Etsy.{% endblock %}
 {% block schema %}
@@ -16,6 +16,23 @@
 {% endblock %}
 {% block main %}
 {% set c = cat_by[current] if current else none %}
+{% if world is defined and world %}
+<section class="list-hero world-hero tint-{{ world.tint }}">
+  <div class="wrap list-hero-in">
+    <div class="list-hero-copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><a href="{{ u('worlds/') }}">Sewing worlds</a><span aria-hidden="true">/</span><span aria-current="page">{{ world.name }}</span></nav>
+      <p class="world-tag">a Patterns by Rish world</p>
+      <h1>{{ world.name }}</h1>
+      <p class="lede">{{ world.intro }}</p>
+      <p class="list-count"><span><b>{{ items|length }}</b> patterns</span>{% if sale %}<span class="list-sale sale-bit" data-sale-end="{{ sale.end }}">{{ sale.off }}% off on Etsy, <span data-countdown="{{ sale.end }}">limited time</span></span>{% endif %}</p>
+    </div>
+    <div class="list-hero-art world-art big" aria-hidden="true">
+      <span class="world-disc"><span class="swatch-stitch"></span>{{ garment(world.icon) }}</span>
+      {% for pr in world.props %}{{ tool(pr, "world-prop wp" ~ loop.index) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
 <section class="list-hero{{ (' tint-' ~ c.tint) if c else ' tint-lilac' }}">
   <div class="wrap list-hero-in">
     <div class="list-hero-copy">
@@ -30,6 +47,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <section class="band band-tight">
   <div class="wrap">
@@ -58,13 +76,21 @@
   </div>
 </section>
 
+{% if world is defined and world %}
+<section class="band band-paper">
+  <div class="wrap">
+    <h2 class="stitch-h"><span>Wander into another world</span></h2>
+    <ul class="world-chips">{% for w in worlds_nav if w.slug != world.slug %}<li><a class="tint-{{ w.tint }}" href="{{ u('worlds/' ~ w.slug ~ '/') }}">{{ w.name }} <small>{{ w.count }}</small></a></li>{% endfor %}</ul>
+  </div>
+</section>
+{% endif %}
 {% if current and posts %}
 {% for b in posts if b.category == current %}{% if loop.first %}
 <section class="band band-paper">
   <div class="wrap guide-teaser">
     {{ tool("needle") }}
     <div><p class="guide-k">Before you cut</p><h2>{{ b.title }}</h2><p>{{ b.description }}</p></div>
-    <a class="btn" href="{{ u('blog/' ~ b.slug ~ '/') }}">Read the guide</a>
+    <a class="btn" href="{{ u('journal/' ~ b.slug ~ '/') }}">Read the guide</a>
   </div>
 </section>
 {% endif %}{% endfor %}

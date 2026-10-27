@@ -223,6 +223,38 @@
     run();
   }
 
+  /* ---------- sewing answers search ---------- */
+  const aq = $("[data-ans-q]");
+  if (aq) {
+    const items = $$("[data-ans]"), secs = $$("[data-ans-sec]"), cnt = $("[data-ans-count]"), none = $("[data-ans-empty]");
+    const orig = new Map(items.map((d) => [d, d.innerHTML]));
+    const run = () => {
+      const words = aq.value.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
+      let shown = 0;
+      items.forEach((d) => {
+        d.innerHTML = orig.get(d);
+        const hit = !words.length || words.every((w) => d.textContent.toLowerCase().includes(w));
+        d.hidden = !hit; if (hit) shown++;
+        if (hit && words.length) {
+          d.open = true;
+          $$("summary, p", d).forEach((el) => { words.forEach((w) => { el.innerHTML = el.innerHTML.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")(?![^<]*>)", "gi"), "<mark>$1</mark>"); }); });
+        } else if (!words.length) d.open = false;
+      });
+      secs.forEach((s) => (s.hidden = !$$("[data-ans]:not([hidden])", s).length));
+      cnt.textContent = words.length ? `${shown} answer${shown === 1 ? "" : "s"} found` : "";
+      none.hidden = shown > 0;
+    };
+    aq.addEventListener("input", run);
+    const q0 = new URLSearchParams(location.search).get("q"); if (q0) { aq.value = q0; run(); }
+  }
+
+  /* ---------- fabric library filter ---------- */
+  const fams = $$("[data-fam]").filter((b) => b.tagName === "BUTTON");
+  fams.forEach((b) => b.addEventListener("click", () => {
+    fams.forEach((x) => x.setAttribute("aria-pressed", x === b));
+    $$(".fab-card").forEach((c) => (c.hidden = !!b.dataset.fam && c.dataset.fam !== b.dataset.fam));
+  }));
+
   /* ---------- product gallery ---------- */
   const gal = $("[data-gallery]");
   if (gal) {

@@ -28,4 +28,4 @@ You don't need a room full of gadgets to sew from a PDF pattern. Here's the shor
 
 ## A good first project
 
-Pick a pattern with few pieces and no closures, in a stable woven fabric like medium linen or cotton. A gathered or A-line skirt, a boat neck top or a simple tea dress are all good first makes. Read the instruction booklet from start to finish before you cut, so you know where you're going.
+Pick a pattern with few pieces and no closures, in a stable woven fabric like medium linen or cotton. A gathered or A-line skirt, a boat neck top or a simple tea dress are all good first makes. Read the PDF instructions from start to finish before you cut, so you know where you're going.

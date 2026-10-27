@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool %}
+{% block title %}Fabric Library: Which Fabric to Use for Your Sewing Pattern | Patterns by Rish{% endblock %}
+{% block description %}A friendly fabric guide for sewists: linen, cotton, viscose, crepe, satin, denim, jersey, rib knit and more, with weight, stretch, drape, best uses, needles and care.{% endblock %}
+{% block main %}
+<section class="fab-hero">
+  <div class="wrap fab-hero-in">
+    <div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Fabric library</span></nav>
+      <p class="world-tag">touch, drape, sew</p>
+      <h1>The fabric library</h1>
+      <p class="lede">Choosing fabric is half the fun and half the worry. Here's what each one feels like, how it moves, what it loves to become and how to sew it.</p>
+      <div class="fab-filters" role="group" aria-label="Filter fabrics">
+        <button type="button" class="pill" aria-pressed="true" data-fam="">All fabrics</button>
+        <button type="button" class="pill" aria-pressed="false" data-fam="woven">Woven</button>
+        <button type="button" class="pill" aria-pressed="false" data-fam="knit">Knit</button>
+      </div>
+    </div>
+    <div class="fab-stack" aria-hidden="true">
+      {% for f in fabrics[:5] %}<span class="fab-sw" style="background: {{ f.swatch }}; --r: {{ [-14, -5, 4, 12, -9][loop.index0] }}deg; --x: {{ loop.index0 * 15 }}%"></span>{% endfor %}
+    </div>
+  </div>
+</section>
+<section class="band band-tight">
+  <div class="wrap">
+    <div class="fab-legend"><span><b>Drape</b> how fluidly it hangs</span><span><b>Stretch</b> how much it gives</span><span><b>Breathes</b> how cool it wears</span></div>
+    <ul class="fab-grid">
+      {% for f in fabrics %}
+      <li class="fab-card" data-fam="{{ f.family }}" id="{{ f.slug }}">
+        <span class="fab-swatch" style="background: {{ f.swatch }}"><span class="fab-fam">{{ f.family }}</span></span>
+        <div class="fab-body">
+          <h2>{{ f.name }}</h2>
+          <p class="fab-feel">{{ f.feel }}</p>
+          <dl class="fab-meters">
+            {% for label, v in [('Drape', f.drape), ('Stretch', f.stretch), ('Breathes', f.breath)] %}
+            <div><dt>{{ label }}</dt><dd><span class="meter" aria-label="{{ v }} out of 3">{% for i in range(3) %}<i class="{{ 'on' if i < v }}"></i>{% endfor %}</span></dd></div>
+            {% endfor %}
+          </dl>
+          <p class="fab-weight">{{ f.weight }}</p>
+          <ul class="fab-best">{% for b in f.best %}<li>{{ b }}</li>{% endfor %}</ul>
+          <details class="fab-more">
+            <summary>How to sew it</summary>
+            <ul class="fab-tips">{% for t in f.tips %}<li>{{ t }}</li>{% endfor %}</ul>
+            <p><b>Needle</b> {{ f.needle }}</p>
+            <p><b>Care</b> {{ f.care }}</p>
+          </details>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="fab-note">Weights and care are typical ranges. Always check the label on the fabric you buy and the fabric suggestions in your pattern.</p>
+  </div>
+</section>
+<section class="band band-paper">
+  <div class="wrap ans-more">
+    <a class="j-help-card light" href="{{ u('answers/') }}#knits">{{ tool("thread") }}<b>Sewing with knits</b><span>Stretch stitches, wavy seams and stretchy hems.</span></a>
+    <a class="j-help-card light" href="{{ u('worlds/linen-days/') }}">{{ tool("fabric") }}<b>Got linen?</b><span>See every pattern in the Linen Days world.</span></a>
+    <a class="j-help-card light" href="{{ u('journal/') }}">{{ tool("needle") }}<b>The Stitch Journal</b><span>Longer guides on fabric, fit and printing.</span></a>
+  </div>
+</section>
+{% endblock %}

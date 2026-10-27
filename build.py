@@ -193,12 +193,28 @@ by_cat = {c: [p for p in products if c in p["cats"]] for c in CATS}
 for c in by_cat:  # featured patterns lead their categories
     by_cat[c].sort(key=lambda p: (p not in featured,))
 cat_text = CONTENT.get("category_text") or {}
-cat_list = [dict(slug=c, name=CATS[c][0], intro=cat_text.get(c) or CATS[c][1], tint=CATS[c][2], count=len(by_cat[c]),
+CAT_ICON = {"dresses": "dress", "tops": "top", "bottoms": "skirt", "jumpsuits": "jumpsuit", "plus-size": "curvy", "mens": "shirt",
+            "hoodies": "hoodie", "kids": "kids", "bundles": "bundle"}
+cat_list = [dict(slug=c, icon=CAT_ICON.get(c, "dress"), name=CATS[c][0], intro=cat_text.get(c) or CATS[c][1], tint=CATS[c][2], count=len(by_cat[c]),
                  kind=next((p["kind"] for p in by_cat[c] if p["kind"] != "bundle"), "bundle" if c == "bundles" else "dress"),
                  photos=[p["images"][0] for p in by_cat[c] if p["images"]][:4])
             for c in CATS if by_cat[c]]
 cat_by = {c["slug"]: c for c in cat_list}
 shop = DATA.get("shop") or {}
+
+# ---------- sewing worlds: patterns grouped by vibe, not by Etsy section ----------
+WORLDS = []
+for w in load("content/worlds.json", []):
+    keys = [k.lower() for k in w["match"]]
+    items = [p for p in products if any(k in (" " + p["title"].lower() + " " + " ".join(p["tags"]).lower() + " ") for k in keys)]
+    if w["slug"] == "for-him":
+        items = [p for p in products if "mens" in p["cats"]]
+    if w["slug"] == "curvy-confident":
+        items = [p for p in products if "plus-size" in p["cats"]]
+    if w["slug"] == "bundle-deals":
+        items = [p for p in products if "bundles" in p["cats"]]
+    if len(items) >= 3:
+        WORLDS.append(dict(w, items=items, count=len(items), photos=[p["images"][0] for p in items if p["images"]][:3]))
 
 
 def resolve_slides():
@@ -298,10 +314,18 @@ def render(path, template, **ctx):
         return (SITE_URL + "/" + target) if SITE_URL else ""
 
     out = env.get_template(template).render(u=u, canon=canon, path=path, cfg=CFG, shop=shop, cats=cat_list, cat_by=cat_by, catmap=CATS,
-                                            content=CONTENT, sale=SALE_INFO, year=datetime.now().year, sample=DATA.get("sample"), posts=posts, **ctx)
+                                            content=CONTENT, sale=SALE_INFO, worlds_nav=WORLDS, year=datetime.now().year, sample=DATA.get("sample"), posts=posts, **ctx)
     dest = os.path.join(DIST, path, "index.html") if not path.endswith(".html") else os.path.join(DIST, path)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     open(dest, "w", encoding="utf-8").write(out)
+
+
+def redirect(path, target):
+    to = (SITE_URL + "/" + target) if SITE_URL else ("../" * path.count("/") + target)
+    dest = os.path.join(DIST, path, "index.html")
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    open(dest, "w").write(f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{to}">'
+                          f'<meta http-equiv="refresh" content="0; url={to}"><a href="{to}">This page has moved</a>')
 
 
 def main():
@@ -341,9 +365,18 @@ def main():
         related = [q for q in by_cat.get(p["cat"], []) if q["id"] != p["id"]][:8]
         guide = next((b for b in posts if b["category"] == p["cat"]), posts[0] if posts else None)
         render(f"pattern/{p['slug']}/", "product.html", p=p, related=related, guide=guide, faqs=FAQS)
-    render("blog/", "blog_index.html")
+    render("worlds/", "worlds.html", worlds=WORLDS)
+    for w in WORLDS:
+        render(f"worlds/{w['slug']}/", "list.html", items=w["items"], current=None, world=w, heading=w["name"], intro=w["intro"])
+    render("answers/", "answers.html", answers=load("content/answers.json", []))
+    render("fabrics/", "fabrics.html", fabrics=load("content/fabrics.json", []))
+    render("journal/", "journal.html")
     for b in posts:
-        render(f"blog/{b['slug']}/", "blog_post.html", b=b, more=[x for x in posts if x is not b][:3])
+        render(f"journal/{b['slug']}/", "journal_post.html", b=b, more=[x for x in posts if x is not b][:3])
+    # old blog addresses keep working
+    redirect("blog/", "journal/")
+    for b in posts:
+        redirect(f"blog/{b['slug']}/", f"journal/{b['slug']}/")
     render("studio/", "studio.html", st=studio.data(), stats=stats)
     render("how-it-works/", "how.html", faqs=FAQS)
     render("about/", "about.html", stats=stats)
@@ -352,8 +385,8 @@ def main():
     base = SITE_URL or ""
     open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
     if base:
-        urls = ["", "patterns/", "studio/", "blog/", "how-it-works/", "about/"] + [f"category/{c['slug']}/" for c in cat_list] + \
-               [f"pattern/{p['slug']}/" for p in products] + [f"blog/{b['slug']}/" for b in posts]
+        urls = ["", "patterns/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
+               [f"pattern/{p['slug']}/" for p in products] + [f"journal/{b['slug']}/" for b in posts]
         now = datetime.now(timezone.utc).date().isoformat()
         open(os.path.join(DIST, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
             "".join(f"<url><loc>{base}/{x}</loc><lastmod>{now}</lastmod></url>\n" for x in urls) + "</urlset>\n")

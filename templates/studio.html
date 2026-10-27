@@ -26,7 +26,7 @@
     <ul class="values">
       <li>{{ tool("tape") }}<h3>Drafted to fit</h3><p>Our patterns are graded across a wide size range, many from XS to 5XL, with plus size styles drafted in from the start.</p></li>
       <li>{{ tool("paper") }}<h3>Print it your way</h3><p>PDF files you print at home on A4 or US Letter, or send to a copy shop and skip the taping.</p></li>
-      <li>{{ tool("needle") }}<h3>Clear instructions</h3><p>Every pattern comes with an illustrated sewing booklet, written so you always know what comes next.</p></li>
+      <li>{{ tool("needle") }}<h3>Clear instructions</h3><p>Every pattern comes with step-by-step sewing instructions as a PDF, with drawings so you always know what comes next.</p></li>
       <li>{{ tool("spool") }}<h3>New designs, often</h3><p>Dresses, tops, skirts, menswear and kids, with new patterns added to the shop every week.</p></li>
     </ul>
   </div>
@@ -34,10 +34,10 @@
 
 <section class="band">
   <div class="wrap">
-    <h2 class="stitch-h"><span>A peek inside one of our booklets</span></h2>
-    <p class="lede">Each pattern has its own booklet. These pages are from our Boatneck Maxi Dress: the garment drawing, the printer test page, and two of its illustrated sewing steps.</p>
+    <h2 class="stitch-h"><span>A peek inside one of our instruction PDFs</span></h2>
+    <p class="lede">Each pattern has its own instructions. These pages are from the PDF for our Boatneck Maxi Dress: the garment drawing, the printer test page, and two of its illustrated sewing steps.</p>
     <div class="booklet">
-      {% for img, alt in [('booklet-cover.jpg', 'Boatneck Maxi Dress booklet, first page with front and back drawings'), ('calibration-page.jpg', 'Printer test page with a 4 by 4 inch square'), ('booklet-step.jpg', 'A sewing step with five drawings: attaching the pocket bags'), ('booklet-zipper.jpg', 'A sewing step with drawings: inserting an invisible zipper')] %}
+      {% for img, alt in [('booklet-cover.jpg', 'Boatneck Maxi Dress instructions PDF, first page with front and back drawings'), ('calibration-page.jpg', 'Printer test page with a 4 by 4 inch square'), ('booklet-step.jpg', 'A sewing step with five drawings: attaching the pocket bags'), ('booklet-zipper.jpg', 'A sewing step with drawings: inserting an invisible zipper')] %}
       <figure class="leaf" style="--r: {{ [-3, 2, -1.5, 3][loop.index0] }}deg"><img src="{{ u('static/studio/' ~ img) }}" alt="{{ alt }}" loading="lazy" width="910" height="1287"></figure>
       {% endfor %}
     </div>

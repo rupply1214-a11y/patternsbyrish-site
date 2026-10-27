@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool %}
+{% block title %}Sewing Answers: PDF Patterns, Printing, Fit, Fabric & Techniques | Patterns by Rish{% endblock %}
+{% block description %}Quick answers to common sewing questions: downloading and printing PDF patterns, choosing your size, preparing fabric, sewing techniques, needles, thread and knits.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for s in answers %}{% set outer = loop %}{% for q, a in s.qs %}{"@type": "Question", "name": {{ q|tojson }}, "acceptedAnswer": {"@type": "Answer", "text": {{ a|tojson }}}}{{ ", " if not (outer.last and loop.last) }}{% endfor %}{% endfor %}]}
+</script>
+{% endblock %}
+{% block main %}
+<section class="ans-hero">
+  <div class="wrap ans-hero-in">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Sewing answers</span></nav>
+    <p class="world-tag">ask away</p>
+    <h1>Sewing answers</h1>
+    <p class="lede">Stuck on printing, sizing, a tricky seam or which needle to use? Search below, or jump to a topic.</p>
+    <label class="ans-search"><span class="sr">Search the answers</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input type="search" id="ans-q" placeholder="Try zipper, test square, stretch, between sizes" autocomplete="off" data-ans-q>
+    </label>
+    <p class="ans-count" data-ans-count aria-live="polite"></p>
+  </div>
+  <div class="worlds-float" aria-hidden="true">{{ tool("needle", "wf wf1") }}{{ tool("pins", "wf wf3") }}{{ tool("button", "wf wf4") }}</div>
+</section>
+<nav class="ans-nav" aria-label="Topics">
+  <div class="wrap"><ul>{% for s in answers %}<li><a href="#{{ s.slug }}" class="tint-{{ s.tint }}">{{ tool(s.icon) }}{{ s.name }}</a></li>{% endfor %}</ul></div>
+</nav>
+<section class="band band-tight">
+  <div class="wrap ans-wrap">
+    {% for s in answers %}
+    <section class="ans-sec" id="{{ s.slug }}" data-ans-sec>
+      <header class="ans-sec-head tint-{{ s.tint }}">{{ tool(s.icon) }}<h2>{{ s.name }}</h2><span>{{ s.qs|length }} questions</span></header>
+      <div class="faq ans-list">
+        {% for q, a in s.qs %}
+        <details id="{{ s.slug }}-{{ loop.index }}" data-ans><summary>{{ q }}</summary><p>{{ a }}</p></details>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+    <p class="empty" data-ans-empty hidden>No answers match that yet. Try a shorter word, or message us through our Etsy shop and we'll help.</p>
+  </div>
+</section>
+<section class="band band-paper">
+  <div class="wrap ans-more">
+    <a class="j-help-card light" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>What each fabric is like and what to sew with it.</span></a>
+    <a class="j-help-card light" href="{{ u('how-it-works/') }}">{{ tool("paper") }}<b>How PDF patterns work</b><span>From Etsy checkout to taped pages, step by step.</span></a>
+    <a class="j-help-card light" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">{{ tool("spool") }}<b>Still stuck?</b><span>Message us through our Etsy shop and we'll get back to you.</span></a>
+  </div>
+</section>
+{% endblock %}

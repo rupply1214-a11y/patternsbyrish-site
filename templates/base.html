@@ -1,4 +1,4 @@
-{% from "_macros.html" import tool %}<!doctype html>
+{% from "_macros.html" import tool, catswatch, garment %}<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -48,23 +48,25 @@
           <ul class="mega-cats">
             {% for c in cats %}
             <li><a href="{{ u('category/' ~ c.slug ~ '/') }}" class="mega-cat">
-              <span class="swatch swatch-sm tint-{{ c.tint }}">{% if c.photos %}<img src="{{ c.photos[0].medium or c.photos[0].full }}" alt="" loading="lazy">{% endif %}</span>
+              {{ catswatch(c, "swatch-sm") }}
               <span><b>{{ c.name }}</b><small>{{ c.count }} pattern{{ 's' if c.count != 1 }}</small></span>
             </a></li>
             {% endfor %}
           </ul>
-          <a class="mega-promo" href="{{ u('patterns/') }}">
-            {% for c in cats if c.photos|length > 1 %}{% if loop.first %}<img src="{{ c.photos[1].medium or c.photos[1].full }}" alt="" loading="lazy">{% endif %}{% endfor %}
-            <b>New patterns every week</b>
-            <span class="mega-promo-btn">See all patterns</span>
+          <a class="mega-promo" href="{{ u('worlds/') }}">
+            <span class="mega-promo-art" aria-hidden="true">{{ tool("spool") }}{{ tool("needle") }}{{ tool("button") }}</span>
+            <b>Find your sewing world</b>
+            <span class="mega-promo-txt">Linen days, cottagecore, party nights and more.</span>
+            <span class="mega-promo-btn">Explore the worlds</span>
           </a>
+          <a class="mega-all" href="{{ u('patterns/') }}">See all patterns</a>
         </div>
       </div>
-      <a class="nav-link" href="{{ u('category/plus-size/') }}" {% if path == 'category/plus-size/' %}aria-current="page"{% endif %}>Plus size</a>
-      <a class="nav-link" href="{{ u('category/bundles/') }}" {% if path == 'category/bundles/' %}aria-current="page"{% endif %}>Bundles</a>
-      <a class="nav-link" href="{{ u('studio/') }}" {% if path == 'studio/' %}aria-current="page"{% endif %}>Our studio</a>
-      <a class="nav-link" href="{{ u('blog/') }}" {% if path.startswith('blog/') %}aria-current="page"{% endif %}>Sewing blog</a>
-      <a class="nav-link nav-extra" href="{{ u('how-it-works/') }}" {% if path == 'how-it-works/' %}aria-current="page"{% endif %}>How it works</a>
+      <a class="nav-link" href="{{ u('worlds/') }}" {% if path.startswith('worlds/') %}aria-current="page"{% endif %}>Sewing worlds</a>
+      <a class="nav-link" href="{{ u('journal/') }}" {% if path.startswith('journal/') %}aria-current="page"{% endif %}>Journal</a>
+      <a class="nav-link" href="{{ u('fabrics/') }}" {% if path.startswith('fabrics/') %}aria-current="page"{% endif %}>Fabric library</a>
+      <a class="nav-link" href="{{ u('answers/') }}" {% if path.startswith('answers/') %}aria-current="page"{% endif %}>Sewing answers</a>
+      <a class="nav-link nav-extra" href="{{ u('studio/') }}" {% if path == 'studio/' %}aria-current="page"{% endif %}>Our studio</a>
     </nav>
     <div class="top-actions">
       <button type="button" class="icon-btn" data-search-open aria-label="Search patterns">
@@ -110,8 +112,10 @@
     <div>
       <p class="foot-h">Learn</p>
       <ul>
-        <li><a href="{{ u('blog/') }}">Sewing blog</a></li>
-        {% for b in posts[:3] %}<li><a href="{{ u('blog/' ~ b.slug ~ '/') }}">{{ b.title }}</a></li>{% endfor %}
+        <li><a href="{{ u('journal/') }}">The Stitch Journal</a></li>
+        <li><a href="{{ u('answers/') }}">Sewing answers</a></li>
+        <li><a href="{{ u('fabrics/') }}">Fabric library</a></li>
+        <li><a href="{{ u('worlds/') }}">Sewing worlds</a></li>
       </ul>
     </div>
     <div>

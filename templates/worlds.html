@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool, garment %}
+{% block title %}Sewing Worlds: Find Patterns by Vibe | Patterns by Rish{% endblock %}
+{% block description %}Shop PDF sewing patterns by vibe: linen days, cottagecore, after dark party wear, workwear, curvy, menswear, kids, cozy knits, modest styles and more.{% endblock %}
+{% block main %}
+<section class="worlds-hero">
+  <div class="wrap worlds-hero-in">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Sewing worlds</span></nav>
+    <p class="brand-label">Shop by vibe</p>
+    <h1>Pick a world, find your next make</h1>
+    <p class="lede">Every pattern lives in a little world of its own. Wander into the one that matches your mood, your fabric stash or the next thing on your calendar.</p>
+  </div>
+  <div class="worlds-float" aria-hidden="true">{{ tool("spool", "wf wf1") }}{{ tool("button", "wf wf2") }}{{ tool("scissors", "wf wf3") }}{{ tool("pins", "wf wf4") }}{{ tool("thread", "wf wf5") }}{{ tool("tape", "wf wf6") }}</div>
+</section>
+<section class="band band-tight">
+  <div class="wrap">
+    <ul class="world-grid">
+      {% for w in worlds %}
+      <li><a class="world tint-{{ w.tint }}" href="{{ u('worlds/' ~ w.slug ~ '/') }}" style="--tilt: {{ [-1.2, 1, -0.6, 1.4, -1, 0.8][loop.index0 % 6] }}deg">
+        <span class="world-art" aria-hidden="true">
+          <span class="world-disc"><span class="swatch-stitch"></span>{{ garment(w.icon) }}</span>
+          {% for pr in w.props %}{{ tool(pr, "world-prop wp" ~ loop.index) }}{% endfor %}
+        </span>
+        <span class="world-copy">
+          <span class="world-count">{{ w.count }} patterns</span>
+          <span class="world-name">{{ w.name }}</span>
+          <span class="world-line">{{ w.line }}</span>
+          {% if w.photos %}<span class="world-faces" aria-hidden="true">{% for ph in w.photos %}<img src="{{ ph.medium or ph.full }}" alt="" loading="lazy">{% endfor %}</span>{% endif %}
+        </span>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

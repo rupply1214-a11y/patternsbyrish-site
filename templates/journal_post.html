@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card, tool %}
+{% block title %}{{ b.title }} | The Stitch Journal{% endblock %}
+{% block description %}{{ b.description }}{% endblock %}
+{% block og %}<meta property="og:type" content="article">{% if b.cover %}<meta property="og:image" content="{{ b.cover }}">{% endif %}{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "Article", "headline": b.title, "description": b.description, "datePublished": b.date,
+   "image": b.cover or none, "url": canon() or none, "author": {"@type": "Organization", "name": cfg.brand},
+   "publisher": {"@type": "Organization", "name": cfg.brand}, "isPartOf": {"@type": "Blog", "name": "The Stitch Journal"}} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<div class="dark-zone" data-journal>
+  <header class="jp-head">
+    <div class="wrap jp-head-in">
+      <div class="jp-head-copy">
+        <nav class="crumbs crumbs-dark" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><a href="{{ u('journal/') }}">The Stitch Journal</a><span aria-hidden="true">/</span><span aria-current="page">{{ b.tag }}</span></nav>
+        <span class="j-chip">{{ b.tag }}</span>
+        <h1 class="jp-title">{{ b.title }}</h1>
+        <p class="j-sub">{{ b.description }}</p>
+        <p class="j-meta"><time datetime="{{ b.date }}">{{ b.nice_date }}</time><span>{{ b.minutes }} min read</span></p>
+      </div>
+      {% if b.cover %}<span class="jp-cover"><img src="{{ b.cover }}" alt=""></span>{% endif %}
+    </div>
+  </header>
+</div>
+<article class="jp-body-wrap">
+  <div class="wrap article-body">
+    {% if b.toc %}
+    <nav class="toc" aria-label="In this story">
+      <p class="toc-h">In this story</p>
+      <ol>{% for t in b.toc %}{% for h in t.children or [t] %}<li><a href="#{{ h.id }}">{{ h.name }}</a></li>{% endfor %}{% endfor %}</ol>
+    </nav>
+    {% endif %}
+    <div class="prose">{{ b.html | safe }}</div>
+  </div>
+</article>
+{% if b.related %}
+<section class="band band-paper">
+  <div class="wrap">
+    <div class="head-row"><h2 class="stitch-h"><span>Patterns to try this on</span></h2>{% if b.category in cat_by %}<a class="more" href="{{ u('category/' ~ b.category ~ '/') }}">All {{ cat_by[b.category].name|lower }}</a>{% endif %}</div>
+    <div class="grid">{% for p in b.related %}{{ card(p, u) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% if more %}
+<div class="dark-zone">
+  <section class="wrap j-more">
+    <p class="j-kicker">Keep reading</p>
+    <ol class="j-grid">
+      {% for x in more %}
+      <li class="j-reveal" style="--i: {{ loop.index0 }}"><a class="j-card" href="{{ u('journal/' ~ x.slug ~ '/') }}">
+        <span class="j-card-pic">{% if x.cover %}<img src="{{ x.cover }}" alt="" loading="lazy">{% endif %}</span>
+        <span class="j-meta"><span>{{ x.tag }}</span><span>{{ x.minutes }} min read</span></span>
+        <span class="j-card-title">{{ x.title }}</span>
+      </a></li>
+      {% endfor %}
+    </ol>
+  </section>
+</div>
+{% endif %}
+<script src="{{ u('static/journal.js') }}" defer></script>
+{% endblock %}

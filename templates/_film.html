@@ -69,6 +69,57 @@
         <circle cx="290" cy="626" r="38" class="tape-case"/><circle cx="290" cy="626" r="14" class="tape-hub"/>
       </g>
 
+      {# 3. instant download #}
+      <g class="scene" data-scene="download">
+        <rect width="1200" height="700" fill="#FDE8DA"/><rect width="1200" height="700" fill="url(#dots)"/>
+        <rect x="474" y="62" width="252" height="584" rx="40" fill="rgba(26,23,23,.12)" transform="translate(10 12)"/>
+        <rect x="474" y="62" width="252" height="584" rx="40" class="phone"/>
+        <rect x="490" y="92" width="220" height="526" rx="24" fill="#fff"/>
+        <rect x="562" y="74" width="76" height="10" rx="5" fill="#59686B"/>
+        <text x="508" y="132" class="ph-h">Purchases</text>
+        <rect x="506" y="152" width="188" height="250" rx="16" class="ph-card"/>
+        <rect x="518" y="164" width="164" height="150" rx="10" fill="#F7DDE3"/>
+        <g transform="translate(560 172) scale(.42)"><path d="M78 30 L92 40 Q100 46 108 40 L122 30 L134 36 L130 70 Q124 90 128 104 L160 210 Q100 222 40 210 L72 104 Q76 90 70 70 L66 36 Z" fill="#fff" stroke="#1A1717" stroke-width="5"/></g>
+        <text x="518" y="338" class="ph-t">Your pattern</text>
+        <text x="518" y="360" class="ph-s">PDF, instant download</text>
+        <g class="ph-btn"><rect x="518" y="372" width="164" height="20" rx="10" fill="#1A1717"/><text x="600" y="386" text-anchor="middle" class="ph-bt">Download files</text></g>
+        <rect x="506" y="422" width="188" height="14" rx="7" fill="#ECEAF1"/>
+        <rect x="506" y="422" width="188" height="14" rx="7" class="ph-bar" style="--d: 1.4s"/>
+        <text x="600" y="466" text-anchor="middle" class="ph-s pop" style="--d: 3.4s">Downloaded</text>
+        <path d="M584 488 l12 12 l22 -24" class="ph-ok draw" pathLength="1" style="--d: 3.5s; --t: .5s"/>
+        {% for name, y, dl in [("A4", 150, 3.7), ("US Letter", 300, 4.0), ("A0", 450, 4.3)] %}
+        <g class="fly" style="--d: {{ dl }}s; --fy: {{ y - 380 }}px">
+          <g transform="translate(770 {{ y }})">
+            <path d="M0 0 H74 L100 26 V128 H0 Z" class="file"/><path d="M74 0 V26 H100" class="file-fold"/>
+            <rect x="12" y="56" width="58" height="26" rx="5" fill="#8A2822"/><text x="41" y="75" text-anchor="middle" class="file-pdf">PDF</text>
+            <text x="50" y="112" text-anchor="middle" class="file-n">{{ name }}</text>
+          </g>
+        </g>
+        {% endfor %}
+        <text class="note pop" x="330" y="360" text-anchor="middle" style="--d: 2s">no waiting</text>
+        <text class="note pop" x="330" y="400" text-anchor="middle" style="--d: 2.2s">for the post!</text>
+      </g>
+
+      {# 4. measuring #}
+      <g class="scene" data-scene="measure">
+        <rect width="1200" height="700" fill="#E0ECFA"/><rect width="1200" height="700" fill="url(#dots)"/>
+        <path d="M600 520 L540 660 M600 520 L660 660 M600 520 V672" class="stand"/>
+        <circle cx="600" cy="92" r="16" class="form-knob"/>
+        <path d="M584 104 H616 V128 Q680 132 712 156 Q724 200 716 236 Q706 290 680 330 Q670 380 724 440 Q736 480 716 512 Q600 536 484 512 Q464 480 476 440 Q530 380 520 330 Q494 290 484 236 Q476 200 488 156 Q520 132 584 128 Z" class="torso"/>
+        <path d="M600 128 V520" class="torso-seam"/>
+        {% for y, rx, label, dl in [(236, 118, "Bust", 0.4), (330, 84, "Waist", 1.6), (448, 126, "Hips", 2.8)] %}
+        <path d="M{{ 600 - rx }} {{ y }} A{{ rx }} 18 0 0 0 {{ 600 + rx }} {{ y }}" class="mtape draw" pathLength="1" style="--d: {{ dl }}s; --t: 1s"/>
+        <path d="M{{ 600 - rx }} {{ y }} A{{ rx }} 18 0 0 0 {{ 600 + rx }} {{ y }}" class="mtape-t" pathLength="60"/>
+        <g class="pop" style="--d: {{ dl + 0.9 }}s">
+          <path d="M{{ 600 + rx + 6 }} {{ y + 6 }} L780 {{ y + 6 }}" class="c-line"/><circle cx="{{ 600 + rx + 6 }}" cy="{{ y + 6 }}" r="6" class="c-dot"/>
+          <rect x="784" y="{{ y - 18 }}" width="130" height="48" rx="24" class="chip-r" style="--c: #8A2822"/>
+          <text x="849" y="{{ y + 14 }}" text-anchor="middle" class="chip-t">{{ label }}</text>
+        </g>
+        {% endfor %}
+        <text class="note pop" x="350" y="300" text-anchor="middle" style="--d: 4.2s">check the</text>
+        <text class="note pop" x="350" y="340" text-anchor="middle" style="--d: 4.3s">size chart</text>
+      </g>
+
       {# 3. printing and taping #}
       <g class="scene" data-scene="2">
         <rect width="1200" height="700" fill="#E0ECFA"/><rect width="1200" height="700" fill="url(#dots)"/>
@@ -130,6 +181,26 @@
         <path d="M382 470 L432 470 L432 460 L396 460 Z" class="foot"/><path d="M420 404 V460" class="foot-bar"/>
         <g class="needle-bar"><rect x="398" y="392" width="14" height="40" rx="3" class="nb"/><path d="M405 432 V472" class="needle"/></g>
         <text class="note pop" x="600" y="640" text-anchor="middle" style="--d: 1.2s">stitch by stitch</text>
+      </g>
+
+      {# 8. pressing #}
+      <g class="scene" data-scene="press">
+        <rect width="1200" height="700" fill="#E3F2EA"/><rect width="1200" height="700" fill="url(#dots)"/>
+        <path d="M330 456 L520 660 M870 456 L680 660 M520 660 H420 M680 660 H780" class="board-leg"/>
+        <path d="M180 410 Q180 380 230 380 L980 380 Q1040 380 1040 410 Q1040 440 980 444 L230 444 Q180 444 180 410 Z" class="board"/>
+        <rect x="300" y="352" width="560" height="56" rx="6" fill="url(#fab-linen)" filter="url(#soft)"/>
+        <path d="M300 380 H860" class="stitch"/>
+        {% for w in st.wrinkles %}<path d="{{ w.d }}" class="wrinkle" style="--d: {{ w.at }}s"/>{% endfor %}
+        <g class="iron-run">
+          <g transform="translate(0 352)">
+            <g class="steam">{% for i in range(4) %}<circle cx="{{ 40 + i * 30 }}" cy="-70" r="{{ 9 + i % 2 * 4 }}" style="--s: {{ i * 0.35 }}s"/>{% endfor %}</g>
+            <path d="M0 0 L176 0 L176 -34 Q176 -60 150 -62 L62 -62 Q24 -60 0 0 Z" class="iron-body"/>
+            <path d="M2 0 H176 V7 H6 Z" class="iron-plate"/>
+            <path d="M72 -62 C74 -98 96 -108 124 -108 L152 -108 C170 -108 172 -94 164 -84 L150 -62" class="iron-handle"/>
+            <circle cx="126" cy="-30" r="12" class="dial"/>
+          </g>
+        </g>
+        <text class="note pop" x="600" y="196" text-anchor="middle" style="--d: 1s">press as you go</text>
       </g>
 
       {# 6. the finished dress #}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool %}
+{% block title %}The Stitch Journal: Sewing Guides, Fabric Notes & Fit Help | Patterns by Rish{% endblock %}
+{% block description %}The Stitch Journal by Patterns by Rish: practical guides on printing PDF patterns, choosing your size, fabric, tools and sewing techniques.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "Blog", "name": "The Stitch Journal", "publisher": {"@type": "Organization", "name": cfg.brand}, "url": canon() or none,
+   "blogPost": posts | map(attribute='title') | list} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<div class="dark-zone" data-journal>
+  <section class="j-hero">
+    <div class="wrap">
+      <p class="j-kicker">Patterns by Rish presents</p>
+      <h1 class="j-title"><span class="j-line">The</span><span class="j-line j-outline">Stitch</span><span class="j-line">Journal</span></h1>
+      <p class="j-sub">Notes from our cutting table. How to print, fit, choose fabric and sew it beautifully, written for real people with real sewing machines.</p>
+    </div>
+    <div class="j-thread" aria-hidden="true">
+      <svg viewBox="0 0 1400 300" preserveAspectRatio="none"><path d="M-20 240 C250 120 380 300 640 170 S1050 40 1420 160"/></svg>
+    </div>
+  </section>
+
+  <div class="j-marquee" aria-hidden="true"><div class="j-marquee-track">
+    {% for r in [1, 2] %}<span>{% for w in ['print', 'cut', 'sew', 'press', 'wear', 'repeat'] %}<b>{{ w }}</b>{{ tool("button", "j-sep") }}{% endfor %}</span>{% endfor %}
+  </div></div>
+
+  {% if posts %}
+  {% set lead = posts[0] %}
+  <section class="wrap j-lead-wrap">
+    <a class="j-lead j-reveal" href="{{ u('journal/' ~ lead.slug ~ '/') }}">
+      <span class="j-lead-pic">{% if lead.cover %}<img src="{{ lead.cover }}" alt="" loading="eager">{% endif %}</span>
+      <span class="j-lead-copy">
+        <span class="j-chip">Latest</span>
+        <span class="j-lead-title">{{ lead.title }}</span>
+        <span class="j-lead-desc">{{ lead.description }}</span>
+        <span class="j-meta"><span>{{ lead.tag }}</span><span>{{ lead.minutes }} min read</span></span>
+        <span class="j-arrow-btn">Read the story</span>
+      </span>
+    </a>
+  </section>
+
+  <section class="wrap j-list-wrap">
+    <div class="j-tabs" role="group" aria-label="Filter by topic">
+      <button type="button" class="j-tab" aria-pressed="true" data-topic="">All stories</button>
+      {% for t in posts | map(attribute='tag') | unique %}<button type="button" class="j-tab" aria-pressed="false" data-topic="{{ t }}">{{ t }}</button>{% endfor %}
+    </div>
+    <ol class="j-grid">
+      {% for b in posts %}
+      <li class="j-reveal" data-topic="{{ b.tag }}" style="--i: {{ loop.index0 % 3 }}">
+        <a class="j-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
+          <span class="j-num">{{ '%02d'|format(loop.index) }}</span>
+          <span class="j-card-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}</span>
+          <span class="j-meta"><span>{{ b.tag }}</span><span>{{ b.minutes }} min read</span></span>
+          <span class="j-card-title">{{ b.title }}</span>
+          <span class="j-card-desc">{{ b.description }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  <section class="j-help">
+    <div class="wrap j-help-in">
+      <a class="j-help-card j-reveal" href="{{ u('answers/') }}">{{ tool("needle") }}<b>Sewing answers</b><span>Quick answers to the questions sewists ask us most.</span></a>
+      <a class="j-help-card j-reveal" href="{{ u('fabrics/') }}" style="--i: 1">{{ tool("fabric") }}<b>Fabric library</b><span>What each fabric feels like, how it drapes and what to sew with it.</span></a>
+      <a class="j-help-card j-reveal" href="{{ u('worlds/') }}" style="--i: 2">{{ tool("spool") }}<b>Sewing worlds</b><span>Patterns grouped by vibe, from linen days to after dark.</span></a>
+    </div>
+  </section>
+</div>
+<script src="{{ u('static/journal.js') }}" defer></script>
+{% endblock %}
