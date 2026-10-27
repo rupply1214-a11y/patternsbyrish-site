@@ -329,7 +329,7 @@ def main():
                    hidden=len(every) - len(products), posts=len(posts), sample=bool(DATA.get("sample"))),
               open(os.path.join(DIST, "tools", "build.json"), "w"))
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in CONTENT.get("home_rows") or [] if s in cat_by]
-    render("", "index.html", slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
+    render("", "index.html", st=studio.data(), slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
            stats=stats, rows=rows, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
     render("patterns/", "list.html", items=products, current=None, heading="All sewing patterns",
            intro=f"Every pattern in the shop, newest first. {len(products)} printable PDF patterns, each with an instant download on Etsy.")

@@ -608,100 +608,103 @@ button { font: inherit; color: inherit; }
   .reveal.pre { opacity: 1; transform: none; }
 }
 
-/* ---------- studio page ---------- */
-.studio-hero { padding: clamp(40px, 6vw, 80px) 0 20px; text-align: center; }
-.studio-hero-in { display: grid; justify-items: center; gap: 10px; }
-.studio-logo { width: min(300px, 70vw); height: auto; margin-bottom: 18px; }
-.studio-hero h1 { max-width: 18ch; font-size: clamp(2.3rem, 5vw, 3.8rem); margin: 6px 0 4px; }
-.studio-hero .lede { margin: 0 auto; }
-.film-band { padding: 20px 0 clamp(40px, 6vw, 80px); }
-.film { max-width: 1100px; margin: 0 auto; }
-.film-screen { position: relative; border-radius: 28px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 40px 70px -50px rgba(26, 23, 23, .55); }
-.stage { width: 100%; height: auto; display: block; }
-.stage .paper { fill: var(--surface); }
-.stage .dot-fill { fill: #E3DFDC; }
-.stage .scene { opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; }
+/* ---------- brand film (home and studio) ---------- */
+.film { max-width: 1120px; margin: 0 auto; }
+.film-screen { position: relative; border-radius: 28px; overflow: hidden; background: var(--surface); box-shadow: 0 40px 80px -50px rgba(26, 23, 23, .6), 0 0 0 1px var(--line);
+  aspect-ratio: 12 / 7; }
+.stage { width: 100%; height: 100%; display: block; }
+.stage .scene { opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility .6s; }
 .stage .scene.on { opacity: 1; visibility: visible; }
-.stage .ln { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round; }
-.stage .ln.thin { stroke-width: 1.6; }
-.stage .ln.hair { stroke-width: 1.2; }
-.stage .ln.dash { stroke-dasharray: 6 6; }
-.stage .lbl { font: 500 26px var(--body); fill: var(--slate); letter-spacing: .02em; }
-.stage .lbl.small { font-size: 18px; }
-.stage .code { font: 600 22px var(--body); fill: var(--slate); letter-spacing: .3em; text-transform: uppercase; }
-.stage .callout .c-dot { fill: var(--red); stroke: var(--surface); stroke-width: 3; }
-.stage .c-line { fill: none; stroke: var(--red); stroke-width: 2; }
-.stage .c-txt { font: 600 26px var(--body); fill: var(--ink); }
-.stage .fold { stroke: var(--slate); stroke-width: 2; stroke-dasharray: 14 6 3 6; fill: none; }
-.stage .size-ln { fill: none; stroke: var(--c); stroke-width: 2.4; stroke-linejoin: round; }
-.stage .size-tg { font: 700 17px var(--body); fill: var(--c); }
-.stage .piece-name { font: 700 30px var(--body); fill: var(--ink); letter-spacing: .12em; }
-.stage .card-r { fill: var(--paper); stroke: var(--line); stroke-width: 2; }
-.stage .spec-k { font: 700 34px var(--body); fill: var(--ink); }
-.stage .spec-n { font: 400 24px var(--body); fill: var(--slate); }
-.stage .spec-v { font: 700 26px var(--body); fill: var(--ink); font-variant-numeric: tabular-nums; }
-.stage .spec-rule { stroke: var(--line); stroke-width: 2; stroke-dasharray: 6 6; }
-.stage .sq { fill: none; stroke: var(--ink); stroke-width: 3; }
-.stage .tick { stroke: var(--ink); stroke-width: 1.6; }
-.stage .sq-big { font: 700 44px var(--body); fill: var(--ink); }
-.stage .sq-small { font: 500 24px var(--body); fill: var(--slate); }
-.stage .ruler-r { fill: var(--tape); stroke: var(--tape-d); stroke-width: 2; }
-.stage .ruler-t { stroke: var(--ink); stroke-width: 1.4; }
-.stage .ruler-n { font: 600 14px var(--body); fill: var(--ink); }
-.stage .check { fill: none; stroke: var(--red); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
-.stage .ok-txt { font: 600 52px var(--hand); fill: var(--red); }
-.stage .ok-sub { font: 500 24px var(--body); fill: var(--ink); }
-.stage .page-r { fill: var(--surface); stroke: #BDB6B2; stroke-width: 1.2; stroke-dasharray: 4 3; }
-.stage .page-n { font: 500 13px var(--body); fill: #A9A3A0; }
-.stage .piece-ln { stroke-width: 2.2; }
-.stage .tape-bit { fill: rgba(245, 215, 110, .85); }
-.stage .mat-r { fill: var(--mat); }
-.stage .mat-line { fill: none; stroke: rgba(255, 255, 255, .14); stroke-width: 1.5; }
-.stage .fabric { fill: #E7DCC8; }
-.stage .cutline { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 8 6; }
-.stage .cutdone { fill: none; stroke: var(--ink); stroke-width: 3.2; }
-.stage .cutreveal, .stage .sreveal { fill: none; stroke: #fff; stroke-width: 16; stroke-linecap: round; }
-.stage .pc-n { font: 700 24px var(--body); fill: #fff; }
-.stage .pc-c { font: 400 18px var(--body); fill: #CFE5DD; }
-.stage .sc-ring { fill: var(--tape); stroke: var(--ink); stroke-width: 2.6; }
-.stage .sc-blade { stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; fill: none; }
-.stage .scissors { offset-rotate: auto; }
-.stage .stitch { fill: none; stroke: var(--red); stroke-width: 3.2; stroke-dasharray: 9 7; stroke-linecap: round; }
-.stage .needle-l { stroke: var(--slate); stroke-width: 3; stroke-linecap: round; }
-.stage .needle-eye { fill: var(--surface); stroke: var(--slate); stroke-width: 2; }
-.stage .step-c { fill: var(--surface); stroke: var(--line); stroke-width: 2.4; }
-.stage .step-k { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-.stage .step-t { font: 400 21px var(--body); fill: var(--ink-2); }
-.stage .dress-fill { opacity: 1; }
-.stage .hand-l { fill: none; stroke: var(--red); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.stage .done-t { font: 600 82px var(--hand); fill: var(--red); }
-.stage .done-s { font: 500 26px var(--body); fill: var(--ink); }
-.stage .sway { transform-origin: 600px 60px; transform-box: view-box; }
+.stage .ln { fill: none; stroke: #1A1717; stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
+.stage .ln.thin { stroke-width: 1.8; }
+.stage .ln.dash { stroke-dasharray: 7 6; }
+.stage .note { font: 600 34px var(--hand); fill: #8A2822; }
+.stage .note.light { fill: #F5D76E; }
+.stage .note-l { fill: none; stroke: #8A2822; stroke-width: 2.4; stroke-linecap: round; }
+.stage .brand-txt { font: 600 18px var(--body); letter-spacing: .4em; fill: #59686B; }
+.stage .book { fill: #fff; stroke: #1A1717; stroke-width: 2.5; }
+.stage .ring { fill: none; stroke: #59686B; stroke-width: 3; }
+.stage .pin-l { stroke: #59686B; stroke-width: 2.4; stroke-linecap: round; }
+.stage .pin-h0 { fill: #D9688A; } .stage .pin-h1 { fill: #F5D76E; } .stage .pin-h2 { fill: #4FB08A; }
+.stage [class^="pin-h"] { stroke: rgba(26, 23, 23, .5); stroke-width: 1.5; }
+.stage .fold { stroke: #59686B; stroke-width: 2; stroke-dasharray: 14 6 3 6; fill: none; }
+.stage .size-ln { fill: none; stroke: var(--c); stroke-width: 2.6; stroke-linejoin: round; }
+.stage .piece-name { font: 700 28px var(--body); fill: #1A1717; letter-spacing: .14em; }
+.stage .chip-r { fill: #fff; stroke: var(--c); stroke-width: 3; }
+.stage .chip-t { font: 700 19px var(--body); fill: #1A1717; }
+.stage .tape-r { fill: #F5D76E; stroke: #B8941F; stroke-width: 2; }
+.stage .tape-t { stroke: #1A1717; stroke-width: 1.5; }
+.stage .tape-n { font: 600 14px var(--body); fill: #1A1717; }
+.stage .tape-case { fill: #8A2822; stroke: #1A1717; stroke-width: 2.5; }
+.stage .tape-hub { fill: #fff; stroke: #1A1717; stroke-width: 2; }
+.stage .page-r { fill: #fff; stroke: #B9C6D6; stroke-width: 1.4; stroke-dasharray: 4 3; }
+.stage .page-n { font: 500 13px var(--body); fill: #9AA6B4; }
+.stage .tape-bit { fill: rgba(245, 215, 110, .9); }
+.stage .paper-piece { fill: rgba(255, 255, 255, .9); }
+.stage .cut-dash { fill: none; stroke: #1A1717; stroke-width: 2; stroke-dasharray: 9 7; }
+.stage .cut-done { fill: none; stroke: #1A1717; stroke-width: 3.4; }
+.stage .paper-label { font: 700 26px var(--body); letter-spacing: .14em; fill: #59686B; }
+.stage .sc-blade { fill: #DDE2E6; stroke: #1A1717; stroke-width: 1.8; stroke-linejoin: round; }
+.stage .sc-shank { fill: none; stroke: #8A2822; stroke-width: 8; stroke-linecap: round; }
+.stage .sc-ring { fill: none; stroke: #8A2822; stroke-width: 8; }
+.stage .sc-pivot { fill: #59686B; stroke: #1A1717; stroke-width: 1.5; }
+.stage .mach { fill: #fff; stroke: #1A1717; stroke-width: 3; stroke-linejoin: round; }
+.stage .dial { fill: #ECEAF1; stroke: #1A1717; stroke-width: 2.4; }
+.stage .mach-brand { font: 600 15px var(--body); letter-spacing: .32em; fill: #1A1717; }
+.stage .spoke { stroke: #59686B; stroke-width: 3; stroke-linecap: round; }
+.stage .spool-pin { stroke: #59686B; stroke-width: 4; stroke-linecap: round; }
+.stage .spool-cap { fill: #E6D2B5; stroke: #1A1717; stroke-width: 2; }
+.stage .spool-thread { fill: #8A2822; stroke: #1A1717; stroke-width: 2; }
+.stage .spool-line { stroke: rgba(255, 255, 255, .45); stroke-width: 1.5; }
+.stage .thread { fill: none; stroke: #8A2822; stroke-width: 1.6; }
+.stage .stitch { fill: none; stroke: #8A2822; stroke-width: 3; stroke-dasharray: 10 7; }
+.stage .foot, .stage .nb { fill: #DDE2E6; stroke: #1A1717; stroke-width: 2.2; }
+.stage .foot-bar { stroke: #1A1717; stroke-width: 4; }
+.stage .needle { stroke: #59686B; stroke-width: 2.4; stroke-linecap: round; }
+.stage .stand { fill: none; stroke: #1A1717; stroke-width: 6; stroke-linecap: round; }
+.stage .stand-pole { fill: #1A1717; }
+.stage .form-knob { fill: #E6D2B5; stroke: #1A1717; stroke-width: 2.5; }
+.stage .form-neck { fill: #E6D2B5; stroke: #1A1717; stroke-width: 2.5; }
+.stage .spark { fill: #F5D76E; stroke: #B8941F; stroke-width: 1.5; }
+.stage .end-t { font: 600 52px var(--hand); fill: #8A2822; }
+.stage .sway { transform-box: view-box; transform-origin: 600px 136px; }
+.stage .wheel { transform-box: fill-box; transform-origin: center; }
+.stage .pencil, .stage .scissor-mover { pointer-events: none; }
+.stage .scene:not(.run) .pencil, .stage .scene:not(.run) .scissor-mover { display: none; }
+.stage .scene.run .pencil { opacity: 0; animation: f-fade .2s linear .5s forwards, f-out .4s ease 3.8s forwards; }
+.stage .scene.run .scissor-mover { opacity: 0; animation: f-fade .2s linear .6s forwards, f-out .4s ease 5.9s forwards; }
+@keyframes f-out { from { opacity: 1; } to { opacity: 0; } }
 
-/* animations run only while a scene is playing; at rest everything is fully drawn */
-.stage .scene.run .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw var(--t, 1.4s) cubic-bezier(.55, .1, .35, 1) var(--d, 0s) forwards; }
-.stage .scene.run .pop { opacity: 0; animation: popin .5s cubic-bezier(.2, .9, .3, 1.3) var(--d, 0s) forwards; transform-box: fill-box; transform-origin: center; }
-.stage .scene.run .callout .c-dot { transform-box: fill-box; transform-origin: center; animation: popin .45s cubic-bezier(.2, .9, .3, 1.6) var(--d) both; }
-.stage .scene.run .callout .c-txt { opacity: 0; animation: fadeup .45s ease calc(var(--d) + .4s) forwards; }
-.stage .scene.run .ruler { animation: slidein 1.2s cubic-bezier(.2, .8, .2, 1) var(--d) both; }
-.stage .scene.run .page { transform-box: fill-box; transform-origin: center; }
-.stage .scene.run .step-row .step-c { animation: tick-c .3s ease var(--d) forwards; }
-.stage .scene.run .step-row .step-k { animation: fadein .2s ease calc(var(--d) + .15s) forwards; }
-.stage .scene.run .step-row .step-t { animation: tick-t .3s ease var(--d) forwards; }
-.stage .scene:not(.run) .step-c { fill: var(--red); stroke: var(--red); }
-.stage .scene:not(.run) .step-k { opacity: 1; }
-.stage .scene:not(.run) .step-t { fill: var(--ink); }
-.stage .scene.run .dress-fill { opacity: 0; animation: fadein 1.2s ease .3s forwards; }
-.stage .scene.run .sway { animation: sway 3.2s ease-in-out 1s infinite; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes popin { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
-@keyframes fadeup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes slidein { from { transform: translateX(560px); opacity: 0; } 30% { opacity: 1; } to { transform: none; opacity: 1; } }
-@keyframes tick-c { to { fill: var(--red); stroke: var(--red); } }
-@keyframes tick-t { to { fill: var(--ink); } }
-@keyframes fadein { to { opacity: 1; } }
-@keyframes sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
-.film.paused .stage *, .film.paused .stage .scene { animation-play-state: paused !important; }
+/* animations play only while a scene runs; at rest every scene shows its finished frame */
+.stage .scene.run .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: f-draw var(--t, 1.4s) cubic-bezier(.55, .1, .35, 1) var(--d, 0s) forwards; }
+.stage .scene.run .pop { opacity: 0; transform-box: fill-box; transform-origin: center; animation: f-pop .55s cubic-bezier(.2, .9, .3, 1.3) var(--d, 0s) forwards; }
+.stage .scene.run .drop { opacity: 0; animation: f-drop .5s cubic-bezier(.2, .9, .3, 1.2) var(--d, 0s) forwards; }
+.stage .scene.run .tape-unroll { transform-box: fill-box; transform-origin: left center; animation: f-unroll 2.2s cubic-bezier(.3, .8, .3, 1) var(--d) both; }
+.stage .scene.run .tape-case { animation: f-spin 2.2s ease-out .4s; transform-box: fill-box; transform-origin: center; }
+.stage .scene.run .lift { animation: f-lift .8s cubic-bezier(.2, .9, .3, 1.2) var(--d) forwards; }
+.stage .scene.run .needle-bar { animation: f-needle .26s ease-in-out infinite alternate; }
+.stage .scene.run .fabric-run { animation: f-run 7s linear forwards; }
+.stage .scene.run .wheel { animation: f-spin-c 1s linear infinite; }
+.stage .scene.run .thread { animation: f-wobble .26s ease-in-out infinite alternate; }
+.stage .scene.run .dress-fill { opacity: 0; animation: f-fade 1.2s ease .2s forwards; }
+.stage .scene.run .sway { animation: f-sway 3.4s ease-in-out .8s infinite; }
+.stage .scene.run .spark { animation: f-pop .55s cubic-bezier(.2, .9, .3, 1.3) var(--d) forwards, f-twinkle 1.6s ease-in-out calc(var(--d) + .6s) infinite; }
+.stage .scene.run .endcard { opacity: 0; transform-box: fill-box; transform-origin: center; animation: f-pop .7s cubic-bezier(.2, .9, .3, 1.2) var(--d) forwards; }
+.stage .scene:not(.run) .endcard { opacity: 1; }
+@keyframes f-draw { to { stroke-dashoffset: 0; } }
+@keyframes f-pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes f-drop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
+@keyframes f-unroll { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes f-spin { to { transform: rotate(-720deg); } }
+@keyframes f-spin-c { to { transform: rotate(360deg); } }
+@keyframes f-lift { to { transform: translate(-8px, -14px); filter: drop-shadow(0 18px 14px rgba(0, 0, 0, .35)); } }
+@keyframes f-needle { to { transform: translateY(20px); } }
+@keyframes f-run { to { transform: translateX(-360px); } }
+@keyframes f-wobble { to { transform: translateX(2px); } }
+@keyframes f-fade { to { opacity: 1; } }
+@keyframes f-sway { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes f-twinkle { 50% { transform: scale(.75) rotate(20deg); } }
+.film.paused .stage * { animation-play-state: paused !important; }
 
 .film-play { position: absolute; inset: 0; margin: auto; width: 96px; height: 96px; border-radius: 50%; border: 0; background: var(--ink); color: #fff; cursor: pointer;
   display: grid; place-items: center; box-shadow: 0 20px 40px -16px rgba(0, 0, 0, .6); transition: transform .2s; }
@@ -710,9 +713,8 @@ button { font: inherit; color: inherit; }
 .film-play[hidden] { display: none; }
 .film-bar { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
 .film-segs { display: flex; gap: 6px; flex: 1; min-width: 0; }
-.seg { flex: 1; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; }
-.seg::before { content: ""; display: block; width: 100%; height: 5px; border-radius: 3px; background: var(--line); }
-.seg { position: relative; }
+.seg { flex: 1; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+.seg::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 5px; margin-top: -2.5px; border-radius: 3px; background: var(--line); }
 .seg-fill { position: absolute; left: 0; top: 50%; height: 5px; margin-top: -2.5px; border-radius: 3px; background: var(--red); width: 0; }
 .seg.done .seg-fill { width: 100%; background: var(--ink); }
 .seg:hover::before { background: var(--slate); }
@@ -722,42 +724,62 @@ button { font: inherit; color: inherit; }
 [data-film-toggle] .i-play { fill: currentColor; }
 [data-film-restart] svg path { fill: none; }
 .film-cap { text-align: center; padding: 18px 10px 0; min-height: 150px; }
-.film-cap h2 { margin: 8px 0 6px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
-.film-cap p:last-child { color: var(--ink-2); max-width: 62ch; margin: 0 auto; }
-.facts-grid { list-style: none; padding: 0; margin: 30px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.facts-grid li { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 24px; display: grid; gap: 6px; }
-.facts-grid b { font: 700 2.4rem/1 var(--display); color: var(--ink); }
-.facts-grid span { color: var(--ink-2); }
+.film-cap h3 { margin: 8px 0 6px; font-size: clamp(1.4rem, 2.6vw, 2rem); }
+.film-cap p:last-child { color: var(--ink-2); max-width: 60ch; margin: 0 auto; }
+.film-band { padding: clamp(40px, 6vw, 80px) 0; }
+.film-head { text-align: center; display: grid; justify-items: center; gap: 6px; margin-bottom: 26px; }
+.film-head h2 { margin: 0; }
+.film-head .lede { margin: 0 auto; }
+
+/* ---------- studio page ---------- */
+.studio-hero { position: relative; overflow: hidden; padding: clamp(46px, 7vw, 96px) 0 30px; text-align: center; }
+.studio-hero-in { display: grid; justify-items: center; gap: 10px; position: relative; z-index: 1; }
+.studio-logo { width: min(300px, 70vw); height: auto; margin-bottom: 16px; }
+.studio-hero h1 { max-width: 16ch; font-size: clamp(2.3rem, 5.4vw, 4.2rem); margin: 6px 0 4px; }
+.studio-hero .lede { margin: 0 auto; }
+.hero-thread { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero-thread .th { fill: none; stroke: var(--red); stroke-width: 2.5; stroke-dasharray: 10 8; }
+.hero-thread .th-mask { fill: none; stroke: #fff; stroke-width: 12; stroke-dasharray: 1; stroke-dashoffset: 1; animation: f-draw 4s ease-out .3s forwards; }
+.values { list-style: none; padding: 0; margin: 30px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.values li { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 26px 22px; display: grid; gap: 8px; align-content: start; position: relative; }
+.values li::after { content: ""; position: absolute; inset: 8px; border: 1.5px dashed var(--line); border-radius: 18px; pointer-events: none; }
+.values .tool { width: 56px; height: 56px; margin-bottom: 6px; }
+.values h3 { margin: 0; font-size: 1.2rem; }
+.values p { margin: 0; color: var(--ink-2); font-size: .97rem; }
 .booklet { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 30px; }
 .leaf { margin: 0; background: #fff; padding: 8px; border-radius: 6px; box-shadow: 0 24px 40px -26px rgba(0, 0, 0, .45); transform: rotate(var(--r)); transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
-.leaf:hover { transform: rotate(0) scale(1.03); z-index: 2; position: relative; }
+.leaf:hover { transform: rotate(0) scale(1.03); position: relative; z-index: 2; }
 .leaf img { width: 100%; height: auto; border-radius: 2px; }
-.studio-two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 70px); }
-.fabric-chips { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.fabric-chips li { background: var(--surface); border: 1.5px dashed var(--slate); border-radius: 999px; padding: 8px 16px; font-weight: 500; }
-.step-list { margin: 18px 0 0; padding-left: 1.6em; columns: 2; column-gap: 34px; }
-.step-list li { margin-bottom: 8px; break-inside: avoid; }
-.step-list li::marker { color: var(--red); font-weight: 700; }
+.booklet-note { color: var(--ink-2); font-size: .92rem; margin-top: 18px; }
+.stat-band { background: var(--tape); background-image: repeating-linear-gradient(90deg, rgba(26, 23, 23, .5) 0 1.5px, transparent 1.5px 12px), repeating-linear-gradient(90deg, rgba(26, 23, 23, .7) 0 1.5px, transparent 1.5px 60px);
+  background-size: 100% 8px, 100% 16px; background-repeat: repeat-x; padding: 54px 0 40px; }
+.stats-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; }
+.stats-row b { display: block; font: 700 clamp(2.2rem, 5vw, 3.4rem)/1 var(--display); }
+.stats-row span { color: var(--ink); font-weight: 500; }
 .studio-cta { background: var(--ink); color: #E8E4E2; text-align: center; }
 .studio-cta-in { display: grid; justify-items: center; gap: 12px; }
 .studio-cta img { width: 240px; height: auto; margin-bottom: 10px; }
 .studio-cta h2 { color: #fff; }
-.studio-cta p { color: #CFC9C6; }
+.studio-cta p { color: #CFC9C6; max-width: 56ch; }
 .btn-row-c { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px; }
 .btn-ghost-light { background: transparent; color: #fff; border-color: #fff; }
 .btn-ghost-light:hover { background: #fff; color: var(--ink); border-color: #fff; }
+.btn-ghost-light::after { border-color: var(--ink); }
+@media (max-width: 1020px) {
+  .values { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 860px) {
-  .facts-grid { grid-template-columns: 1fr 1fr; }
   .booklet { grid-template-columns: 1fr 1fr; }
-  .studio-two { grid-template-columns: 1fr; }
-  .film-screen { border-radius: 18px; }
+  .film-screen { border-radius: 20px; }
   .film-play { width: 72px; height: 72px; }
 }
-@media (max-width: 620px) {
-  .facts-grid { gap: 10px; }
-  .facts-grid li { padding: 16px; }
-  .facts-grid b { font-size: 1.8rem; }
-  .step-list { columns: 1; }
+@media (max-width: 640px) {
+  .film-screen { aspect-ratio: 1; }
   .film-bar { gap: 8px; }
-  .seg { height: 22px; }
+  .values { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; gap: 26px; }
+  .film-cap { min-height: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage .scene .pencil, .stage .scissor-mover { display: none; }
 }

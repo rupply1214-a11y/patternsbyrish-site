@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, tool, img, heading %}
-{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish{% endblock %}
-{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
+{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish<script src="{{ u('static/film.js') }}" defer></script>
+{% endblock %}
+{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.<script src="{{ u('static/film.js') }}" defer></script>
+{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
@@ -10,6 +12,7 @@
    "potentialAction": {"@type": "SearchAction", "target": (canon('patterns/') or '') ~ "?q={search_term_string}", "query-input": "required name=search_term_string"}}
 ]} | tojson }}
 </script>
+<script src="{{ u('static/film.js') }}" defer></script>
 {% endblock %}
 {% block main %}
 
@@ -66,6 +69,19 @@
     <li>{{ tool("tape") }}<span><b>XS to 5XL</b> on most patterns</span></li>
     <li>{{ tool("paper") }}<span><b>A4, US Letter, A0</b> print files</span></li>
   </ul>
+</section>
+
+{# ---------- brand film ---------- #}
+<section class="film-band band-paper">
+  <div class="wrap">
+    <div class="film-head">
+      <p class="brand-label">Inside our studio</p>
+      <h2>Watch a pattern come to life</h2>
+      <p class="lede">From the first sketch to a dress on the dress form, in under a minute.</p>
+    </div>
+    {% include "_film.html" %}
+    <p class="center-row"><a class="btn btn-ghost" href="{{ u('studio/') }}">Visit our studio</a></p>
+  </div>
 </section>
 
 {# ---------- category swatches ---------- #}
@@ -196,4 +212,5 @@
     </div>
   </div>
 </section>
+<script src="{{ u('static/film.js') }}" defer></script>
 {% endblock %}

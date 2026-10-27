@@ -41,7 +41,7 @@
     const dur = data[i].dur;
     $(".seg-fill", segs[i]).style.width = Math.min(100, (elapsed / dur) * 100) + "%";
     if (elapsed >= dur) {
-      if (i === scenes.length - 1) { pause(); return; }
+      if (i === scenes.length - 1 && !film.hasAttribute("data-loop")) { pause(); return; }
       show(i + 1);
     }
     raf = requestAnimationFrame(frame);
