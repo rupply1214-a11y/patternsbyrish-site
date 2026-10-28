@@ -37,11 +37,14 @@ jobs:
         run: |
           python fetch_images.py
           python looks.py
-          if [ -n "$(git status --porcelain static content/look_crops.json)" ]; then
+          # GitHub switches off hourly runs after 60 days without a commit, so leave a small heartbeat once a month
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 25 * 86400 )) ]; then date -u +"%Y-%m-%d %H:%M UTC" > content/heartbeat.txt; fi
+          if [ -n "$(git status --porcelain static content/look_crops.json content/heartbeat.txt)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add static content/look_crops.json
-            git commit -m "Save generated images and photo measurements [skip ci]"
+            git add static content/look_crops.json content/heartbeat.txt 2>/dev/null || git add static content/look_crops.json
+            git commit -m "Save generated images, photo measurements and monthly heartbeat [skip ci]"
             git push || echo "push skipped"
           fi
       - name: Build website
