@@ -34,17 +34,22 @@
   saleTick();
   setInterval(saleTick, 1000);
 
-  /* ---------- mobile menu ---------- */
-  const nav = $("#nav"), menuBtn = $("[data-menu]"), header = $("[data-header]");
-  if (menuBtn && nav) {
-    menuBtn.addEventListener("click", () => {
-      const open = !nav.classList.contains("open");
-      document.documentElement.style.setProperty("--nav-top", header.getBoundingClientRect().bottom + "px");
-      nav.classList.toggle("open", open);
+  /* ---------- mobile menu: a full-screen drawer outside the header ---------- */
+  const nav = $("#nav"), menuBtn = $("[data-menu]"), mnav = $("[data-mnav]");
+  if (menuBtn && mnav) {
+    const setMenu = (open) => {
+      if (open) { mnav.hidden = false; requestAnimationFrame(() => mnav.classList.add("open")); }
+      else { mnav.classList.remove("open"); setTimeout(() => { if (!mnav.classList.contains("open")) mnav.hidden = true; }, 350); }
       menuBtn.setAttribute("aria-expanded", open);
       menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      document.body.style.overflow = open ? "hidden" : "";
-    });
+      document.documentElement.style.overflow = open ? "hidden" : "";
+      if (open) setTimeout(() => $("[data-mnav-close]", mnav).focus(), 60); else menuBtn.focus();
+    };
+    menuBtn.addEventListener("click", () => setMenu(mnav.hidden));
+    $("[data-mnav-close]", mnav).addEventListener("click", () => setMenu(false));
+    mnav.addEventListener("click", (e) => { if (e.target === mnav) setMenu(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !mnav.hidden) setMenu(false); });
+    matchMedia("(min-width: 1161px)").addEventListener("change", (e) => { if (e.matches && !mnav.hidden) setMenu(false); });
   }
 
   /* ---------- mega menu ---------- */
@@ -140,6 +145,12 @@
     track.addEventListener("scroll", update, { passive: true });
     addEventListener("resize", update);
     update();
+  });
+
+  /* ---------- auto-gliding rows: hold a finger on them to pause ---------- */
+  $$("[data-glide]").forEach((g) => {
+    g.addEventListener("touchstart", () => g.classList.add("held"), { passive: true });
+    g.addEventListener("touchend", () => setTimeout(() => g.classList.remove("held"), 1500), { passive: true });
   });
 
   /* ---------- home category tabs ---------- */

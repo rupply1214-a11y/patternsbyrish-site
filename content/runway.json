@@ -1,0 +1,11 @@
+{
+  "_help": "Runway fixes, matched by the start of a pattern's web address (slug). sketch_files: your own clean sketch image. photo_box / sketch_box: exact crop as [left, top, right, bottom] fractions of the Etsy image. no_sketch: hide the Etsy sketch. skip: leave the pattern off the runway.",
+  "sketch_files": {
+    "oversized-hoodie": "static/img/sketches/hoodie-raglan.png",
+    "mens-hoodie": "static/img/sketches/hoodie-mens.png"
+  },
+  "photo_box": {},
+  "sketch_box": {},
+  "no_sketch": [],
+  "skip": []
+}

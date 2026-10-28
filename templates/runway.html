@@ -9,6 +9,7 @@
 </script>
 {% endblock %}
 {% block main %}
+{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
 {% set first = looks[0] if looks else none %}
 <div class="lb" data-runway>
   <section class="lb-hero">
@@ -22,7 +23,7 @@
       </div>
       {% if first %}
       <div class="lb-hero-art" aria-hidden="true">
-        {% if first.sketch %}<span class="lb-mini lb-mini-sk"><span class="lb-crop" style="{{ first.sketch_box }}"><img src="{{ first.sketch }}" alt=""></span><i>the sketch</i></span>{% endif %}
+        {% if first.sketch %}<span class="lb-mini lb-mini-sk">{{ skimg(first) }}<i>the sketch</i></span>{% endif %}
         <svg class="lb-mini-arrow" viewBox="0 0 120 60"><path d="M6 40 C 40 4, 80 4, 110 30"/><path d="M98 18 L111 31 L94 36"/></svg>
         <span class="lb-mini lb-mini-ph"><span class="washi"></span><span class="lb-crop" style="{{ first.photo_box }}"><img src="{{ first.photo }}" alt=""></span><i>the look ♡</i></span>
         {{ tool("button", "lb-st lb-st1") }}{{ tool("pins", "lb-st lb-st2") }}{{ tool("spool", "lb-st lb-st3") }}
@@ -38,7 +39,7 @@
       <div class="lk-art">
         {% if L.sketch %}
         <figure class="lk-sketch">
-          <span class="lk-paper"><span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="Technical sketch of the {{ p.short }}" loading="lazy" decoding="async"></span></span>
+          <span class="lk-paper">{{ skimg(L, "Technical sketch of the " ~ p.short) }}</span>
           <span class="lk-pencil" aria-hidden="true"><svg viewBox="0 0 24 60"><path d="M6 4h12v40l-6 12-6-12z" fill="#F5D76E" stroke="#1A1717" stroke-width="1.6"/><path d="M6 44h12" stroke="#1A1717" stroke-width="1.6"/><path d="M10 52l2 4 2-4" fill="#1A1717"/><rect x="6" y="2" width="12" height="6" rx="2" fill="#E8A9B9" stroke="#1A1717" stroke-width="1.6"/></svg></span>
           <figcaption>the sketch</figcaption>
         </figure>
@@ -80,7 +81,7 @@
         <li>
           <button type="button" class="fr-card" aria-label="Flip {{ L.p.short }} to see its sketch" data-flip>
             <span class="fr-face fr-front"><span class="lb-crop" style="{{ L.photo_box }}"><img src="{{ L.photo }}" alt="" loading="lazy"></span></span>
-            <span class="fr-face fr-back">{% if L.sketch %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="" loading="lazy"></span>{% endif %}</span>
+            <span class="fr-face fr-back">{% if L.sketch %}{{ skimg(L) }}{% endif %}</span>
           </button>
           <a class="fr-name" href="{{ u('pattern/' ~ L.p.slug ~ '/') }}"><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span>{{ L.p.short }}</a>
         </li>

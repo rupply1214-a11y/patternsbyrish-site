@@ -369,10 +369,24 @@ def main():
         if y1 - y0 < .5:
             return None
         return (x0, y0, x1, y1)
+    RW = load("content/runway.json") or {}
+    def rw_get(table, p):
+        for k, v in (RW.get(table) or {}).items():
+            if p["slug"].startswith(k):
+                return v
+        return None
+    def rw_has(lst, p):
+        return any(p["slug"].startswith(k) for k in RW.get(lst) or [])
     def sketch_of(p):
-        # the third listing image is usually a "features" sketch; use it only when the measure found a clean drawing on the left
-        if len(p["images"]) < 3:
+        # 1) a clean sketch file you added, 2) a hand-set crop, 3) the measured "features" sketch from the listing
+        f = rw_get("sketch_files", p)
+        if f:
+            return ("file", f), None
+        if rw_has("no_sketch", p) or len(p["images"]) < 3:
             return None
+        hand = rw_get("sketch_box", p)
+        if hand:
+            return p["images"][2]["medium"] or p["images"][2]["full"], tuple(hand)
         u3 = p["images"][2]["medium"] or p["images"][2]["full"]
         box = CROPS.get("sk4:" + u3)
         if box and box[2] <= .5 and box[2] - box[0] > .12 and box[3] - box[1] > .35:
@@ -394,7 +408,7 @@ def main():
             if k in t:
                 return name, slug
         return "Cotton poplin or linen", "cotton-poplin"
-    pools = [sorted([p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle"], key=lambda p: sketch_of(p) is None)
+    pools = [sorted([p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle" and not rw_has("skip", p)], key=lambda p: sketch_of(p) is None)
              for c in cat_list if c["slug"] not in ("bundles",)]
     runway, seen = [], set()
     while len(runway) < 18 and any(pools):
@@ -408,8 +422,10 @@ def main():
                 sk = sketch_of(x)
                 runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1,
                                    photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
-                                   photo_box=crop_style(photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
-                                   sketch=sk[0] if sk else "", sketch_box=crop_style(sk[1], None) if sk else ""))
+                                   photo_box=crop_style(tuple(rw_get("photo_box", x) or ()) or photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
+                                   sketch=(sk[0] if isinstance(sk[0], str) else sk[0][1]) if sk else "",
+                                   sketch_file=bool(sk and not isinstance(sk[0], str)),
+                                   sketch_box=(crop_style(sk[1], None) if sk[1] else "") if sk else ""))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]

@@ -74,12 +74,40 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       </button>
       <a class="btn btn-small btn-etsy" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Etsy shop</a>
-      <button type="button" class="icon-btn menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Open menu" data-menu>
+      <button type="button" class="icon-btn menu-btn" aria-expanded="false" aria-controls="mnav" aria-label="Open menu" data-menu>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </div>
 </header>
+
+<div class="mnav" id="mnav" hidden data-mnav>
+  <div class="mnav-sheet" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mnav-top">
+      <a href="{{ u('') }}" aria-label="{{ cfg.brand }}, home"><img src="{{ u('static/logo-line.svg') }}" alt="Patterns by Rish" width="170" height="32"></a>
+      <button type="button" class="icon-btn mnav-close" data-mnav-close aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <form class="mnav-search" action="{{ u('patterns/') }}" method="get" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <label class="sr" for="mnav-q">Search patterns</label>
+      <input id="mnav-q" name="q" type="search" placeholder="Search patterns" autocomplete="off">
+    </form>
+    {% if sale %}<p class="mnav-sale sale-bit" data-sale-end="{{ sale.end }}">✂ {{ sale.off }}% off on Etsy today · ends in <span data-countdown="{{ sale.end }}">a few hours</span></p>{% endif %}
+    <p class="mnav-h">Shop by category</p>
+    <ul class="mnav-cats">
+      {% for c in cats %}<li><a href="{{ u('category/' ~ c.slug ~ '/') }}">{{ catswatch(c, "swatch-sm") }}<span><b>{{ c.name }}</b><small>{{ c.count }} pattern{{ 's' if c.count != 1 }}</small></span></a></li>{% endfor %}
+    </ul>
+    <a class="mnav-all" href="{{ u('patterns/') }}">See all patterns <span aria-hidden="true">→</span></a>
+    <p class="mnav-h">Explore</p>
+    <ul class="mnav-links">
+      {% for href, label, ico, note in [('runway/', 'The Runway', 'scissors', 'from sketch to look'), ('worlds/', 'Sewing worlds', 'spool', 'patterns by vibe'), ('journal/', 'The Stitch Journal', 'needle', 'guides & tips'), ('fabrics/', 'Fabric library', 'fabric', '16 fabrics explained'), ('answers/', 'Sewing answers', 'button', '50 quick answers'), ('studio/', 'Our studio', 'tape', 'how we work')] %}
+      <li><a href="{{ u(href) }}" {% if path.startswith(href) %}aria-current="page"{% endif %}><span class="mnav-ico">{{ tool(ico) }}</span><span><b>{{ label }}</b><small>{{ note }}</small></span><i aria-hidden="true">→</i></a></li>
+      {% endfor %}
+    </ul>
+    <a class="btn btn-big mnav-etsy" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Visit our Etsy shop</a>
+    {{ woven("Patterns by Rish", "PDF sewing patterns", "mnav-woven") }}
+  </div>
+</div>
 
 <div class="search-layer" data-search hidden>
   <div class="search-box" role="dialog" aria-modal="true" aria-label="Search patterns">

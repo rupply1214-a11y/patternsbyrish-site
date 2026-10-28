@@ -12,6 +12,7 @@
 </script>
 {% endblock %}
 {% block main %}
+{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
 
 {# ---------- banner carousel ---------- #}
 <section class="hero" data-hero aria-roledescription="carousel" aria-label="Featured patterns">
@@ -102,13 +103,10 @@
             <span class="btn btn-small">Shop all {{ r.c.name|lower }}</span>
           </span>
         </a>
-        <div class="row-scroll">
-          <div class="row-track" data-scroller tabindex="0" role="region" aria-label="{{ r.c.name }} patterns, scroll sideways">
-            {% for p in r.picks %}{{ card(p, u) }}{% endfor %}
-          </div>
-          <div class="row-arrows">
-            <button type="button" class="round-btn" data-scroll="-1" aria-label="Show earlier {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <button type="button" class="round-btn" data-scroll="1" aria-label="Show more {{ r.c.name|lower }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        <div class="glide" data-glide>
+          <div class="glide-track" style="--n: {{ r.picks|length }}">
+            <div class="glide-set">{% for p in r.picks %}{{ card(p, u) }}{% endfor %}</div>
+            <div class="glide-set" aria-hidden="true" inert>{% for p in r.picks %}{{ card(p, u) }}{% endfor %}</div>
           </div>
         </div>
       </div>
@@ -132,7 +130,7 @@
       {% for L in runway[:4] %}
       <li><a href="{{ u('runway/') }}#look-{{ L.n }}">
         <span class="lb-tp"><span class="lb-crop" style="{{ L.photo_box }}"><img src="{{ L.photo }}" alt="{{ L.p.short }}" loading="lazy"></span></span>
-        {% if L.sketch %}<span class="lb-ts"><span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="" loading="lazy"></span></span>{% endif %}
+        {% if L.sketch %}<span class="lb-ts">{{ skimg(L) }}</span>{% endif %}
         <span class="fr-n">Look {{ '%02d'|format(L.n) }}</span>
       </a></li>
       {% endfor %}
