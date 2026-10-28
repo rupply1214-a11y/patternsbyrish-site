@@ -1895,3 +1895,8 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
   .slide-cta { flex-wrap: nowrap; gap: 8px; }
   .slide-cta .btn { padding: 12px 16px; font-size: .92rem; white-space: nowrap; }
 }
+/* front row: fit the whole photo or sketch inside the card, whatever its shape */
+.fr-face { container-type: size; place-items: center; padding: 8px; }
+.fr-face .lb-crop { width: min(100cqw, 100cqh * var(--ar, .6)); max-height: 100cqh; height: auto; }
+.fr-face .lb-file { width: 100cqw; max-height: 100cqh; padding: 6%; aspect-ratio: auto; }
+.fr-back { background: #fff; }
