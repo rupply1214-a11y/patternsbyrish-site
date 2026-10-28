@@ -296,6 +296,8 @@ env = Environment(loader=FileSystemLoader(os.path.join(ROOT, "templates")), auto
 from markupsafe import Markup, escape as _esc
 env.filters["accent"] = lambda t: Markup(re.sub(r"\*(.+?)\*", r'<em class="acc">\1</em>', str(_esc(t or ""))))
 env.globals["reels"] = json.load(open(os.path.join(ROOT, "content", "reels.json"))) if os.path.exists(os.path.join(ROOT, "content", "reels.json")) else []
+import hashlib as _h
+env.globals["ver"] = _h.md5(b"".join(open(os.path.join(ROOT, "static", f), "rb").read() for f in sorted(os.listdir(os.path.join(ROOT, "static"))) if f.endswith((".css", ".js")))).hexdigest()[:8]
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
 
 

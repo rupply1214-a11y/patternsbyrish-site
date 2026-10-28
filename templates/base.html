@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.etsystatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ u('static/style.css') }}">
+<link rel="stylesheet" href="{{ u('static/style.css') }}?v={{ ver }}">
 {% block schema %}{% endblock %}
 </head>
 <body data-root="{{ u('') }}">
@@ -137,6 +137,6 @@
   </div>
   <p class="wrap fine">© {{ year }} Patterns by Rish. Prices are in US dollars; Etsy shows your local currency at checkout. The term "Etsy" is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
 </footer>
-<script src="{{ u('static/app.js') }}" defer></script>
+<script src="{{ u('static/app.js') }}?v={{ ver }}" defer></script>
 </body>
 </html>
