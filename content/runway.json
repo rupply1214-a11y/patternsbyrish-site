@@ -4,7 +4,14 @@
     "oversized-hoodie": "static/img/sketches/hoodie-raglan.png",
     "mens-hoodie": "static/img/sketches/hoodie-mens.png"
   },
-  "photo_box": {},
+  "photo_box": {
+    "wide-leg-jumpsuit-square-neck": [
+      0.0047,
+      0.088,
+      0.505,
+      0.85
+    ]
+  },
   "sketch_box": {},
   "no_sketch": [],
   "skip": []
