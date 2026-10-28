@@ -24,9 +24,8 @@ def fetch(url):
     return Image.open(io.BytesIO(data)).convert("RGB")
 
 
-def block(im, top=0.0, bottom=1.0, max_right=0.62):
+def block(im, top=0.0, bottom=1.0, max_right=0.62, W=240, thr=45, gap_frac=0.03, need=None):
     """Bounding box (fractions) of the first block of content from the left, separated from the rest by an empty gap."""
-    W = 240
     im = im.resize((W, round(W * im.height / im.width)))
     H = im.height
     px = im.load()
@@ -34,8 +33,8 @@ def block(im, top=0.0, bottom=1.0, max_right=0.62):
     bg = tuple(sorted(c[i] for c in corners)[1] for i in range(3))  # median-ish background colour
     y0, y1 = int(top * H), int(bottom * H)
     diff = lambda c: abs(c[0] - bg[0]) + abs(c[1] - bg[1]) + abs(c[2] - bg[2])
-    cols = [sum(1 for y in range(y0, y1) if diff(px[x, y]) > 45) for x in range(W)]
-    need = max(2, (y1 - y0) // 60)  # a column counts as content when a few pixels differ
+    cols = [sum(1 for y in range(y0, y1) if diff(px[x, y]) > thr) for x in range(W)]
+    need = need or max(2, (y1 - y0) // 60)  # a column counts as content when a few pixels differ
     start = next((x for x in range(W) if cols[x] >= need), None)
     if start is None:
         return None
@@ -45,10 +44,10 @@ def block(im, top=0.0, bottom=1.0, max_right=0.62):
             end, gap = x, 0
         else:
             gap += 1
-            if gap > W * 0.03:
+            if gap > W * gap_frac:
                 break
         x += 1
-    rows = [y for y in range(y0, y1) if any(diff(px[xx, y]) > 45 for xx in range(start, end + 1, 2))]
+    rows = [y for y in range(y0, y1) if any(diff(px[xx, y]) > thr for xx in range(start, end + 1, 2))]
     if not rows:
         return None
     pad = 0.012
@@ -65,15 +64,16 @@ for l in listings:
     jobs = []
     if imgs:
         jobs.append((imgs[0].get("medium") or imgs[0].get("full"), dict(top=0.0, bottom=1.0, max_right=0.62)))
-    if len(imgs) > 2:
-        jobs.append((imgs[2].get("medium") or imgs[2].get("full"), dict(top=0.13, bottom=0.99, max_right=0.7)))
-    for url, opts in jobs:
-        if not url or url in cache:
+    if len(imgs) > 2:  # sketches: thin pencil lines, so measure at a higher resolution with a lower threshold
+        u2 = imgs[2].get("medium") or imgs[2].get("full")
+        jobs.append(("sk2:" + u2 if u2 else None, dict(top=0.13, bottom=0.99, max_right=0.7, W=480, thr=28, gap_frac=0.022, need=1)))
+    for key, opts in jobs:
+        if not key or key in cache:
             continue
         try:
-            cache[url] = block(fetch(url), **opts)
+            cache[key] = block(fetch(key[4:] if key.startswith("sk2:") else key), **opts)
             new += 1
         except Exception as e:
-            print("skip", url, e, file=sys.stderr)
+            print("skip", key, e, file=sys.stderr)
 json.dump(cache, open(OUT, "w"), indent=0, sort_keys=True)
 print(f"measured {new} new image(s), {len(cache)} cached")
