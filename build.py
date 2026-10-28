@@ -295,6 +295,7 @@ env = Environment(loader=FileSystemLoader(os.path.join(ROOT, "templates")), auto
                   trim_blocks=True, lstrip_blocks=True)
 from markupsafe import Markup, escape as _esc
 env.filters["accent"] = lambda t: Markup(re.sub(r"\*(.+?)\*", r'<em class="acc">\1</em>', str(_esc(t or ""))))
+env.globals["reels"] = json.load(open(os.path.join(ROOT, "content", "reels.json"))) if os.path.exists(os.path.join(ROOT, "content", "reels.json")) else []
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
 
 
@@ -354,11 +355,33 @@ def main():
     json.dump(dict(built=datetime.now(timezone.utc).isoformat(timespec="seconds"), synced=DATA.get("synced_at"), patterns=len(products),
                    hidden=len(every) - len(products), posts=len(posts), sample=bool(DATA.get("sample"))),
               open(os.path.join(DIST, "tools", "build.json"), "w"))
+    # the runway: one model look per pattern, mixed across categories
+    FABRIC_HINT = [("linen", "Linen", "linen"), ("satin", "Satin", "satin"), ("slip", "Satin", "satin"), ("wedding", "Crepe or satin", "crepe"),
+                   ("gown", "Crepe or satin", "crepe"), ("jean", "Denim", "denim"), ("denim", "Denim", "denim"), ("hoodie", "French terry", "french-terry"),
+                   ("sweatshirt", "French terry", "french-terry"), ("knit", "Cotton jersey", "cotton-jersey"), ("raglan", "Cotton jersey", "cotton-jersey"),
+                   ("tee", "Cotton jersey", "cotton-jersey"), ("gingham", "Gingham", "gingham"), ("shirt", "Cotton poplin", "cotton-poplin"),
+                   ("blouse", "Cotton voile", "cotton-voile"), ("maxi", "Rayon challis", "rayon-challis"), ("skirt", "Rayon challis", "rayon-challis")]
+    def fabric_for(p):
+        t = (p["title"] + " " + p["short"]).lower()
+        for k, name, slug in FABRIC_HINT:
+            if k in t:
+                return name, slug
+        return "Cotton poplin or linen", "cotton-poplin"
+    pools = [[p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle"] for c in cat_list if c["slug"] not in ("bundles",)]
+    runway, seen = [], set()
+    while len(runway) < 18 and any(pools):
+        for pool in pools:
+            while pool and pool[0]["id"] in seen:
+                pool.pop(0)
+            if pool and len(runway) < 18:
+                x = pool.pop(0); seen.add(x["id"])
+                fn, fs = fabric_for(x)
+                runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]
     render("", "index.html", st=studio.data(), slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
-           stats=stats, rows=rows, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
+           stats=stats, rows=rows, runway=runway, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
     render("patterns/", "list.html", items=products, current=None, heading="All sewing patterns",
            intro=f"Every pattern in the shop, newest first. {len(products)} printable PDF patterns, each with an instant download on Etsy.")
     for c in cat_list:
@@ -374,6 +397,7 @@ def main():
         render(f"worlds/{w['slug']}/", "list.html", items=w["items"], current=None, world=w, heading=w["name"], intro=w["intro"])
     render("answers/", "answers.html", answers=load("content/answers.json", []))
     render("fabrics/", "fabrics.html", fabrics=load("content/fabrics.json", []))
+    render("runway/", "runway.html", looks=runway, total=len(products))
     render("journal/", "journal.html")
     for b in posts:
         render(f"journal/{b['slug']}/", "journal_post.html", b=b, more=[x for x in posts if x is not b][:3])
@@ -389,7 +413,7 @@ def main():
     base = SITE_URL or ""
     open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
     if base:
-        urls = ["", "patterns/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
+        urls = ["", "patterns/", "runway/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
                [f"pattern/{p['slug']}/" for p in products] + [f"journal/{b['slug']}/" for b in posts]
         now = datetime.now(timezone.utc).date().isoformat()
         open(os.path.join(DIST, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

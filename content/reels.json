@@ -1,0 +1,26 @@
+[
+  {"slug": "print", "title": "Print it right", "tag": "Printing", "minutes": "20 sec", "link": "journal/how-to-print-pdf-sewing-patterns/",
+   "scenes": [
+     {"img": "static/img/journal-print.jpg", "big": "Print it right", "small": "a PDF pattern in five moves", "pos": "50% 50%"},
+     {"img": "static/img/studio-desk.jpg", "big": "Open it in Acrobat", "small": "not the browser preview", "pos": "40% 50%"},
+     {"img": "static/img/journal-print.jpg", "big": "Actual size. 100%.", "small": "turn every Fit option off", "pos": "30% 40%"},
+     {"img": "static/img/journal-print.jpg", "big": "Measure the square", "small": "4 × 4 in, both directions", "pos": "70% 60%"},
+     {"img": "static/img/studio-cutting.jpg", "big": "Then tape and cut", "small": "match the page markers", "pos": "50% 50%"}
+   ]},
+  {"slug": "linen", "title": "Linen without the shrink", "tag": "Fabric", "minutes": "20 sec", "link": "journal/best-fabric-for-linen-dresses/",
+   "scenes": [
+     {"img": "static/img/journal-linen.jpg", "big": "Sewing with linen?", "small": "five things we always do", "pos": "50% 60%"},
+     {"img": "static/img/studio-fabrics.jpg", "big": "150 to 200 gsm", "small": "the sweet spot for dresses", "pos": "50% 50%"},
+     {"img": "static/img/journal-linen.jpg", "big": "Pre-wash it first", "small": "linen can shrink up to 10%", "pos": "40% 70%"},
+     {"img": "static/img/studio-machine.jpg", "big": "Fresh 80/12 needle", "small": "and finish every seam", "pos": "50% 60%"},
+     {"img": "static/img/studio-press.jpg", "big": "Press with steam", "small": "after every single seam", "pos": "50% 50%"}
+   ]},
+  {"slug": "size", "title": "Find your real size", "tag": "Fit", "minutes": "20 sec", "link": "journal/how-to-choose-your-sewing-pattern-size/",
+   "scenes": [
+     {"img": "static/img/studio-form.jpg", "big": "Forget your shop size", "small": "patterns size differently", "pos": "50% 35%"},
+     {"img": "static/img/studio-form.jpg", "big": "Bust. Waist. Hips.", "small": "soft tape, snug and level", "pos": "50% 55%"},
+     {"img": "static/img/studio-desk.jpg", "big": "Match the chart", "small": "inside your pattern", "pos": "60% 50%"},
+     {"img": "static/img/studio-cutting.jpg", "big": "Blend between sizes", "small": "a smooth line at the waist", "pos": "50% 50%"},
+     {"img": "static/img/studio-machine.jpg", "big": "Sew with confidence", "small": "it will fit you, not a label", "pos": "50% 50%"}
+   ]}
+]

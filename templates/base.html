@@ -62,6 +62,7 @@
           <a class="mega-all" href="{{ u('patterns/') }}">See all patterns</a>
         </div>
       </div>
+      <a class="nav-link" href="{{ u('runway/') }}" {% if path.startswith('runway/') %}aria-current="page"{% endif %}>Runway</a>
       <a class="nav-link" href="{{ u('worlds/') }}" {% if path.startswith('worlds/') %}aria-current="page"{% endif %}>Sewing worlds</a>
       <a class="nav-link" href="{{ u('journal/') }}" {% if path.startswith('journal/') %}aria-current="page"{% endif %}>Journal</a>
       <a class="nav-link" href="{{ u('fabrics/') }}" {% if path.startswith('fabrics/') %}aria-current="page"{% endif %}>Fabric library</a>
@@ -102,7 +103,7 @@
   <div class="cut-line" aria-hidden="true">{{ tool("scissors", "cut-scissors") }}</div>
   <div class="wrap foot-sign">
     <p class="foot-big">Sew the dress<br><em class="acc">you can't find in stores.</em></p>
-    <div class="foot-sign-side">{{ woven("Patterns by Rish", "PDF sewing patterns · sizes XS to 5XL", "woven-lg") }}<a class="btn btn-light" href="{{ u('patterns/') }}">Browse every pattern</a></div>
+    <div class="foot-sign-side">{{ woven("Patterns by Rish", "PDF sewing patterns · sizes XS to 5XL", "woven-lg") }}<a class="btn btn-light" href="{{ u('patterns/') }}">Browse every pattern</a>{% set soc = cfg.social or {} %}{% if soc.instagram or soc.facebook or soc.pinterest %}<ul class="foot-social" aria-label="Follow Patterns by Rish">{% if soc.instagram %}<li><a href="{{ soc.instagram }}" rel="noopener me" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a></li>{% endif %}{% if soc.facebook %}<li><a href="{{ soc.facebook }}" rel="noopener me" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v6h4v-6H16l.6-4h-3.1V9c0-.6.4-1 .9-1z" fill="currentColor" stroke="none"/></svg><span>Facebook</span></a></li>{% endif %}{% if soc.pinterest %}<li><a href="{{ soc.pinterest }}" rel="noopener me" aria-label="Pinterest"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5a9.5 9.5 0 0 0-3.5 18.3c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.5 1.8-2.5.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.8 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.7 0-2.5-1.8-4.2-4.3-4.2-2.9 0-4.6 2.2-4.6 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.2c0 .2-.2.3-.4.2-1.3-.6-2.1-2.5-2.1-4 0-3.3 2.4-6.3 6.9-6.3 3.6 0 6.4 2.6 6.4 6 0 3.6-2.3 6.5-5.4 6.5-1.1 0-2.1-.6-2.4-1.2l-.7 2.5c-.2.9-.9 2.1-1.3 2.8A9.5 9.5 0 1 0 12 2.5z" fill="currentColor" stroke="none"/></svg><span>Pinterest</span></a></li>{% endif %}</ul>{% endif %}</div>
   </div>
   <div class="wrap foot-in">
     <div class="foot-brand">
@@ -116,6 +117,7 @@
     <div>
       <p class="foot-h">Learn</p>
       <ul>
+        <li><a href="{{ u('runway/') }}">The Runway</a></li>
         <li><a href="{{ u('journal/') }}">The Stitch Journal</a></li>
         <li><a href="{{ u('answers/') }}">Sewing answers</a></li>
         <li><a href="{{ u('fabrics/') }}">Fabric library</a></li>

@@ -33,5 +33,10 @@
   },
   "supabase_url": "https://odqwfposfokhipejjaps.supabase.co",
   "supabase_key": "sb_publishable_c-88cgkbsndqZmIZ7kxPAQ_44fXGY5y",
-  "github_repo": "rupply1214-a11y/patternsbyrish-site"
+  "github_repo": "rupply1214-a11y/patternsbyrish-site",
+  "social": {
+    "instagram": "",
+    "facebook": "",
+    "pinterest": ""
+  }
 }

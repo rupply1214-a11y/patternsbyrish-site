@@ -118,6 +118,24 @@
 </section>
 {% endif %}
 
+{# ---------- runway teaser ---------- #}
+{% if runway %}
+<section class="rw-teaser">
+  <span class="rw-beam rw-beam-l" aria-hidden="true"></span><span class="rw-beam rw-beam-r" aria-hidden="true"></span>
+  <div class="wrap rw-teaser-in">
+    <div class="rw-teaser-copy">
+      <p class="rw-k">Now showing</p>
+      <h2>The <em class="acc">made-by-you</em> show</h2>
+      <p class="rw-line">{{ runway|length }} looks walk the runway, and every one is a pattern you can sew at home.</p>
+      <a class="btn btn-light" href="{{ u('runway/') }}">Watch the show</a>
+    </div>
+    <ul class="rw-teaser-row" aria-hidden="true">
+      {% for L in runway[:5] %}<li style="--i: {{ loop.index0 }}"><a href="{{ u('runway/') }}#look-{{ L.n }}" tabindex="-1"><span class="fr-arch"><img src="{{ L.p.images[0].medium or L.p.images[0].full }}" alt="" loading="lazy"></span><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span></a></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
 {# ---------- brand film ---------- #}
 <section class="film-band">
   <div class="wrap">

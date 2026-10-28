@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool, woven %}
+{% block title %}The Runway: Sewing Pattern Looks You Can Make | Patterns by Rish{% endblock %}
+{% block description %}The Patterns by Rish runway: {{ looks|length }} looks, every one a printable PDF sewing pattern you can sew at home, with fabric ideas and sizes.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": "The Runway", "url": canon() or none,
+   "mainEntity": {"@type": "ItemList", "numberOfItems": looks|length, "itemListElement": (looks | map(attribute='p') | map(attribute='name') | list)}} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<div class="rw" data-runway>
+  <section class="rw-stage">
+    <span class="rw-beam rw-beam-l" aria-hidden="true"></span><span class="rw-beam rw-beam-r" aria-hidden="true"></span>
+    <div class="wrap rw-head">
+      <p class="rw-k">Patterns by Rish presents</p>
+      <h1>The <em class="acc">made-by-you</em> show</h1>
+      <p class="rw-line">{{ looks|length }} looks walk the runway. Every one is a PDF sewing pattern you can print tonight and sew at home.</p>
+      <p class="rw-meta"><span>Season {{ year }}</span><span>{{ looks|length }} looks</span><span>Sizes up to 5XL</span></p>
+      <a class="rw-start" href="#look-1"><span>The show begins</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg></a>
+    </div>
+    <div class="rw-floor" aria-hidden="true"><span></span></div>
+  </section>
+
+  <section class="rw-walk" aria-label="Runway looks">
+    <div class="rw-strip" aria-hidden="true"></div>
+    {% for L in looks %}{% set p = L.p %}
+    <article class="look{{ ' look-r' if loop.index is even }}" id="look-{{ L.n }}" data-look="{{ L.n }}">
+      <div class="look-frame">
+        <span class="look-flash f1" aria-hidden="true"></span><span class="look-flash f2" aria-hidden="true"></span><span class="look-flash f3" aria-hidden="true"></span>
+        <a class="look-arch" href="{{ u('pattern/' ~ p.slug ~ '/') }}" tabindex="-1" aria-hidden="true"><img src="{{ p.images[0].full or p.images[0].medium }}" alt="" loading="{{ 'eager' if loop.index <= 2 else 'lazy' }}" decoding="async"></a>
+        <span class="look-shadow" aria-hidden="true"></span>
+      </div>
+      <div class="look-card">
+        <p class="look-n">Look {{ '%02d'|format(L.n) }}</p>
+        <h2 class="look-t">{{ p.short }}</h2>
+        {% if p.sub %}<p class="look-sub">{{ p.sub }}</p>{% endif %}
+        <dl class="look-notes">
+          <div><dt>Sew it in</dt><dd><a href="{{ u('fabrics/') }}#{{ L.fabric_slug }}">{{ L.fabric }}</a></dd></div>
+          {% if p.sizes %}<div><dt>Sizes</dt><dd>{{ p.sizes }}</dd></div>{% endif %}
+          <div><dt>Collection</dt><dd><a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a></dd></div>
+        </dl>
+        <p class="look-price"><b>{{ p.price }}</b>{% if p.was %} <s>{{ p.was }}</s> <span class="look-off sale-bit">{{ p.off }}% off today</span>{% endif %}</p>
+        <p class="look-cta"><a class="btn btn-light" href="{{ u('pattern/' ~ p.slug ~ '/') }}">See the pattern</a><a class="look-etsy" href="{{ p.etsy }}" rel="noopener">Shop this look on Etsy →</a></p>
+      </div>
+    </article>
+    {% endfor %}
+    <div class="rw-bow">
+      {{ woven("Patterns by Rish", "thank you for coming", "woven-lg") }}
+      <h2>That's the show.</h2>
+      <p>Every look is waiting for your fabric.</p>
+    </div>
+  </section>
+
+  <section class="band band-paper">
+    <div class="wrap">
+      <div class="head-row"><h2 class="stitch-h"><span>The <em class="acc">front row</em></span></h2><a class="more" href="{{ u('patterns/') }}">All {{ total }} patterns</a></div>
+      <ul class="front-row">
+        {% for L in looks %}<li><a href="{{ u('pattern/' ~ L.p.slug ~ '/') }}"><span class="fr-arch"><img src="{{ L.p.images[0].medium or L.p.images[0].full }}" alt="{{ L.p.short }} sewing pattern" loading="lazy"></span><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span><span class="fr-t">{{ L.p.short }}</span></a></li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <div class="rw-now" aria-hidden="true" hidden><span class="rw-dot"></span>Now walking <b data-now>Look 01</b> <span class="rw-of">of {{ looks|length }}</span></div>
+</div>
+<script src="{{ u('static/runway.js') }}" defer></script>
+{% endblock %}

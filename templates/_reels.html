@@ -1,0 +1,30 @@
+{% from "_macros.html" import tool %}
+{% if reels %}
+<section class="band reels-band" aria-label="Stitch Studio shorts">
+  <div class="wrap">
+    <div class="head-row"><h2 class="stitch-h"><span>Stitch Studio <em class="acc">shorts</em></span></h2><p class="sh-note">Twenty-second tips from the cutting table.</p></div>
+    <div class="reel-tabs" role="tablist" aria-label="Choose a short">{% for r in reels %}<button type="button" role="tab" aria-selected="{{ 'true' if loop.first else 'false' }}" data-reel-tab="{{ loop.index0 }}">{{ r.tag }}</button>{% endfor %}</div>
+    <ul class="reels">
+      {% for r in reels %}
+      <li{{ ' class="on"'|safe if loop.first }}>
+        <div class="reel" data-reel tabindex="0" role="group" aria-roledescription="video" aria-label="{{ r.title }}: {{ r.scenes|length }} tips, tap to pause">
+          <div class="reel-bars" aria-hidden="true">{% for s in r.scenes %}<span><i></i></span>{% endfor %}</div>
+          <div class="reel-top"><span class="reel-avatar">{{ tool("needle") }}</span><span class="reel-host"><b>Stitch Studio</b><small>{{ r.tag }} · {{ r.minutes }}</small></span><span class="reel-live">tips</span></div>
+          {% for s in r.scenes %}
+          <div class="reel-scene{{ ' on' if loop.first }}" data-scene>
+            <img src="{{ u(s.img) }}" alt="" loading="lazy" style="object-position: {{ s.pos }}">
+            <div class="reel-text"><span class="reel-step">{{ '%02d'|format(loop.index) }}</span><p class="reel-big">{{ s.big }}</p><p class="reel-small">{{ s.small }}</p></div>
+          </div>
+          {% endfor %}
+          <svg class="reel-tape" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="24" fill="#F5D76E"/><path d="{% for x in range(0, 400, 10) %}M{{ x }} 0v{{ 12 if x % 50 == 0 else 6 }}{% endfor %}" stroke="#1A1717" stroke-width="1.4"/></svg>
+          <button type="button" class="reel-play" aria-label="Play or pause" data-reel-toggle><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5l11 7-11 7z"/><path class="i-pause" d="M9 6v12M15 6v12"/></svg></button>
+          <span class="reel-tap reel-prev" data-reel-prev aria-hidden="true"></span><span class="reel-tap reel-next" data-reel-next aria-hidden="true"></span>
+        </div>
+        <a class="reel-title" href="{{ u(r.link) }}"><b>{{ r.title }}</b><span>Read the full guide →</span></a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+<script src="{{ u('static/reels.js') }}" defer></script>
+{% endif %}
