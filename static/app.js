@@ -335,3 +335,21 @@
     $$(".stitch-h").forEach((h) => { if (below(h)) io.observe(h); });
   }
 })();
+
+/* answers page: highlight the topic chip of the section being read */
+(() => {
+  const secs = [...document.querySelectorAll("[data-ans-sec]")];
+  const links = [...document.querySelectorAll(".ans-nav a")];
+  if (!secs.length || !links.length || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver((es) => {
+    es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      links.forEach((a) => {
+        const on = a.getAttribute("href") === "#" + e.target.id;
+        a.classList.toggle("on", on);
+        if (on) { const ul = a.closest("ul"); if (ul) ul.scrollTo({ left: a.offsetLeft - 16, behavior: "smooth" }); }
+      });
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  secs.forEach((s) => io.observe(s));
+})();

@@ -3,6 +3,7 @@ title: Woven or knit? Matching fabric to your pattern
 description: Why a pattern drafted for knit fabric won't fit in a woven one, and how to tell the two apart in the fabric shop.
 date: 2026-10-08
 category: tops
+cover: static/img/studio-fabrics.jpg
 tag: Fabric
 ---
 Every pattern in our shop says whether it's drafted for **woven** or **knit** fabric. It's one of the most important lines in the pattern, because the two behave completely differently.

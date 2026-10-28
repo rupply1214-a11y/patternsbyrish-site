@@ -3,6 +3,7 @@ title: The beginner's sewing kit for PDF patterns
 description: The tools you actually need to sew from a PDF pattern, and the ones you can skip until later.
 date: 2026-10-12
 category: tops
+cover: static/img/studio-cutting.jpg
 tag: Beginners
 ---
 You don't need a room full of gadgets to sew from a PDF pattern. Here's the short list that covers almost every pattern in our shop, plus a few things that are nice to have once you're hooked.

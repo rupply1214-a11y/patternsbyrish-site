@@ -136,13 +136,18 @@
 <section class="band band-paper">
   <div class="wrap">
     <div class="head-row">{{ heading("Choose your *sewing world*") }}<a class="more" href="{{ u('worlds/') }}">All {{ worlds_nav|length }} worlds</a></div>
-    <ul class="home-worlds">
-      {% for w in worlds_nav %}
+    <ul class="home-worlds-grid">
+      {% for w in worlds_nav[:7] %}
       <li><a class="world tint-{{ w.tint }}" href="{{ u('worlds/' ~ w.slug ~ '/') }}" style="--tilt: 0deg">
         <span class="world-art" aria-hidden="true"><span class="world-disc"><span class="swatch-stitch"></span>{{ garment(w.icon) }}</span>{% for pr in w.props %}{{ tool(pr, "world-prop wp" ~ loop.index) }}{% endfor %}</span>
         <span class="world-copy"><span class="world-count">{{ w.count }} patterns</span><span class="world-name">{{ w.name }}</span><span class="world-line">{{ w.line }}</span></span>
       </a></li>
       {% endfor %}
+      <li><a class="world world-all" href="{{ u('worlds/') }}">
+        <span class="world-all-stack" aria-hidden="true">{% for w in worlds_nav[7:11] %}<span class="tint-{{ w.tint }}">{{ garment(w.icon) }}</span>{% endfor %}</span>
+        <span class="world-copy"><span class="world-count">+{{ worlds_nav|length - 7 }} more</span><span class="world-name">See every world</span><span class="world-line">{% for w in worlds_nav[7:] %}{{ w.name }}{{ ', ' if not loop.last }}{% endfor %}</span></span>
+        <span class="world-all-go" aria-hidden="true">→</span>
+      </a></li>
     </ul>
   </div>
 </section>
@@ -203,7 +208,7 @@
     <div class="post-grid home-posts">
       {% for b in posts[:3] %}
       <a class="post-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
-        <span class="post-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ b.tag }}</span></span>
+        <span class="post-pic">{% if b.cover %}<img src="{{ b.cover if b.cover.startswith('http') else u(b.cover) }}" alt="" loading="lazy">{% endif %}<span class="post-tag">{{ b.tag }}</span></span>
         <span class="post-title">{{ b.title }}</span>
         <span class="post-desc">{{ b.description }}</span>
         <span class="post-meta">{{ b.minutes }} min read</span>

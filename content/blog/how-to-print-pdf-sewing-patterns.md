@@ -3,6 +3,7 @@ title: How to print a PDF sewing pattern at the right size
 description: A4, US Letter or A0, actual size, the test square and taping the pages. Everything you need to print a PDF pattern that fits.
 date: 2026-10-20
 category: dresses
+cover: static/img/journal-print.jpg
 tag: Printing
 ---
 A PDF sewing pattern is only as accurate as your print. Print it a few percent too small and a dress drafted for your measurements comes out a size smaller. The good news is that getting it right takes one setting and one measurement.

@@ -1,18 +1,21 @@
 {% extends "base.html" %}
-{% from "_macros.html" import tool %}
+{% from "_macros.html" import tool, woven %}
 {% block title %}Our Studio | Patterns by Rish PDF Sewing Patterns{% endblock %}
 {% block description %}Step inside the Patterns by Rish studio: how our PDF sewing patterns go from sketchbook to drafted, graded pattern, and how you print, cut and sew them at home.{% endblock %}
 {% block main %}
-<section class="studio-hero">
-  <svg class="hero-thread" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
-    <mask id="thread-m"><path class="th-mask" pathLength="1" d="M-20 420 C200 300 260 470 430 380 S700 200 820 330 1020 420 1220 120"/></mask>
-    <path class="th" d="M-20 420 C200 300 260 470 430 380 S700 200 820 330 1020 420 1220 120" mask="url(#thread-m)"/>
-  </svg>
-  <div class="wrap studio-hero-in">
-    <img class="studio-logo" src="{{ u('static/logo.svg') }}" alt="Patterns by Rish" width="320" height="111">
-    <p class="brand-label">Our studio</p>
-    <h1>Where every pattern begins</h1>
-    <p class="lede">Sketches, swatches, pattern paper and a lot of thread. Here's how a Patterns by Rish design travels from our sketchbook to your sewing machine.</p>
+<section class="studio-hero studio-hero-photo">
+  <div class="wrap sh-in">
+    <div class="sh-copy">
+      <p class="brand-label">Our studio</p>
+      <h1>Where every pattern <em class="acc">begins</em></h1>
+      <p class="lede">Sketches, swatches, pattern paper and a lot of thread. Here's how a Patterns by Rish design travels from the sketchbook to your sewing machine.</p>
+      <div class="sh-cta"><a class="btn" href="{{ u('patterns/') }}">Browse the patterns</a><a class="btn btn-ghost" href="#inside">Look around</a></div>
+    </div>
+    <div class="sh-art">
+      <figure class="sh-main"><img src="{{ u('static/img/studio-desk.jpg') }}" alt="A sunlit sewing table with a cutting mat, a taped PDF pattern, linen, scissors and red thread" width="1800" height="1005"></figure>
+      <figure class="sh-small"><span class="washi"></span><img src="{{ u('static/img/studio-form.jpg') }}" alt="A finished linen maxi dress on a dress form by the window" loading="lazy" width="1449" height="1800"></figure>
+      {{ woven("Patterns by Rish", "studio notes", "sh-woven") }}
+    </div>
   </div>
 </section>
 
@@ -20,9 +23,21 @@
   <div class="wrap">{% include "_film.html" %}</div>
 </section>
 
+<section class="band" id="inside">
+  <div class="wrap">
+    <div class="head-row"><h2 class="stitch-h"><span>Inside the <em class="acc">studio</em></span></h2><p class="sh-note">Cut, sewn and pressed, one piece at a time.</p></div>
+    <div class="bento">
+      <figure class="b1"><img src="{{ u('static/img/studio-cutting.jpg') }}" alt="Paper pattern pieces pinned to linen on a green cutting mat" loading="lazy" width="1449" height="1800"><figcaption><b>The cutting table</b>Grainline first, scissors second.</figcaption></figure>
+      <figure class="b2"><img src="{{ u('static/img/studio-machine.jpg') }}" alt="Hands guiding linen under a sewing machine needle" loading="lazy" width="1449" height="1800"><figcaption><b>At the machine</b>One straight seam at a time.</figcaption></figure>
+      <figure class="b3"><img src="{{ u('static/img/studio-fabrics.jpg') }}" alt="A shelf of folded fabrics sorted by colour" loading="lazy" width="1800" height="1800"><figcaption><b>The fabric shelf</b>Linen, cotton, gingham and florals.</figcaption></figure>
+      <figure class="b4"><img src="{{ u('static/img/studio-press.jpg') }}" alt="Pressing a seam open on a linen dress" loading="lazy" width="1800" height="1800"><figcaption><b>Pressed as we go</b>The secret to a hand-made finish.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <section class="band band-paper">
   <div class="wrap">
-    <h2 class="stitch-h"><span>What we care about</span></h2>
+    <h2 class="stitch-h"><span>What we <em class="acc">care about</em></span></h2>
     <ul class="values">
       <li>{{ tool("tape") }}<h3>Drafted to fit</h3><p>Our patterns are graded across a wide size range, many from XS to 5XL, with plus size styles drafted in from the start.</p></li>
       <li>{{ tool("paper") }}<h3>Print it your way</h3><p>PDF files you print at home on A4 or US Letter, or send to a copy shop and skip the taping.</p></li>
@@ -34,7 +49,7 @@
 
 <section class="band">
   <div class="wrap">
-    <h2 class="stitch-h"><span>A peek inside one of our instruction PDFs</span></h2>
+    <h2 class="stitch-h"><span>A peek inside one of our <em class="acc">instruction PDFs</em></span></h2>
     <p class="lede">Each pattern has its own instructions. These pages are from the PDF for our Boatneck Maxi Dress: the garment drawing, the printer test page, and two of its illustrated sewing steps.</p>
     <div class="booklet">
       {% for img, alt in [('booklet-cover.jpg', 'Boatneck Maxi Dress instructions PDF, first page with front and back drawings'), ('calibration-page.jpg', 'Printer test page with a 4 by 4 inch square'), ('booklet-step.jpg', 'A sewing step with five drawings: attaching the pocket bags'), ('booklet-zipper.jpg', 'A sewing step with drawings: inserting an invisible zipper')] %}
@@ -49,6 +64,7 @@
     {% if stats.sold %}<li><b>{{ stats.sold }}</b><span>patterns sold on Etsy</span></li>{% endif %}
     {% if stats.reviews %}<li><b>{{ '%.1f'|format(stats.rating) }} ★</b><span>from {{ stats.reviews }} reviews</span></li>{% endif %}
     <li><b>{{ stats.count }}</b><span>patterns in the shop today</span></li>
+    <li><b>XS–5XL</b><span>size range on most patterns</span></li>
   </ul>
 </section>
 

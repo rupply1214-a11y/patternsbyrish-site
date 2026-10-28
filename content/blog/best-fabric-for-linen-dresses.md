@@ -3,6 +3,7 @@ title: Choosing linen for your next dress
 description: Linen weights, washed linen, linen blends and how to pre-wash it so your finished dress doesn't shrink.
 date: 2026-10-15
 category: dresses
+cover: static/img/journal-linen.jpg
 tag: Fabric
 ---
 Linen is the fabric most of our dress patterns are photographed in, and for good reason: it's breathable, it gets softer with every wash and it holds the shape of a boat neck or a trapeze skirt beautifully. It's also easy to buy the wrong one. Here's what to look for.

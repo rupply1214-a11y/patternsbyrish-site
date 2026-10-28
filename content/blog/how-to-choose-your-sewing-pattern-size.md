@@ -3,6 +3,7 @@ title: How to choose your size on a sewing pattern
 description: Sewing pattern sizes don't match shop sizes. How to measure yourself, read the size chart and what to do when you're between sizes.
 date: 2026-10-18
 category: plus-size
+cover: static/img/studio-form.jpg
 tag: Fit
 ---
 The size you buy in a shop tells you very little about your sewing pattern size. Every pattern company drafts to its own body measurements, so the only reliable way to choose is with a tape measure and the size chart in the pattern.

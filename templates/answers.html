@@ -41,10 +41,10 @@
   </div>
 </section>
 <section class="band band-paper">
-  <div class="wrap ans-more">
-    <a class="j-help-card light" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>What each fabric is like and what to sew with it.</span></a>
-    <a class="j-help-card light" href="{{ u('how-it-works/') }}">{{ tool("paper") }}<b>How PDF patterns work</b><span>From Etsy checkout to taped pages, step by step.</span></a>
-    <a class="j-help-card light" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">{{ tool("spool") }}<b>Still stuck?</b><span>Message us through our Etsy shop and we'll get back to you.</span></a>
+  <div class="wrap js-help">
+    <a class="js-help-card tint-mint" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>What each fabric is like and what to sew with it.</span><i class="js-help-go" aria-hidden="true">→</i></a>
+    <a class="js-help-card tint-butter" href="{{ u('how-it-works/') }}">{{ tool("paper") }}<b>How PDF patterns work</b><span>From Etsy checkout to taped pages, step by step.</span><i class="js-help-go" aria-hidden="true">→</i></a>
+    <a class="js-help-card tint-blush" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">{{ tool("spool") }}<b>Still stuck?</b><span>Message us through our Etsy shop and we'll get back to you.</span><i class="js-help-go" aria-hidden="true">→</i></a>
   </div>
 </section>
 {% endblock %}

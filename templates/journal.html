@@ -145,7 +145,7 @@
       <li data-topic="{{ b.tag }}">
         <a class="js-item" href="{{ u('journal/' ~ b.slug ~ '/') }}">
           <span class="js-n">{{ '%02d'|format(loop.index) }}</span>
-          <span class="js-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}</span>
+          <span class="js-pic">{% if b.cover %}<img src="{{ b.cover if b.cover.startswith('http') else u(b.cover) }}" alt="" loading="lazy">{% endif %}</span>
           <span class="js-copy"><span class="js-meta"><b>{{ b.tag }}</b> · {{ b.minutes }} min read</span><span class="js-title">{{ b.title }}</span><span class="js-desc">{{ b.description }}</span></span>
           <span class="js-go" aria-hidden="true">→</span>
         </a>
@@ -158,9 +158,9 @@
 
 <section class="band">
   <div class="wrap js-help">
-    <a class="js-help-card tint-mint" href="{{ u('answers/') }}">{{ tool("needle") }}<b>Sewing answers</b><span>Quick answers to the questions sewists ask us most.</span></a>
-    <a class="js-help-card tint-butter" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>How each fabric feels, drapes and what to sew with it.</span></a>
-    <a class="js-help-card tint-blush" href="{{ u('worlds/') }}">{{ tool("spool") }}<b>Sewing worlds</b><span>Patterns grouped by vibe, from linen days to after dark.</span></a>
+    <a class="js-help-card tint-mint" href="{{ u('answers/') }}">{{ tool("needle") }}<b>Sewing answers</b><span>Quick answers to the questions sewists ask us most.</span><i class="js-help-go" aria-hidden="true">→</i></a>
+    <a class="js-help-card tint-butter" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>How each fabric feels, drapes and what to sew with it.</span><i class="js-help-go" aria-hidden="true">→</i></a>
+    <a class="js-help-card tint-blush" href="{{ u('worlds/') }}">{{ tool("spool") }}<b>Sewing worlds</b><span>Patterns grouped by vibe, from linen days to after dark.</span><i class="js-help-go" aria-hidden="true">→</i></a>
   </div>
 </section>
 <script src="{{ u('static/journal.js') }}" defer></script>
