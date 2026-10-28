@@ -120,17 +120,22 @@
 
 {# ---------- runway teaser ---------- #}
 {% if runway %}
-<section class="rw-teaser">
-  <span class="rw-beam rw-beam-l" aria-hidden="true"></span><span class="rw-beam rw-beam-r" aria-hidden="true"></span>
-  <div class="wrap rw-teaser-in">
-    <div class="rw-teaser-copy">
-      <p class="rw-k">Now showing</p>
-      <h2>The <em class="acc">made-by-you</em> show</h2>
-      <p class="rw-line">{{ runway|length }} looks walk the runway, and every one is a pattern you can sew at home.</p>
-      <a class="btn btn-light" href="{{ u('runway/') }}">Watch the show</a>
+<section class="band lb-teaser">
+  <div class="wrap lb-teaser-in">
+    <div class="lb-teaser-copy">
+      <p class="brand-label">The runway</p>
+      <h2>From sketch to <em class="acc">runway</em></h2>
+      <p class="lede">See each pattern as its technical sketch and as the finished piece, side by side.</p>
+      <a class="btn" href="{{ u('runway/') }}">See all {{ runway|length }} looks</a>
     </div>
-    <ul class="rw-teaser-row" aria-hidden="true">
-      {% for L in runway[:5] %}<li style="--i: {{ loop.index0 }}"><a href="{{ u('runway/') }}#look-{{ L.n }}" tabindex="-1"><span class="fr-arch"><img src="{{ L.p.images[0].medium or L.p.images[0].full }}" alt="" loading="lazy"></span><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span></a></li>{% endfor %}
+    <ul class="lb-teaser-row">
+      {% for L in runway[:4] %}
+      <li><a href="{{ u('runway/') }}#look-{{ L.n }}">
+        <span class="lb-tp"><span class="lb-crop" style="{{ L.photo_box }}"><img src="{{ L.photo }}" alt="{{ L.p.short }}" loading="lazy"></span></span>
+        {% if L.sketch %}<span class="lb-ts"><span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="" loading="lazy"></span></span>{% endif %}
+        <span class="fr-n">Look {{ '%02d'|format(L.n) }}</span>
+      </a></li>
+      {% endfor %}
     </ul>
   </div>
 </section>

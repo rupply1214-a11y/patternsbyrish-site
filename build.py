@@ -357,6 +357,22 @@ def main():
     json.dump(dict(built=datetime.now(timezone.utc).isoformat(timespec="seconds"), synced=DATA.get("synced_at"), patterns=len(products),
                    hidden=len(every) - len(products), posts=len(posts), sample=bool(DATA.get("sample"))),
               open(os.path.join(DIST, "tools", "build.json"), "w"))
+    # where the model photo and the sketch sit inside each listing image (measured by looks.py)
+    CROPS = load("content/look_crops.json") or {}
+    def photo_box(box):
+        # the model sits in an arch on the left half; never let the crop run into the flat drawings beside it
+        if not box:
+            return None
+        x0, y0, x1, y1 = box
+        if x1 > .53:
+            x1 = .505
+        if y1 - y0 < .5:
+            return None
+        return (x0, y0, x1, y1)
+    def crop_style(box, default):
+        x0, y0, x1, y1 = box or default
+        w, h = max(.05, x1 - x0), max(.05, y1 - y0)
+        return f"--ar: {w / h:.4f}; --iw: {100 / w:.2f}%; --il: {-x0 / w * 100:.2f}%; --it: {-y0 / h * 100:.2f}%"
     # the runway: one model look per pattern, mixed across categories
     FABRIC_HINT = [("linen", "Linen", "linen"), ("satin", "Satin", "satin"), ("slip", "Satin", "satin"), ("wedding", "Crepe or satin", "crepe"),
                    ("gown", "Crepe or satin", "crepe"), ("jean", "Denim", "denim"), ("denim", "Denim", "denim"), ("hoodie", "French terry", "french-terry"),
@@ -378,7 +394,13 @@ def main():
             if pool and len(runway) < 18:
                 x = pool.pop(0); seen.add(x["id"])
                 fn, fs = fabric_for(x)
-                runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1))
+                ph = x["images"][0]
+                sk = x["images"][2] if len(x["images"]) > 2 else None
+                runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1,
+                                   photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
+                                   photo_box=crop_style(photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
+                                   sketch=(sk["medium"] or sk["full"]) if sk else "",
+                                   sketch_box=crop_style(None, (0.0, 0.115, 0.53, 0.985))))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]

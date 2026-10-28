@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool, woven %}
-{% block title %}The Runway: Sewing Pattern Looks You Can Make | Patterns by Rish{% endblock %}
-{% block description %}The Patterns by Rish runway: {{ looks|length }} looks, every one a printable PDF sewing pattern you can sew at home, with fabric ideas and sizes.{% endblock %}
+{% block title %}The Runway: From Sketch to Look, PDF Sewing Patterns | Patterns by Rish{% endblock %}
+{% block description %}The Patterns by Rish runway: {{ looks|length }} looks, each shown as its technical sketch and the finished garment, with fabric ideas and sizes. Every look is a PDF sewing pattern.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": "The Runway", "url": canon() or none,
@@ -9,59 +9,85 @@
 </script>
 {% endblock %}
 {% block main %}
-<div class="rw" data-runway>
-  <section class="rw-stage">
-    <span class="rw-beam rw-beam-l" aria-hidden="true"></span><span class="rw-beam rw-beam-r" aria-hidden="true"></span>
-    <div class="wrap rw-head">
-      <p class="rw-k">Patterns by Rish presents</p>
-      <h1>The <em class="acc">made-by-you</em> show</h1>
-      <p class="rw-line">{{ looks|length }} looks walk the runway. Every one is a PDF sewing pattern you can print tonight and sew at home.</p>
-      <p class="rw-meta"><span>Season {{ year }}</span><span>{{ looks|length }} looks</span><span>Sizes up to 5XL</span></p>
-      <a class="rw-start" href="#look-1"><span>The show begins</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg></a>
+{% set first = looks[0] if looks else none %}
+<div class="lb" data-runway>
+  <section class="lb-hero">
+    <div class="wrap lb-hero-in">
+      <div class="lb-hero-copy">
+        <p class="brand-label">The Patterns by Rish runway</p>
+        <h1>From sketch to <em class="acc">runway</em></h1>
+        <p class="lede">Every look starts as a technical sketch on our table. Here are {{ looks|length }} of them, side by side with the finished piece, so you can see exactly what you'll be sewing.</p>
+        <p class="lb-chips"><span>{{ looks|length }} looks</span><span>Sizes up to 5XL</span><span>Instant PDF</span></p>
+        <a class="btn" href="#look-1">Start the show</a>
+      </div>
+      {% if first %}
+      <div class="lb-hero-art" aria-hidden="true">
+        {% if first.sketch %}<span class="lb-mini lb-mini-sk"><span class="lb-crop" style="{{ first.sketch_box }}"><img src="{{ first.sketch }}" alt=""></span><i>the sketch</i></span>{% endif %}
+        <svg class="lb-mini-arrow" viewBox="0 0 120 60"><path d="M6 40 C 40 4, 80 4, 110 30"/><path d="M98 18 L111 31 L94 36"/></svg>
+        <span class="lb-mini lb-mini-ph"><span class="washi"></span><span class="lb-crop" style="{{ first.photo_box }}"><img src="{{ first.photo }}" alt=""></span><i>the look ♡</i></span>
+        {{ tool("button", "lb-st lb-st1") }}{{ tool("pins", "lb-st lb-st2") }}{{ tool("spool", "lb-st lb-st3") }}
+      </div>
+      {% endif %}
     </div>
-    <div class="rw-floor" aria-hidden="true"><span></span></div>
   </section>
 
-  <section class="rw-walk" aria-label="Runway looks">
-    <div class="rw-strip" aria-hidden="true"></div>
+  <section class="lb-show" aria-label="Runway looks">
+    <span class="lb-thread" aria-hidden="true"></span>
     {% for L in looks %}{% set p = L.p %}
-    <article class="look{{ ' look-r' if loop.index is even }}" id="look-{{ L.n }}" data-look="{{ L.n }}">
-      <div class="look-frame">
-        <span class="look-flash f1" aria-hidden="true"></span><span class="look-flash f2" aria-hidden="true"></span><span class="look-flash f3" aria-hidden="true"></span>
-        <a class="look-arch" href="{{ u('pattern/' ~ p.slug ~ '/') }}" tabindex="-1" aria-hidden="true"><img src="{{ p.images[0].full or p.images[0].medium }}" alt="" loading="{{ 'eager' if loop.index <= 2 else 'lazy' }}" decoding="async"></a>
-        <span class="look-shadow" aria-hidden="true"></span>
+    <article class="lk{{ ' lk-r' if loop.index is even }}" id="look-{{ L.n }}" data-look>
+      <div class="lk-art">
+        {% if L.sketch %}
+        <figure class="lk-sketch">
+          <span class="lk-paper"><span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="Technical sketch of the {{ p.short }}" loading="lazy" decoding="async"></span></span>
+          <span class="lk-pencil" aria-hidden="true"><svg viewBox="0 0 24 60"><path d="M6 4h12v40l-6 12-6-12z" fill="#F5D76E" stroke="#1A1717" stroke-width="1.6"/><path d="M6 44h12" stroke="#1A1717" stroke-width="1.6"/><path d="M10 52l2 4 2-4" fill="#1A1717"/><rect x="6" y="2" width="12" height="6" rx="2" fill="#E8A9B9" stroke="#1A1717" stroke-width="1.6"/></svg></span>
+          <figcaption>the sketch</figcaption>
+        </figure>
+        <svg class="lk-arrow" viewBox="0 0 120 70" aria-hidden="true"><path class="lk-arrow-l" d="M8 50 C 40 6, 84 6, 110 34"/><path class="lk-arrow-h" d="M96 22 L111 35 L93 40"/></svg>
+        {% endif %}
+        <figure class="lk-photo">
+          <span class="washi"></span>
+          <a class="lb-crop" style="{{ L.photo_box }}" href="{{ u('pattern/' ~ p.slug ~ '/') }}" tabindex="-1"><img src="{{ L.photo_big }}" alt="{{ p.short }} made from the Patterns by Rish sewing pattern" loading="{{ 'eager' if loop.index <= 2 else 'lazy' }}" decoding="async"></a>
+          <figcaption>the look ♡</figcaption>
+        </figure>
+        {{ tool(["button", "pins", "spool", "tape", "scissors", "needle"][loop.index0 % 6], "lk-sticker") }}
       </div>
-      <div class="look-card">
-        <p class="look-n">Look {{ '%02d'|format(L.n) }}</p>
-        <h2 class="look-t">{{ p.short }}</h2>
-        {% if p.sub %}<p class="look-sub">{{ p.sub }}</p>{% endif %}
-        <dl class="look-notes">
-          <div><dt>Sew it in</dt><dd><a href="{{ u('fabrics/') }}#{{ L.fabric_slug }}">{{ L.fabric }}</a></dd></div>
-          {% if p.sizes %}<div><dt>Sizes</dt><dd>{{ p.sizes }}</dd></div>{% endif %}
-          <div><dt>Collection</dt><dd><a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a></dd></div>
-        </dl>
-        <p class="look-price"><b>{{ p.price }}</b>{% if p.was %} <s>{{ p.was }}</s> <span class="look-off sale-bit">{{ p.off }}% off today</span>{% endif %}</p>
-        <p class="look-cta"><a class="btn btn-light" href="{{ u('pattern/' ~ p.slug ~ '/') }}">See the pattern</a><a class="look-etsy" href="{{ p.etsy }}" rel="noopener">Shop this look on Etsy →</a></p>
+      <div class="lk-copy">
+        <p class="lk-n">Look {{ '%02d'|format(L.n) }}</p>
+        <h2 class="lk-t">{{ p.short }}</h2>
+        {% if p.sub %}<p class="lk-sub">{{ p.sub }}</p>{% endif %}
+        <ul class="lk-chips">
+          <li>Sew it in <a href="{{ u('fabrics/') }}#{{ L.fabric_slug }}">{{ L.fabric|lower }}</a></li>
+          {% if p.sizes %}<li>{{ p.sizes }}</li>{% endif %}
+          <li><a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a></li>
+        </ul>
+        <p class="lk-price"><b>{{ p.price }}</b>{% if p.was %} <s>{{ p.was }}</s> <span class="sale-bit">{{ p.off }}% off today</span>{% endif %}</p>
+        <p class="lk-cta"><a class="btn" href="{{ u('pattern/' ~ p.slug ~ '/') }}">See the pattern</a><a class="lk-etsy" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a></p>
       </div>
     </article>
     {% endfor %}
-    <div class="rw-bow">
-      {{ woven("Patterns by Rish", "thank you for coming", "woven-lg") }}
-      <h2>That's the show.</h2>
-      <p>Every look is waiting for your fabric.</p>
+    <div class="lb-end">
+      {{ woven("Patterns by Rish", "thank you for watching", "woven-lg") }}
+      <h2>Which look will <em class="acc">you</em> sew?</h2>
+      <a class="btn" href="{{ u('patterns/') }}">Browse all {{ total }} patterns</a>
     </div>
   </section>
 
   <section class="band band-paper">
     <div class="wrap">
-      <div class="head-row"><h2 class="stitch-h"><span>The <em class="acc">front row</em></span></h2><a class="more" href="{{ u('patterns/') }}">All {{ total }} patterns</a></div>
-      <ul class="front-row">
-        {% for L in looks %}<li><a href="{{ u('pattern/' ~ L.p.slug ~ '/') }}"><span class="fr-arch"><img src="{{ L.p.images[0].medium or L.p.images[0].full }}" alt="{{ L.p.short }} sewing pattern" loading="lazy"></span><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span><span class="fr-t">{{ L.p.short }}</span></a></li>{% endfor %}
+      <div class="head-row"><h2 class="stitch-h"><span>The <em class="acc">front row</em></span></h2><p class="sh-note">Tap a look to flip it to its sketch.</p></div>
+      <ul class="fr">
+        {% for L in looks %}
+        <li>
+          <button type="button" class="fr-card" aria-label="Flip {{ L.p.short }} to see its sketch" data-flip>
+            <span class="fr-face fr-front"><span class="lb-crop" style="{{ L.photo_box }}"><img src="{{ L.photo }}" alt="" loading="lazy"></span></span>
+            <span class="fr-face fr-back">{% if L.sketch %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="" loading="lazy"></span>{% endif %}</span>
+          </button>
+          <a class="fr-name" href="{{ u('pattern/' ~ L.p.slug ~ '/') }}"><span class="fr-n">Look {{ '%02d'|format(L.n) }}</span>{{ L.p.short }}</a>
+        </li>
+        {% endfor %}
       </ul>
     </div>
   </section>
-
-  <div class="rw-now" aria-hidden="true" hidden><span class="rw-dot"></span>Now walking <b data-now>Look 01</b> <span class="rw-of">of {{ looks|length }}</span></div>
 </div>
 <script src="{{ u('static/runway.js') }}?v={{ ver }}" defer></script>
 {% endblock %}
