@@ -299,3 +299,7 @@
   .savebar { position: fixed; top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; margin: 0; }
   .admin select { width: 100%; }
 }
+
+.boot-msg { max-width: 520px; margin: 12vh auto; padding: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; display: grid; gap: 12px; text-align: center; justify-items: center; }
+.boot-msg h1 { margin: 6px 0 0; font-size: 1.8rem; }
+.boot-msg p { margin: 0; color: var(--ink-2); }

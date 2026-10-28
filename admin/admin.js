@@ -402,5 +402,13 @@
     toast("Post deleted."); $("#back-posts").click(); loadPosts();
   });
 
-  start();
+  // never leave a blank page: show what went wrong instead
+  const oops = (msg) => {
+    if (!$("#app").hidden) return toast(msg);
+    document.body.insertAdjacentHTML("beforeend", `<div class="boot-msg"><img src="../static/logo-line.svg" alt="Patterns by Rish" width="190" height="35"><h1>The admin panel didn't open</h1><p>${esc(msg)}</p><p class="btn-row"><button class="btn" type="button" onclick="location.reload()">Try again</button><a class="btn btn-ghost" href="../login/?next=admin/">Sign in again</a></p></div>`);
+  };
+  addEventListener("error", (e) => oops(e.message || "Something went wrong."));
+  addEventListener("unhandledrejection", (e) => oops((e.reason && e.reason.message) || String(e.reason)));
+  const slow = setTimeout(() => { if ($("#app").hidden && !document.querySelector(".boot-msg")) oops("It's taking too long to connect. Close other tabs of this website and try again."); }, 15000);
+  start().then(() => clearTimeout(slow)).catch((e) => { clearTimeout(slow); oops(e.message || String(e)); });
 })();
