@@ -1371,3 +1371,8 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
   .foot-sign { padding-bottom: 34px; margin-bottom: 34px; }
   .buy-woven { right: 12px; }
 }
+@media (max-width: 620px) {
+  .foot-in { grid-template-columns: 1fr 1fr; gap: 28px 18px; }
+  .foot-in > .foot-brand { grid-column: 1 / -1; }
+  .foot-in > div:nth-child(2) { grid-row: span 2; }
+}
