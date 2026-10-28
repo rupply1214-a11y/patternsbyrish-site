@@ -1,3 +1,4 @@
 dist/
 data/listings.json
 __pycache__/
+data/admin_*.json

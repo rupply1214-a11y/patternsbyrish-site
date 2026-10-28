@@ -5,9 +5,9 @@
 {% block main %}
 <div class="lg" data-login data-sb-url="{{ cfg.supabase_url }}" data-sb-key="{{ cfg.supabase_key }}" data-home="{{ u('') }}">
   <video class="lg-video" data-bg-video muted loop playsinline autoplay preload="metadata" aria-hidden="true"
-    poster="{{ u('static/video/studio-wide.jpg') }}"
-    data-wide="{{ u('static/video/studio-wide.mp4') }}" data-square="{{ u('static/video/studio-square.mp4') }}"
-    data-wide-poster="{{ u('static/video/studio-wide.jpg') }}" data-square-poster="{{ u('static/video/studio-square.jpg') }}"></video>
+    poster="{{ u(content.media.login_wide_poster) }}"
+    data-wide="{{ u(content.media.login_wide) }}" data-square="{{ u(content.media.login_square or content.media.login_wide) }}"
+    data-wide-poster="{{ u(content.media.login_wide_poster) }}" data-square-poster="{{ u(content.media.login_square_poster or content.media.login_wide_poster) }}"></video>
   <div class="lg-shade" aria-hidden="true"></div>
 
   <div class="lg-card" data-card>
@@ -49,7 +49,7 @@
       <span data-when="in">Don't have an account? <button type="button" data-mode="up">Create one</button></span>
       <span data-when="up" hidden>Already have an account? <button type="button" data-mode="in">Sign in</button></span>
     </p>
-    <p class="lg-fine">You shop on Etsy, so no payment details are ever asked for here.</p>
+    <p class="lg-fine">We never see your card details: payments go through PayPal.</p>
   </div>
   <p class="lg-caption" aria-hidden="true">cut · pin · sew · repeat</p>
 </div>

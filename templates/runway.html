@@ -62,7 +62,7 @@
           <li><a href="{{ u('category/' ~ p.cat ~ '/') }}">{{ catmap[p.cat][0] }}</a></li>
         </ul>
         <p class="lk-price"><b>{{ p.price }}</b>{% if p.was %} <s>{{ p.was }}</s> <span class="sale-bit">{{ p.off }}% off today</span>{% endif %}</p>
-        <p class="lk-cta"><a class="btn" href="{{ u('pattern/' ~ p.slug ~ '/') }}">See the pattern</a><a class="lk-etsy" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a></p>
+        <p class="lk-cta"><a class="btn" href="{{ u('pattern/' ~ p.slug ~ '/') }}">See the pattern</a>{% if p.buy_here and not pbr.test %}<a class="lk-etsy" href="{{ u('pattern/' ~ p.slug ~ '/') }}#buy">Buy for {{ p.site_price }}</a>{% elif p.etsy %}<a class="lk-etsy" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a>{% endif %}</p>
       </div>
     </article>
     {% endfor %}

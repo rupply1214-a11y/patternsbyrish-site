@@ -41,6 +41,16 @@ DATA = load("data/listings.json") or load("data/sample_listings.json")
 CONTENT = load("content/site.json", {})
 CONTENT.update({k: v for k, v in (load("data/admin_content.json", {}) or {}).items() if v not in (None, "")})
 
+_DEF = load("content/site.json", {})
+for _k in ("shop", "media", "studio"):  # admin panel saves only what changed; fill the rest from the defaults
+    if isinstance(_DEF.get(_k), dict):
+        CONTENT[_k] = {**_DEF[_k], **{k: v for k, v in (CONTENT.get(_k) or {}).items() if v not in (None, "")}}
+SHOP = CONTENT.get("shop") or {}
+# test mode: the buy buttons are built but stay hidden until someone opens the site once with ?shoptest=1
+SHOP_TEST = not SHOP.get("sell_on_site") and bool(SHOP.get("test_mode"))
+SELL = bool(SHOP.get("sell_on_site") or SHOP_TEST) and bool((CFG.get("paypal") or {}).get("client_id"))
+DISCOUNT = max(0, min(90, float(SHOP.get("discount_pct") or 0)))
+
 SITE_URL = (os.environ.get("SITE_URL") or CFG.get("site_url") or "").rstrip("/")
 if CFG.get("custom_domain"):
     SITE_URL = "https://" + CFG["custom_domain"]
@@ -187,6 +197,49 @@ for l in DATA["listings"]:
         tint=TINTS[int(hashlib.md5(str(lid).encode()).hexdigest(), 16) % len(TINTS)], plus="plus-size" in cats,
         hidden=str(lid) in hidden,
     ))
+# website-only patterns added in the admin panel (not on Etsy)
+for a in load("data/admin_products.json", []) or []:
+    title = (a.get("title") or "").strip()
+    if not title:
+        continue
+    lid = a["id"]
+    imgs = [dict(full=i.get("full") or i.get("url") or "", medium=i.get("medium") or i.get("full") or i.get("url") or "", alt=i.get("alt") or "")
+            for i in (a.get("images") or []) if (i.get("full") or i.get("url"))]
+    cats = [c for c in (a.get("cats") or []) if c in CATS] or ["dresses"]
+    base_v = Decimal(str(a.get("compare_at") or a.get("price") or 0))
+    now_v = Decimal(str(a.get("price") or 0))
+    on_sale = a.get("compare_at") and base_v > now_v
+    sub = (a.get("subtitle") or "").strip()
+    body = a.get("description") or ""
+    desc_plain = re.sub(r"[#*_>\[\]()`]", "", re.sub(r"\s+", " ", body)).strip()
+    products.append(dict(
+        id=lid, title=title + (f" | {sub}" if sub else ""), name=(f"{title}: {sub}" if sub else title), short=title, sub=sub,
+        slug=f"{slugify(title + ' ' + sub, 9)}-{lid}", kind=kind_of([title, sub]), cats=cats, cat=cats[0], section="",
+        etsy="", own=True, currency="USD",
+        price=money(now_v, "USD"), price_value=float(now_v), was=money(base_v, "USD") if on_sale else "",
+        off=int(round((1 - float(now_v) / float(base_v)) * 100)) if on_sale else 0,
+        orig=money(base_v, "USD"), orig_value=float(base_v), sale_start=0, sale_end=0,
+        images=imgs, sizes=a.get("sizes") or size_range(title + " " + sub), formats=a.get("formats") or [], tags=list(a.get("tags") or []),
+        desc_html=markdown.markdown(body, extensions=["extra", "sane_lists"]), created=int(datetime.fromisoformat((a.get("created_at") or "2026-01-01T00:00:00+00:00").replace("Z", "+00:00")).timestamp()),
+        favs=0, meta=(desc_plain[:155].rsplit(" ", 1)[0] + "…") if len(desc_plain) > 155 else (desc_plain or f"{title}. Printable PDF sewing pattern with instant download."),
+        tint=TINTS[int(hashlib.md5(str(lid).encode()).hexdigest(), 16) % len(TINTS)], plus="plus-size" in cats,
+        hidden=str(lid) in hidden, sketch=a.get("sketch") or "",
+    ))
+
+
+def site_price(v, own):
+    """Price on this website: Etsy price less the website discount (own listings keep their own price)."""
+    d = Decimal(str(v)) if own else (Decimal(str(v)) * (Decimal(100) - Decimal(str(DISCOUNT))) / Decimal(100))
+    return d.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
+for p in products:
+    p.setdefault("own", False)
+    sp = site_price(p["price_value"], p["own"])
+    p["site_value"], p["site_price"] = float(sp), money(sp, p["currency"])
+    p["site_save"] = 0 if p["own"] else int(round(DISCOUNT))
+    p["buy_here"] = SELL and p["currency"] == "USD"
+    p["buy_live"] = p["buy_here"] and not SHOP_TEST  # what search engines and normal visitors see
 products.sort(key=lambda p: -p["created"])
 every = products  # the admin panel lists hidden patterns too
 products = [p for p in products if not p["hidden"]]
@@ -284,7 +337,7 @@ for p in posts:
         p["nice_date"] = p["date"]
 posts.sort(key=lambda p: p["date"], reverse=True)
 
-FAQS = [
+FAQS_OLD = [
     ("How do I get my pattern after I buy it?", "Right after checkout, Etsy shows a download button on the order page. You can also find it any time under You, then Purchases and reviews, on etsy.com or in the Etsy app. Etsy emails you a link too."),
     ("Do you post a paper pattern?", "No. Every pattern is a digital PDF, so nothing is shipped. That also means there are no postage costs or customs waits, wherever you live."),
     ("Can I buy from outside the US?", "Yes. Etsy shows prices in your currency and accepts cards and PayPal in most countries. The download works the same everywhere."),
@@ -292,6 +345,8 @@ FAQS = [
     ("How do I pick my size?", "Measure your bust, waist and hips with a soft tape and compare them with the size chart in the pattern. If you sit between two sizes, trace the larger one and take it in at the side seams."),
     ("Can I return a pattern?", "Digital files download instantly, so they can't be returned. If a file won't open or something looks wrong, message us through Etsy and we'll help you sort it out."),
 ]
+
+FAQS = [(f["q"], f["a"]) for f in (CONTENT.get("faqs") or []) if f.get("q") and f.get("a")] or FAQS_OLD
 
 KIT = [  # the "sewing kit" section; links go to the blog guide
     ("fabric", "Fabric", "Each pattern lists how much you need. Wash and dry it before cutting, linen shrinks."),
@@ -310,7 +365,19 @@ env.filters["accent"] = lambda t: Markup(re.sub(r"\*(.+?)\*", r'<em class="acc">
 env.globals["reels"] = CONTENT.get("reels") or (json.load(open(os.path.join(ROOT, "content", "reels.json"))) if os.path.exists(os.path.join(ROOT, "content", "reels.json")) else [])
 import hashlib as _h
 env.globals["ver"] = _h.md5(b"".join(open(os.path.join(ROOT, "static", f), "rb").read() for f in sorted(os.listdir(os.path.join(ROOT, "static"))) if f.endswith((".css", ".js")))).hexdigest()[:8]
+PP = CFG.get("paypal") or {}
+env.globals["pbr"] = dict(sb=CFG.get("supabase_url"), key=CFG.get("supabase_key"), sell=SELL, pp=PP.get("client_id", "") if SELL else "",
+                          ppmode=PP.get("mode", "sandbox"), discount=DISCOUNT, test=SHOP_TEST)
+env.globals["shopcfg"] = SHOP
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
+
+
+def film_data():
+    """The animated studio film, with scene words changed in the admin panel."""
+    d = studio.data()
+    over = (CONTENT.get("studio") or {}).get("film_scenes") or []
+    d["scenes"] = [dict(sc, **{k: v for k, v in (over[i] if i < len(over) else {}).items() if k in ("title", "text") and v}) for i, sc in enumerate(d["scenes"])]
+    return d
 
 
 def render(path, template, **ctx):
@@ -350,21 +417,27 @@ def main():
     shutil.copytree(os.path.join(ROOT, "static"), os.path.join(DIST, "static"))
     if os.path.isdir(os.path.join(ROOT, "admin")):
         shutil.copytree(os.path.join(ROOT, "admin"), os.path.join(DIST, "admin"))
+        ai = os.path.join(DIST, "admin", "index.html")
+        av = _h.md5(b"".join(open(os.path.join(ROOT, "admin", f), "rb").read() for f in sorted(os.listdir(os.path.join(ROOT, "admin"))))).hexdigest()[:8]
+        _ah = open(ai).read()
+        open(ai, "w").write(_ah.replace("?v=2", "?v=" + av).replace('href="admin.css"', 'href="admin.css?v=' + av + '"').replace('href="../static/style.css"', 'href="../static/style.css?v=' + env.globals["ver"] + '"'))
         open(os.path.join(DIST, "admin", "config.js"), "w").write("window.SITE = " + json.dumps(dict(
             url=CFG.get("supabase_url", ""), key=CFG.get("supabase_key", ""), repo=CFG.get("github_repo", ""),
             cats=[dict(slug=c["slug"], name=c["name"]) for c in cat_list], defaults=dict(load("content/site.json", {}), reels=load("content/reels.json", []), social=CFG.get("social") or {}),
-            guides=GUIDES)) + ";\n")
+            guides=GUIDES, site=SITE_URL, paypal=dict(mode=(CFG.get("paypal") or {}).get("mode", "sandbox")),
+            defaults_full=load("content/site.json", {}))) + ";\n")
     sold = shop.get("transaction_sold_count") or 0
     stats = dict(sold=(f"{sold // 100 * 100:,}+" if sold >= 1000 else str(sold)) if sold else "",
                  rating=shop.get("review_average"), reviews=shop.get("review_count"), count=len(products))
     catalog = [dict(id=p["id"], s=p["slug"], n=p["short"], d=p["sub"], c=p["cats"], p=p["price_value"], pr=p["price"], w=p["was"],
+                    sp=p["site_value"], spr=p["site_price"], o=1 if p["own"] else 0, b=1 if p["buy_here"] else 0,
                     t=p["created"], z=p["sizes"], i=(p["images"][0]["medium"] or p["images"][0]["full"]) if p["images"] else "",
                     k=(p["title"] + " " + " ".join(p["tags"])).lower()) for p in products]
     os.makedirs(os.path.join(DIST, "static"), exist_ok=True)
     json.dump(catalog, open(os.path.join(DIST, "static", "catalog.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     os.makedirs(os.path.join(DIST, "tools"), exist_ok=True)
-    json.dump([dict(id=p["id"], n=p["short"], d=p["sub"], c=p["cats"], pr=p["price"], h=p["hidden"], s=p["slug"],
+    json.dump([dict(id=p["id"], n=p["short"], d=p["sub"], c=p["cats"], pr=p["price"], h=p["hidden"], s=p["slug"], o=1 if p["own"] else 0, sp=p["site_price"],
                     i=(p["images"][0]["medium"] or p["images"][0]["full"]) if p["images"] else "") for p in every],
               open(os.path.join(DIST, "tools", "listings.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     json.dump(dict(built=datetime.now(timezone.utc).isoformat(timespec="seconds"), synced=DATA.get("synced_at"), patterns=len(products),
@@ -397,7 +470,7 @@ def main():
         return str(p["id"]) in map(str, admin) or any(k == str(p["id"]) or p["slug"].startswith(k) for k in RW.get(lst) or [])
     def sketch_of(p):
         # 1) a clean sketch file you added, 2) a hand-set crop, 3) the measured "features" sketch from the listing
-        f = rw_get("sketch_files", p)
+        f = rw_get("sketch_files", p) or p.get("sketch")
         if f:
             return ("file", f), None
         if rw_has("no_sketch", p) or len(p["images"]) < 3:
@@ -454,10 +527,12 @@ def main():
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]
-    render("", "index.html", st=studio.data(), slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
+    bj = os.path.join(DIST, "tools", "build.json")
+    json.dump(dict(json.load(open(bj)), runway=[str(x["p"]["id"]) for x in runway], own=sum(1 for p in every if p["own"])), open(bj, "w"))
+    render("", "index.html", st=film_data(), slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
            stats=stats, rows=rows, runway=runway, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
     render("patterns/", "list.html", items=products, current=None, heading="All sewing patterns",
-           intro=f"Every pattern in the shop, newest first. {len(products)} printable PDF patterns, each with an instant download on Etsy.")
+           intro=f"Every pattern in the shop, newest first. {len(products)} printable PDF patterns, each with an instant download.")
     for c in cat_list:
         h = {"plus-size": "Plus size sewing patterns", "bundles": "Sewing pattern bundles", "kids": "Kids sewing patterns",
              "mens": "Men's sewing patterns"}.get(c["slug"], f"{c['name']} sewing patterns")
@@ -474,6 +549,7 @@ def main():
     render("runway/", "runway.html", looks=runway, total=len(products))
     render("login/", "login.html")
     render("sewing-room/", "sewing_room.html")
+    render("cart/", "cart.html")
     render("journal/", "journal.html")
     for b in posts:
         render(f"journal/{b['slug']}/", "journal_post.html", b=b, more=[x for x in posts if x is not b][:3])
@@ -481,7 +557,7 @@ def main():
     redirect("blog/", "journal/")
     for b in posts:
         redirect(f"blog/{b['slug']}/", f"journal/{b['slug']}/")
-    render("studio/", "studio.html", st=studio.data(), stats=stats)
+    render("studio/", "studio.html", st=film_data(), stats=stats)
     render("how-it-works/", "how.html", faqs=FAQS)
     render("about/", "about.html", stats=stats)
     # when a title changes on Etsy the page address changes too; keep every old address working
@@ -501,7 +577,7 @@ def main():
     render("404.html", "404.html")
 
     base = SITE_URL or ""
-    open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
+    open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\nDisallow: /cart/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
     if base:
         urls = ["", "patterns/", "runway/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
                [f"pattern/{p['slug']}/" for p in products] + [f"journal/{b['slug']}/" for b in posts]

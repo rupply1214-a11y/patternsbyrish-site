@@ -147,7 +147,7 @@
       <h2>Watch a pattern <em class="acc">come to life</em></h2>
       <p class="lede">From the first sketch to a dress on the dress form, in under a minute.</p>
     </div>
-    {% include "_film.html" %}
+    {% if (content.studio or {}).film_video %}<video class="film-video" src="{{ u(content.studio.film_video) }}" {% if content.studio.film_poster %}poster="{{ u(content.studio.film_poster) }}"{% endif %} autoplay muted loop playsinline controls preload="metadata"></video>{% else %}{% include "_film.html" %}{% endif %}
     <p class="center-row"><a class="btn btn-ghost" href="{{ u('studio/') }}">Visit our studio</a></p>
   </div>
 </section>

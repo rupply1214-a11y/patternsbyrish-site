@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{{ cfg.brand }}{% endblock %}</title>
-<meta name="description" content="{% block description %}{{ cfg.tagline }}. Printable PDF patterns with instant download, sold on Etsy.{% endblock %}">
+<meta name="description" content="{% block description %}{{ cfg.tagline }}. Printable PDF patterns with instant download.{% endblock %}">
 {% if canon() %}<link rel="canonical" href="{{ canon() }}">{% endif %}
 <meta property="og:site_name" content="{{ cfg.brand }}">
 <meta property="og:title" content="{{ self.title() }}">
@@ -71,6 +71,7 @@
     </nav>
     <div class="top-actions">
       <a class="icon-btn acct-btn" href="{{ u('login/') }}" data-account aria-label="Sign in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 4 2.3h3.4c.7-1.2 2-2.3 4-2.3C21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg><span class="acct-n" data-saved-count hidden></span></a>
+      {% if pbr.sell %}<a class="icon-btn cart-btn" href="{{ u('cart/') }}" data-cart-link aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="acct-n" data-cart-count hidden></span></a>{% endif %}
       <button type="button" class="icon-btn" data-search-open aria-label="Search patterns">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       </button>
@@ -138,7 +139,7 @@
   <div class="wrap foot-in">
     <div class="foot-brand">
       <img class="foot-logo" src="{{ u('static/logo-white.svg') }}" alt="Patterns by Rish" width="220" height="77" loading="lazy">
-      <p>{{ shop.title or cfg.tagline }}. Every pattern is sold and delivered through our Etsy shop, so checkout and downloads stay safe and familiar.</p>
+      <p>{{ shop.title or cfg.tagline }}. {% if pbr.sell and not pbr.test %}Buy here with PayPal and download instantly, or shop with us on Etsy.{% else %}Every pattern is sold and delivered through our Etsy shop, so checkout and downloads stay safe and familiar.{% endif %}</p>
     </div>
     <div>
       <p class="foot-h">Patterns</p>
@@ -165,10 +166,13 @@
       </ul>
     </div>
   </div>
-  <p class="wrap fine">© {{ year }} Patterns by Rish. Prices are in US dollars; Etsy shows your local currency at checkout. The term "Etsy" is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
+  <p class="wrap fine">© {{ year }} Patterns by Rish. Prices are in US dollars. The term "Etsy" is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
 </footer>
-<script>window.PBR = {{ {"base": u(''), "sb": cfg.supabase_url, "key": cfg.supabase_key} | tojson }};</script>
+{% if pbr.test %}<style>html:not(.shoptest) .buy-site, html:not(.shoptest) .cart-btn, html:not(.shoptest) .buy-test-hide { display: none !important; } html.shoptest .buy-etsy-only { display: none !important; }</style>
+<script>try { if (/[?&]shoptest=1/.test(location.search)) localStorage.setItem("pbr_shoptest", "1"); if (/[?&]shoptest=0/.test(location.search)) localStorage.removeItem("pbr_shoptest"); if (localStorage.getItem("pbr_shoptest")) document.documentElement.classList.add("shoptest"); } catch (e) {}</script>{% endif %}
+<script>window.PBR = {{ {"base": u(''), "sb": cfg.supabase_url, "key": cfg.supabase_key, "sell": pbr.sell, "pp": pbr.pp, "ppmode": pbr.ppmode} | tojson }};</script>
 <script src="{{ u('static/app.js') }}?v={{ ver }}" defer></script>
 <script src="{{ u('static/account.js') }}?v={{ ver }}" defer></script>
+{% if pbr.sell %}<script src="{{ u('static/cart.js') }}?v={{ ver }}" defer></script>{% endif %}
 </body>
 </html>

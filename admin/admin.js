@@ -11,7 +11,10 @@
     return;
   }
   const db = window.supabase.createClient(S.url, S.key);
-  let content = null, saved = "", listings = [], posts = [], editing = null;
+  let content = null, saved = "", listings = [], posts = [], editing = null, build = {};
+  const hooks = [];  // extra panes (admin-shop.js) redraw with the rest
+  window.ADM = { db, $, $$, esc, toast, S, hooks, get content() { return content; }, get listings() { return listings; }, get build() { return build; },
+    dirty: () => dirty(), markClean: () => { saved = JSON.stringify(content); dirty(); }, upload: (f, d) => upload(f, d), picker: (a, b, c) => picker(a, b, c), byId: (id) => byId(id) };
 
   /* ---------- sign in ---------- */
   // one sign-in page for everyone: the admin panel sends you there and it sends admins back here
@@ -39,8 +42,9 @@
     ]);
     content = Object.assign(structuredClone(S.defaults || {}), (c.data && c.data.data) || {});
     saved = JSON.stringify(content);
-    listings = l;
+    listings = l; build = b;
     renderAll(); overview(b); loadPosts();
+    document.dispatchEvent(new CustomEvent("adm:ready"));
   }
 
   /* ---------- tabs ---------- */
@@ -62,7 +66,7 @@
   addEventListener("beforeunload", (e) => { if (content && JSON.stringify(content) !== saved) { e.preventDefault(); e.returnValue = ""; } });
 
   const byId = (id) => listings.find((p) => String(p.id) === String(id));
-  function renderAll() { slides(); topbar(); home(); patterns(); runwayPane(); reelsPane(); socialPane(); }
+  function renderAll() { slides(); topbar(); home(); patterns(); runwayPane(); reelsPane(); socialPane(); hooks.forEach((h) => h()); }
 
   /* ---------- overview ---------- */
   function overview(b) {
@@ -214,12 +218,18 @@
       b.addEventListener("click", () => picker(rw[key], max, (ids) => { rw[key] = ids; runwayPane(); dirty(); }));
       el.appendChild(b);
     });
+    const now = $("#rw-now");
+    if (now) {
+      now.innerHTML = ""; (build.runway || []).forEach((id, n) => { const c = thumbChip(id, () => {}); if (c) { c.querySelector("button").remove(); c.insertAdjacentHTML("afterbegin", `<span class="n">${n + 1}</span>`); now.appendChild(c); } });
+      $("#rw-now-box").hidden = !(build.runway || []).length;
+    }
     $("#rw-sketches").innerHTML = Object.entries(rw.sketches).map(([id, url]) => {
       const p = byId(id);
       return `<li><img src="${esc(p ? p.i : "")}" alt=""><span><b>${esc(p ? p.n : "Pattern " + id)}</b></span><img class="sk" src="${esc(url)}" alt="Sketch"><button type="button" class="btn btn-ghost btn-small danger" data-sk-rm="${esc(id)}">Remove</button></li>`;
     }).join("") || '<li class="muted">No sketches added yet.</li>';
     $$("[data-sk-rm]").forEach((b) => b.addEventListener("click", () => { delete rw.sketches[b.dataset.skRm]; runwayPane(); dirty(); }));
   }
+  $("#rw-copy").addEventListener("click", () => { content.runway.pick = (build.runway || []).map(String); runwayPane(); dirty(); toast("Copied. Now remove or add looks below, then Save changes."); });
   $("#rw-add-sketch").addEventListener("click", () => picker([], 1, (ids) => {
     if (!ids.length) return;
     const inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*";

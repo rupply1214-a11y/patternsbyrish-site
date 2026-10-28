@@ -129,3 +129,49 @@ returns bigint language sql stable security definer set search_path = public as 
   select case when public.is_admin() then pg_database_size(current_database()) else null end;
 $$;
 grant execute on function public.db_usage() to authenticated;
+
+-- 11. Website-only patterns (not on Etsy), added in the admin panel. Everyone can read published ones.
+create table if not exists public.products (
+  id text primary key default ('w' || to_char(now(), 'YYMMDDHH24MISS')),
+  title text not null,
+  subtitle text default '',
+  description text default '',
+  price numeric(10,2) not null default 0,
+  compare_at numeric(10,2),
+  cats text[] not null default '{dresses}',
+  sizes text default '',
+  formats text[] default '{A4,US Letter,A0 copy shop}',
+  tags text[] default '{}',
+  images jsonb not null default '[]'::jsonb,       -- [{ "full": "https://…", "medium": "https://…" }]
+  sketch text default '',
+  published boolean default false,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+alter table public.products enable row level security;
+drop policy if exists "public reads published products" on public.products;
+create policy "public reads published products" on public.products for select using (published or public.is_admin());
+drop policy if exists "admins change products" on public.products;
+create policy "admins change products" on public.products for all using (public.is_admin()) with check (public.is_admin());
+
+-- 12. Coupon codes. Only admins see them; the checkout on the server checks a code a buyer types.
+create table if not exists public.coupons (
+  code text primary key check (code = upper(code)),
+  percent int not null check (percent between 1 and 90),
+  active boolean default true,
+  expires_at timestamptz,
+  max_uses int,
+  used int not null default 0,
+  note text default '',
+  created_at timestamptz default now()
+);
+alter table public.coupons enable row level security;
+drop policy if exists "admins manage coupons" on public.coupons;
+create policy "admins manage coupons" on public.coupons for all using (public.is_admin()) with check (public.is_admin());
+
+-- 13. Orders: coupon used, discount, and admin can mark refunds.
+alter table public.orders add column if not exists coupon text;
+alter table public.orders add column if not exists discount numeric(10,2) default 0;
+alter table public.orders add column if not exists note text default '';
+drop policy if exists "admins update orders" on public.orders;
+create policy "admins update orders" on public.orders for update using (public.is_admin()) with check (public.is_admin());

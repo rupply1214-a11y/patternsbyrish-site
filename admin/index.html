@@ -23,15 +23,27 @@
   <aside class="side-nav">
     <a class="logo" href="../" target="_blank" rel="noopener"><svg class="tool logo-spool" viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="8" width="32" height="7" rx="2" class="t-fill"/><rect x="16" y="49" width="32" height="7" rx="2" class="t-fill"/><rect x="20" y="15" width="24" height="34" class="t-thread"/><path d="M20 21h24M20 27h24M20 33h24M20 39h24M20 45h24" class="t-line"/></svg><span class="logo-word">Admin</span></a>
     <nav class="tabs" role="tablist" aria-label="Admin sections">
+      <p class="nav-group">Shop</p>
       <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button role="tab" data-tab="orders" aria-selected="false">Orders</button>
+      <button role="tab" data-tab="customers" aria-selected="false">Customers</button>
+      <button role="tab" data-tab="files" aria-selected="false">Download links <span class="nav-badge" id="files-badge" hidden></span></button>
+      <button role="tab" data-tab="coupons" aria-selected="false">Coupons</button>
+      <button role="tab" data-tab="shop" aria-selected="false">Selling settings</button>
+      <p class="nav-group">Patterns</p>
+      <button role="tab" data-tab="patterns" aria-selected="false">Etsy patterns</button>
+      <button role="tab" data-tab="own" aria-selected="false">Website-only patterns</button>
+      <p class="nav-group">Website</p>
       <button role="tab" data-tab="banners" aria-selected="false">Banners</button>
       <button role="tab" data-tab="topbar" aria-selected="false">Top bar &amp; sale</button>
       <button role="tab" data-tab="home" aria-selected="false">Homepage</button>
-      <button role="tab" data-tab="patterns" aria-selected="false">Patterns</button>
       <button role="tab" data-tab="runway" aria-selected="false">Runway</button>
+      <button role="tab" data-tab="studio" aria-selected="false">Studio &amp; login video</button>
+      <button role="tab" data-tab="faqs" aria-selected="false">Questions (FAQ)</button>
+      <button role="tab" data-tab="social" aria-selected="false">Social &amp; footer</button>
+      <p class="nav-group">Writing</p>
       <button role="tab" data-tab="blog" aria-selected="false">Stitch Journal</button>
       <button role="tab" data-tab="shorts" aria-selected="false">Shorts (reels)</button>
-      <button role="tab" data-tab="social" aria-selected="false">Social &amp; footer</button>
     </nav>
     <div class="side-foot">
       <p class="muted small" id="who"></p>
@@ -48,22 +60,152 @@
 
     <!-- overview -->
     <section data-pane="overview">
-      <h1>Hello! Here's your website.</h1>
+      <h1>Hello! Here's your shop.</h1>
+      <div class="alert" id="storage-alert" hidden></div>
+      <div class="alert" id="files-alert" hidden></div>
+      <div class="alert" id="pay-alert" hidden></div>
+      <h2 class="sub-h">Website sales</h2>
+      <div class="stat-row" id="sales-stats"><div class="stat"><b>…</b><span>loading</span></div></div>
+      <div class="card-box">
+        <h2>Database storage</h2>
+        <div class="meter"><span id="storage-bar"></span></div>
+        <p class="muted" id="storage-text">Checking…</p>
+        <p class="muted small">The free Supabase plan holds 500 MB. Orders and wishlists are tiny (about 1 to 2 KB each), so this lasts for many thousands of orders. At 80% you'll see a warning here; then download a backup in Orders and remove old orders.</p>
+      </div>
+      <h2 class="sub-h">Website</h2>
       <div class="stat-row" id="stats"></div>
       <div class="card-box">
         <h2>When do changes show on the website?</h2>
-        <p>The website checks Etsy and this admin panel <b>every hour</b> and updates itself. New Etsy listings and anything you save here appear within an hour.</p>
-        <p>Need it sooner? Open the update page, click <b>Run workflow</b>, then the green <b>Run workflow</b> button. The site updates in about 2 minutes.</p>
+        <p>The website checks Etsy and this admin panel <b>every hour</b> and updates itself. New Etsy listings and anything you save here appear within an hour. Orders, download links and coupons work straight away.</p>
         <div class="btn-row">
-          <a class="btn" id="run-link" target="_blank" rel="noopener">Update the website now</a>
+          <button class="btn" type="button" id="publish-now">Update the website now</button>
+          <a class="btn btn-ghost" id="run-link" target="_blank" rel="noopener">Open the update page on GitHub</a>
           <a class="btn btn-ghost" href="../" target="_blank" rel="noopener">Open the website</a>
         </div>
+        <p class="form-msg" id="publish-msg" role="status"></p>
       </div>
       <div class="card-box">
         <h2>Pinterest pins file</h2>
         <p>Every update also makes a ready Pinterest bulk-upload file: up to 3 pins per pattern, scheduled at US times for the next 28 days. In Pinterest go to <b>Create, Bulk create Pins</b> and upload it.</p>
         <div class="btn-row"><a class="btn btn-ghost" href="../tools/pinterest-pins.csv" target="_blank" rel="noopener">Open the Pinterest CSV</a></div>
       </div>
+    </section>
+
+    <!-- orders -->
+    <section data-pane="orders" hidden>
+      <div class="pane-head"><h1>Orders</h1><div class="btn-row">
+        <button class="btn btn-ghost btn-small" type="button" id="orders-csv">Download backup (CSV)</button>
+        <button class="btn btn-ghost btn-small" type="button" id="orders-refresh">Refresh</button></div></div>
+      <p class="muted">Orders paid on this website with PayPal. Etsy orders stay on Etsy.</p>
+      <div class="toolbar admin-toolbar">
+        <label class="search-field"><span class="sr">Search orders</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="search" id="ord-q" placeholder="Search email, pattern or PayPal ID"></label>
+        <div class="chips" id="ord-filter"></div>
+      </div>
+      <ul class="ord-list" id="ord-list"></ul>
+      <div class="card-box">
+        <h2>Free up space</h2>
+        <p class="muted">Remove old orders after you've downloaded a backup. Buyers lose the download button for removed orders, so keep at least the last year.</p>
+        <div class="btn-row field-inline"><span>Remove orders older than</span>
+          <select id="ord-age"><option value="730">2 years</option><option value="1095">3 years</option><option value="365">1 year</option></select>
+          <button class="btn btn-ghost btn-small danger" type="button" id="ord-clean">Remove old orders</button></div>
+        <p class="form-msg" id="ord-clean-msg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- customers -->
+    <section data-pane="customers" hidden>
+      <div class="pane-head"><h1>Customers</h1><button class="btn btn-ghost btn-small" type="button" id="cust-csv">Download list (CSV)</button></div>
+      <p class="muted">Everyone who has paid for a pattern on this website, with what they spent.</p>
+      <ul class="ord-list" id="cust-list"></ul>
+    </section>
+
+    <!-- download links -->
+    <section data-pane="files" hidden>
+      <h1>Download links</h1>
+      <p class="muted">Paste the Google Drive link of each pattern's files (a folder or a zip, shared as "Anyone with the link"). Buyers get the link only after they pay. Links save as soon as you leave the box.</p>
+      <div class="toolbar admin-toolbar">
+        <label class="search-field"><span class="sr">Search patterns</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="search" id="file-q" placeholder="Search patterns"></label>
+        <div class="chips" id="file-filter"></div>
+      </div>
+      <ul class="file-list" id="file-list"></ul>
+    </section>
+
+    <!-- coupons -->
+    <section data-pane="coupons" hidden>
+      <h1>Coupon codes</h1>
+      <p class="muted">A code takes a percentage off the whole cart on this website. Share it on Instagram, in emails or with a customer.</p>
+      <form class="card-box" id="cp-form">
+        <h2>New code</h2>
+        <div class="two">
+          <label class="field"><span>Code</span><input id="cp-code" required maxlength="30" placeholder="RISH10" pattern="[A-Za-z0-9_-]+"></label>
+          <label class="field"><span>Percent off</span><input id="cp-pct" type="number" min="1" max="90" required value="10"></label>
+        </div>
+        <div class="two">
+          <label class="field"><span>Ends on (optional)</span><input id="cp-end" type="date"></label>
+          <label class="field"><span>How many times it can be used (optional)</span><input id="cp-max" type="number" min="1" placeholder="No limit"></label>
+        </div>
+        <label class="field"><span>Note for you (optional)</span><input id="cp-note" maxlength="120" placeholder="Instagram giveaway"></label>
+        <div class="btn-row"><button class="btn btn-small" type="submit">Create code</button></div>
+        <p class="form-msg" id="cp-msg" role="status"></p>
+      </form>
+      <ul class="ord-list" id="cp-list"></ul>
+    </section>
+
+    <!-- selling settings -->
+    <section data-pane="shop" hidden>
+      <h1>Selling on the website</h1>
+      <div class="card-box">
+        <label class="toggle"><input type="checkbox" id="sh-sell"><span></span>Sell patterns on this website (Buy now, cart and PayPal)</label>
+        <p class="muted">Off: every Buy button goes to Etsy, like before.</p>
+        <label class="toggle"><input type="checkbox" id="sh-test"><span></span>Test mode while selling is off</label>
+        <p class="muted">Buy buttons stay hidden from visitors. Open the website once with <b>?shoptest=1</b> at the end of the address to see them yourself (and <b>?shoptest=0</b> to hide them again).</p>
+      </div>
+      <div class="card-box">
+        <h2>Website price</h2>
+        <label class="field field-inline"><input id="sh-pct" type="number" min="0" max="90" step="1"><span>% less than the Etsy price</span></label>
+        <p class="muted" id="sh-example"></p>
+        <p class="muted small">Etsy takes about 27% of each sale in fees; PayPal takes about 8%. So 10 to 15% off on the website still earns you about the same as Etsy.</p>
+      </div>
+      <div class="card-box">
+        <label class="toggle"><input type="checkbox" id="sh-etsy"><span></span>Also show "Prefer Etsy? Buy it there" on pattern pages</label>
+        <label class="field"><span>Line under the Buy buttons</span><input id="sh-delivery" maxlength="140"></label>
+      </div>
+      <div class="card-box">
+        <h2>PayPal</h2>
+        <p class="muted" id="sh-paypal">Checking…</p>
+      </div>
+    </section>
+
+    <!-- website-only patterns -->
+    <section data-pane="own" hidden>
+      <div id="own-list-view">
+        <div class="pane-head"><h1>Website-only patterns</h1><button class="btn btn-small" type="button" id="own-new">Add a pattern</button></div>
+        <p class="muted">Patterns you sell only here, not on Etsy. They get their own page, show in their categories, search and the cart, just like Etsy patterns.</p>
+        <ul class="pat-list" id="own-list"></ul>
+      </div>
+      <form id="own-edit" hidden>
+        <div class="pane-head"><button class="btn btn-ghost btn-small" type="button" id="own-back">All website-only patterns</button><div class="btn-row">
+          <button class="btn btn-ghost btn-small danger" type="button" id="own-del">Delete</button>
+          <button class="btn btn-small" type="submit">Save pattern</button></div></div>
+        <label class="field"><span>Name</span><input id="o-title" required maxlength="80" placeholder="Linen Wrap Dress"></label>
+        <label class="field"><span>Short description line</span><input id="o-sub" maxlength="90" placeholder="V-Neck Midi with Tie Waist"></label>
+        <div class="two">
+          <label class="field"><span>Price (USD)</span><input id="o-price" type="number" min="0.5" step="0.01" required></label>
+          <label class="field"><span>Was price (optional, shows a sale)</span><input id="o-was" type="number" min="0" step="0.01"></label>
+        </div>
+        <div class="field"><span>Categories</span><div class="chips" id="o-cats"></div></div>
+        <div class="two">
+          <label class="field"><span>Sizes</span><input id="o-sizes" placeholder="XS to 5XL"></label>
+          <label class="field"><span>Search words (comma separated)</span><input id="o-tags" placeholder="linen dress, wrap dress"></label>
+        </div>
+        <div class="field"><span>Print formats</span><div class="chips" id="o-formats"></div></div>
+        <div class="field"><span>Photos (the first one is the main photo)</span><div class="pick-row" id="o-imgs"></div></div>
+        <div class="field"><span>Technical sketch for the Runway (optional)</span><div class="pick-row" id="o-sketch"></div></div>
+        <label class="field"><span>Description (you can use ## for headings and - for lists)</span><textarea id="o-desc" rows="12" class="md"></textarea></label>
+        <label class="field"><span>Google Drive download link</span><input id="o-drive" type="url" placeholder="https://drive.google.com/…"></label>
+        <label class="toggle"><input type="checkbox" id="o-pub"><span></span>Show on the website</label>
+        <p class="form-msg" id="own-msg" role="status"></p>
+      </form>
     </section>
 
     <!-- banners -->
@@ -167,6 +309,12 @@
     <section data-pane="runway" hidden>
       <h1>The Runway</h1>
       <p class="muted">The Runway shows 18 looks: each pattern's technical sketch next to the model photo. It fills itself from your Etsy listings. Here you can choose which looks walk first, leave a pattern off, or give a pattern your own clean sketch.</p>
+      <div class="card-box" id="rw-now-box">
+        <h2>Walking right now</h2>
+        <p class="muted">The 18 looks on the Runway today, in order. Click "Change this order" to start from these and move, add or remove looks.</p>
+        <div class="pick-row" id="rw-now"></div>
+        <div class="btn-row"><button class="btn btn-ghost btn-small" type="button" id="rw-copy">Change this order</button></div>
+      </div>
       <div class="card-box">
         <h2>Looks that walk first</h2>
         <p class="muted">In this order. The rest of the 18 are filled in automatically across categories. Leave empty to let the website choose.</p>
@@ -196,6 +344,33 @@
       <div id="reels"></div>
     </section>
 
+    <!-- studio & login -->
+    <section data-pane="studio" hidden>
+      <h1>Studio page &amp; login video</h1>
+      <div class="card-box">
+        <h2>Sign-in page video</h2>
+        <p class="muted">Plays behind the sign-in card. Wide video for computers, square video for phones. MP4, up to 50 MB; keep it short (10 to 20 seconds) and without sound.</p>
+        <div class="media-grid" id="media-login"></div>
+      </div>
+      <div class="card-box">
+        <h2>Studio film</h2>
+        <p class="muted">The animated "sketch to dress" film on the homepage and Our studio page. Upload your own video to show it instead, or change the words of each scene.</p>
+        <div class="media-grid" id="media-film"></div>
+        <div id="film-scenes"></div>
+      </div>
+      <div class="card-box">
+        <h2>Our studio page</h2>
+        <div id="studio-fields"></div>
+      </div>
+    </section>
+
+    <!-- faqs -->
+    <section data-pane="faqs" hidden>
+      <div class="pane-head"><h1>Questions (FAQ)</h1><button class="btn btn-small" type="button" id="faq-add">Add a question</button></div>
+      <p class="muted">Shown on the homepage (first 4), pattern pages (first 4) and How it works (all). Google can show them in search results too.</p>
+      <div id="faq-list"></div>
+    </section>
+
     <!-- social -->
     <section data-pane="social" hidden>
       <h1>Social &amp; footer</h1>
@@ -214,6 +389,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="config.js"></script>
-<script src="admin.js"></script>
+<script src="admin.js?v=2"></script>
+<script src="admin-shop.js?v=2"></script>
 </body>
 </html>

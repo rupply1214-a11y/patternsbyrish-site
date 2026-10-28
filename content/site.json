@@ -53,5 +53,102 @@
     "text": "Pick any 5 or any 20 patterns from the shop in one order and pay much less per pattern.",
     "button": "See the bundles",
     "link": "category/bundles/"
-  }
+  },
+  "shop": {
+    "sell_on_site": false,
+    "discount_pct": 10,
+    "show_etsy": true,
+    "site_note": "Buy here and save: the price on our website is lower than on Etsy.",
+    "delivery_note": "Your download link appears right after payment and stays in My purchases.",
+    "test_mode": true
+  },
+  "media": {
+    "login_wide": "static/video/studio-wide.mp4",
+    "login_wide_poster": "static/video/studio-wide.jpg",
+    "login_square": "static/video/studio-square.mp4",
+    "login_square_poster": "static/video/studio-square.jpg"
+  },
+  "studio": {
+    "hero_label": "Our studio",
+    "hero_title": "Where every pattern *begins*",
+    "hero_text": "Sketches, swatches, pattern paper and a lot of thread. Here's how a Patterns by Rish design travels from the sketchbook to your sewing machine.",
+    "hero_img": "static/img/studio-desk.jpg",
+    "hero_small_img": "static/img/studio-form.jpg",
+    "bento_title": "Inside the *studio*",
+    "bento_note": "Cut, sewn and pressed, one piece at a time.",
+    "bento": [
+      {
+        "img": "static/img/studio-cutting.jpg",
+        "title": "The cutting table",
+        "text": "Grainline first, scissors second.",
+        "alt": "Paper pattern pieces pinned to linen on a green cutting mat"
+      },
+      {
+        "img": "static/img/studio-machine.jpg",
+        "title": "At the machine",
+        "text": "One straight seam at a time.",
+        "alt": "Hands guiding linen under a sewing machine needle"
+      },
+      {
+        "img": "static/img/studio-fabrics.jpg",
+        "title": "The fabric shelf",
+        "text": "Linen, cotton, gingham and florals.",
+        "alt": "A shelf of folded fabrics sorted by colour"
+      },
+      {
+        "img": "static/img/studio-press.jpg",
+        "title": "Pressed as we go",
+        "text": "The secret to a hand-made finish.",
+        "alt": "Pressing a seam open on a linen dress"
+      }
+    ],
+    "values": [
+      {
+        "title": "Drafted to fit",
+        "text": "Our patterns are graded across a wide size range, many from XS to 5XL, with plus size styles drafted in from the start."
+      },
+      {
+        "title": "Print it your way",
+        "text": "PDF files you print at home on A4 or US Letter, or send to a copy shop and skip the taping."
+      },
+      {
+        "title": "Clear instructions",
+        "text": "Every pattern comes with step-by-step sewing instructions as a PDF, with drawings so you always know what comes next."
+      },
+      {
+        "title": "New designs, often",
+        "text": "Dresses, tops, skirts, menswear and kids, with new patterns added to the shop every week."
+      }
+    ],
+    "cta_title": "Simple, stylish and made to be sewn",
+    "cta_text": "Find your next make and download it in seconds.",
+    "film_video": "",
+    "film_poster": ""
+  },
+  "faqs": [
+    {
+      "q": "How do I get my pattern after I buy it?",
+      "a": "Bought on this website? Your download button appears right after payment and stays under My purchases in your sewing room. Bought on Etsy? Etsy shows a download button on the order page, and you can find it any time under You, then Purchases and reviews."
+    },
+    {
+      "q": "Do you post a paper pattern?",
+      "a": "No. Every pattern is a digital PDF, so nothing is shipped. That also means there are no postage costs or customs waits, wherever you live."
+    },
+    {
+      "q": "Can I buy from outside the US?",
+      "a": "Yes. Prices are in US dollars. On this website you pay with PayPal or a card through PayPal, and on Etsy you can pay in your own currency. The download works the same everywhere."
+    },
+    {
+      "q": "What do I need to print it?",
+      "a": "A home printer with A4 or US Letter paper. Print at 100 percent or actual size, never fit to page. You can also take the A0 file to a copy shop and get the whole pattern on a few large sheets."
+    },
+    {
+      "q": "How do I pick my size?",
+      "a": "Measure your bust, waist and hips with a soft tape and compare them with the size chart in the pattern. If you sit between two sizes, trace the larger one and take it in at the side seams."
+    },
+    {
+      "q": "Can I return a pattern?",
+      "a": "Digital files download instantly, so they can't be returned. If a file won't open or something looks wrong, message us and we'll help you sort it out."
+    }
+  ]
 }

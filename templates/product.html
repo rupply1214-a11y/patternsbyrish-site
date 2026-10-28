@@ -5,7 +5,7 @@
 {% block og %}
 <meta property="og:type" content="product">
 {% if p.images %}<meta property="og:image" content="{{ p.images[0].full }}">{% endif %}
-<meta property="product:price:amount" content="{{ '%.2f'|format(p.price_value) }}">
+<meta property="product:price:amount" content="{{ '%.2f'|format(p.site_value if p.buy_live else p.price_value) }}">
 <meta property="product:price:currency" content="{{ p.currency }}">
 {% endblock %}
 {% block schema %}
@@ -13,7 +13,7 @@
 {{ {"@context": "https://schema.org", "@graph": [
   {"@type": "Product", "name": p.name, "description": p.meta, "sku": p.id|string, "url": canon() or none,
    "image": (p.images[:6] | map(attribute='full') | list) or none, "brand": {"@type": "Brand", "name": cfg.brand}, "category": "Sewing pattern",
-   "offers": {"@type": "Offer", "url": p.etsy, "price": '%.2f'|format(p.price_value), "priceCurrency": p.currency,
+   "offers": {"@type": "Offer", "url": (canon() or p.etsy) if p.buy_live else p.etsy, "price": '%.2f'|format(p.site_value if p.buy_live else p.price_value), "priceCurrency": p.currency,
               "priceValidUntil": (p.sale_end | isodate) if p.off else none,
               "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": cfg.brand}}},
   {"@type": "BreadcrumbList", "itemListElement": [
@@ -61,14 +61,26 @@
             <li>{{ tool("paper") }}<span>Format</span><strong>PDF, instant download</strong></li>
             {% if p.sizes %}<li>{{ tool("tape") }}<span>Sizes</span><strong>{{ p.sizes }}</strong></li>{% endif %}
             {% if p.formats %}<li>{{ tool("scissors") }}<span>Print on</span><strong>{{ p.formats | join(', ') }}</strong></li>{% endif %}
-            <li>{{ tool("thread") }}<span>Delivered</span><strong>Through your Etsy purchases</strong></li>
+            <li>{{ tool("thread") }}<span>Delivered</span><strong>{{ 'Instant download after payment' if p.buy_live else 'Through your Etsy purchases' }}</strong></li>
           </ul>
+          {% if p.buy_here %}
+          <div class="buy-site" id="buy">
+            <p class="site-price"><span>{{ 'Price' if p.own else 'Website price' }}</span><b>{{ p.site_price }}</b>{% if p.site_save and p.etsy %}<s>{{ p.price }} on Etsy</s><span class="save-pill">You save {{ p.site_save }}%</span>{% endif %}</p>
+            {% set item = {"id": p.id|string, "n": p.short, "pr": p.site_price, "i": (p.images[0].medium or p.images[0].full) if p.images else "", "s": p.slug} %}
+            <button type="button" class="btn btn-big" data-buy-now='{{ item|tojson }}'>Buy now for {{ p.site_price }}</button>
+            <button type="button" class="btn btn-ghost btn-big" data-add-cart='{{ item|tojson }}'><span data-cart-label>Add to cart</span></button>
+            {% if shopcfg.delivery_note %}<p class="buy-help">{{ shopcfg.delivery_note }}</p>{% endif %}
+          </div>
+          {% if pbr.test and p.etsy %}<a class="btn btn-big buy-etsy-only" href="{{ p.etsy }}" rel="noopener"><span>Buy on Etsy for <span data-live-price>{{ p.price }}</span></span></a>{% endif %}
+          {% if p.etsy and shopcfg.show_etsy %}<a class="buy-etsy-link buy-test-hide" href="{{ p.etsy }}" rel="noopener">Prefer Etsy? Buy it there for <span data-live-price>{{ p.price }}</span></a>{% endif %}
+          {% else %}
           <a class="btn btn-big" href="{{ p.etsy }}" rel="noopener"><span>Buy on Etsy for <span data-live-price>{{ p.price }}</span></span></a>
+          {% endif %}
           <button type="button" class="btn btn-ghost btn-big save-btn" data-heart="{{ p.id }}" data-name="{{ p.short }}" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 4 2.3h3.4c.7-1.2 2-2.3 4-2.3C21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg><span data-heart-label>Save to my sewing room</span></button>
           <div class="buy-row">
             <button type="button" class="btn btn-ghost" data-share data-title="{{ p.short }} sewing pattern">Copy link</button>
           </div>
-          <p class="buy-help">Prices in US dollars. Etsy shows your own currency at checkout. New to PDF patterns? <a href="{{ u('how-it-works/') }}">See how printing works</a>.</p>
+          <p class="buy-help">Prices in US dollars. New to PDF patterns? <a href="{{ u('how-it-works/') }}">See how printing works</a>.</p>
         </div>
       </div>
     </div>
@@ -103,6 +115,6 @@
 <div class="buy-bar" data-buybar>
   <span class="buy-bar-name">{{ p.short }}</span>
   <span class="buy-bar-price">{{ price(p) }}</span>
-  <a class="btn btn-small" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a>
+  {% if p.buy_here and not pbr.test %}<a class="btn btn-small" href="#buy">Buy for {{ p.site_price }}</a>{% else %}<a class="btn btn-small" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a>{% endif %}
 </div>
 {% endblock %}

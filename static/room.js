@@ -33,9 +33,27 @@
     }));
   }
 
+  async function purchases() {
+    const sec = document.querySelector("[data-purchases]");
+    if (!sec) return;
+    const { data: rows, error } = await db.rpc("my_downloads");
+    if (error || !rows || !rows.length) return;
+    const cat = await fetch(home + "static/catalog.json").then((r) => r.json()).catch(() => []);
+    sec.hidden = false;
+    sec.querySelector("[data-purchase-list]").innerHTML = rows.map((r) => {
+      const p = cat.find((x) => String(x.id) === String(r.listing_id));
+      const img = p ? `<img src="${esc(p.i)}" alt="" loading="lazy">` : "";
+      const when = r.paid_at ? new Date(r.paid_at).toLocaleDateString() : "";
+      const btn = r.drive_url ? `<a class="btn btn-small" href="${esc(r.drive_url)}" target="_blank" rel="noopener">Download</a>`
+        : `<span class="dl-wait">Your files are being prepared. We'll add the download here shortly.</span>`;
+      return `<li>${img}<span><b>${esc(p ? p.n : r.name || "Pattern")}</b><small>Bought ${esc(when)}</small></span>${btn}</li>`;
+    }).join("");
+    if (location.hash === "#purchases") sec.scrollIntoView();
+  }
+
   box.querySelector("[data-signout]").addEventListener("click", async () => {
     await db.auth.signOut();
-    try { localStorage.removeItem("pbr_user"); localStorage.removeItem("pbr_saved"); } catch {}
+    try { localStorage.removeItem("pbr_user"); localStorage.removeItem("pbr_saved"); localStorage.removeItem("pbr_cart"); } catch {}
     location.replace(home);
   });
 
@@ -44,6 +62,6 @@
     user = data.session.user;
     const { data: rows } = await db.from("wishlist").select("listing_id").order("created_at", { ascending: false });
     ids = (rows || []).map((r) => String(r.listing_id)); remember();
-    draw();
+    draw(); purchases();
   });
 })();

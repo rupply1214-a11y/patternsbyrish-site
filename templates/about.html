@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool %}
 {% block title %}About Patterns by Rish | PDF Sewing Pattern Designers{% endblock %}
-{% block description %}Patterns by Rish designs simple, stylish PDF sewing patterns for dresses, tops, menswear, kids and plus size sewists, sold on Etsy.{% endblock %}
+{% block description %}Patterns by Rish designs simple, stylish PDF sewing patterns for dresses, tops, menswear, kids and plus size sewists.{% endblock %}
 {% block main %}
 <section class="list-hero tint-blush">
   <div class="wrap list-hero-in">
@@ -16,7 +16,7 @@
 <section class="band band-tight">
   <div class="wrap narrow prose">
     <p>Every pattern comes with the printable pattern files, step-by-step sewing instructions as a PDF, technical sketches and the fabric you'll need. Most are graded from XS to 5XL and print on A4, US Letter or A0.</p>
-    <p>We sell through our Etsy shop. It keeps checkout simple and safe for sewists in every country, and your files are always waiting in your Etsy purchases if you lose them.</p>
+    {% if pbr.sell and not pbr.test %}<p>You can buy right here on our website with PayPal or a card, and your files wait in My purchases whenever you need them. We also sell through our Etsy shop, if you prefer to shop there.</p>{% else %}<p>We sell through our Etsy shop. It keeps checkout simple and safe for sewists in every country, and your files are always waiting in your Etsy purchases if you lose them.</p>{% endif %}
     {% if stats.sold %}<p>So far, sewists have bought {{ stats.sold }} of our patterns on Etsy{% if stats.reviews %} and left {{ stats.reviews }} reviews{% endif %}. New designs are added every week.</p>{% endif %}
     <p>Have a question about a pattern, sizing or printing? Message us through Etsy and we'll get back to you.</p>
     <p><a class="btn" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Visit our Etsy shop</a></p>

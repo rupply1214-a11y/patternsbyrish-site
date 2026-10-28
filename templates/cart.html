@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool, woven %}
+{% block title %}Your cart | Patterns by Rish{% endblock %}
+{% block description %}Your Patterns by Rish cart: buy PDF sewing patterns with PayPal and download them instantly.{% endblock %}
+{% block og %}<meta property="og:type" content="website"><meta name="robots" content="noindex">{% endblock %}
+{% block main %}
+<div class="cart-page" data-cart-page data-home="{{ u('') }}">
+  <section class="room-hero">
+    <div class="wrap room-hero-in">
+      <div>
+        <p class="brand-label">Checkout</p>
+        <h1 data-cart-title>Your <em class="acc">cart</em></h1>
+        <p class="lede" data-cart-lede>PDF patterns, ready to download the moment you pay.</p>
+      </div>
+      <div class="room-side">{{ woven("Patterns by Rish", "PDF patterns, instant download", "woven-lg") }}</div>
+    </div>
+  </section>
+
+  <section class="band band-paper">
+    <div class="wrap cart-grid" data-cart-main>
+      <div>
+        <ul class="cart-list" data-cart-items></ul>
+        <div class="room-empty" data-cart-empty hidden>
+          <span class="room-empty-art" aria-hidden="true">{{ tool("spool") }}{{ tool("scissors") }}{{ tool("pins") }}</span>
+          <h2>Your cart is <em class="acc">empty</em></h2>
+          <p>Find a pattern you love and tap Add to cart.</p>
+          <a class="btn" href="{{ u('patterns/') }}">Browse patterns</a>
+        </div>
+      </div>
+      <aside class="cart-sum" data-cart-sum hidden>
+        <h2>Order summary</h2>
+        <dl class="cart-totals">
+          <div><dt>Patterns</dt><dd data-sub>$0.00</dd></div>
+          <div data-disc-row hidden><dt>Coupon <span data-disc-code></span></dt><dd data-disc>-$0.00</dd></div>
+          <div class="cart-total"><dt>Total (USD)</dt><dd data-total>$0.00</dd></div>
+        </dl>
+        <form class="coupon" data-coupon-form>
+          <label class="sr" for="coupon">Coupon code</label>
+          <input id="coupon" name="code" placeholder="Coupon code" autocomplete="off" maxlength="30">
+          <button class="btn btn-ghost btn-small" type="submit">Apply</button>
+        </form>
+        <p class="form-msg" data-coupon-msg role="status"></p>
+        <div data-pay-signin hidden>
+          <p class="cart-note">Sign in first, so your patterns are saved in <b>My purchases</b> and you can download them again any time.</p>
+          <a class="btn btn-big" data-signin-link href="{{ u('login/') }}?next=cart/">Sign in to pay</a>
+        </div>
+        <div data-pay hidden>
+          <p class="cart-note">Pay with PayPal, or with a debit or credit card through PayPal.</p>
+          <div id="paypal-buttons" data-paypal></div>
+        </div>
+        <p class="form-msg" data-pay-msg role="status"></p>
+        {% if pbr.ppmode == 'sandbox' %}<p class="cart-test">Test mode: no real money is taken.</p>{% endif %}
+        <p class="fine-print">Digital PDF files, no shipping. Because the files download instantly, purchases can't be returned; if anything is wrong with a file, message us and we'll sort it out.</p>
+      </aside>
+    </div>
+
+    <div class="wrap cart-done" data-cart-done hidden>
+      <div class="done-card">
+        <span class="room-empty-art" aria-hidden="true">{{ tool("needle") }}{{ tool("spool") }}</span>
+        <h2>Thank you! Your patterns are <em class="acc">ready</em></h2>
+        <p data-done-text>Download them below. They're also saved in My purchases, in your sewing room.</p>
+        <ul class="dl-list" data-done-list></ul>
+        <a class="btn btn-ghost" href="{{ u('sewing-room/') }}#purchases">Go to My purchases</a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

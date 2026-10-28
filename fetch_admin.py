@@ -27,6 +27,10 @@ def main():
         r.raise_for_status()
         json.dump(r.json(), open(os.path.join(ROOT, "data", "admin_posts.json"), "w", encoding="utf-8"), ensure_ascii=False)
         print(f"{len(r.json())} published posts loaded")
+        r = requests.get(f"{url}/rest/v1/products", params={"published": "eq.true", "select": "*", "order": "created_at.desc"}, headers=h, timeout=30)
+        if r.ok:
+            json.dump(r.json(), open(os.path.join(ROOT, "data", "admin_products.json"), "w", encoding="utf-8"), ensure_ascii=False)
+            print(f"{len(r.json())} website-only patterns loaded")
     except Exception as e:  # never block the site from building
         print(f"Admin content not loaded ({e}); using the defaults")
     return 0
