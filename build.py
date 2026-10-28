@@ -27,6 +27,16 @@ def load(path, default=None):
     return json.load(open(p, encoding="utf-8")) if os.path.exists(p) else default
 
 
+SHOP_SUB = (CFG.get("etsy_shop_name") or "PatternsByRish").lower()
+
+
+def share_link(l, lid):
+    """Etsy's Share & Save link for a listing: https://patternsbyrish.etsy.com/listing/<id>/<title-slug>.
+    Only this shop-subdomain format earns the Share & Save fee credit (4%, 30 days after the click)."""
+    m = re.search(r"/listing/\d+/([^/?#]+)", l.get("url") or "")
+    return f"https://{SHOP_SUB}.etsy.com/listing/{lid}" + (f"/{m.group(1)}" if m else "")
+
+
 DATA = load("data/listings.json") or load("data/sample_listings.json")
 CONTENT = load("content/site.json", {})
 CONTENT.update({k: v for k, v in (load("data/admin_content.json", {}) or {}).items() if v not in (None, "")})
@@ -168,7 +178,7 @@ for l in DATA["listings"]:
     products.append(dict(
         id=lid, title=title, name=(f"{head}: {detail}" if detail else head), short=head, sub=detail,
         slug=f"{slugify(head + ' ' + detail, 9)}-{lid}", kind=kind, cats=cats, cat=cats[0] if cats else "dresses", section=sec,
-        etsy=l.get("url") or f"https://www.etsy.com/listing/{lid}", currency=cur,
+        etsy=share_link(l, lid), currency=cur,
         price=money(sale_v, cur), price_value=float(sale_v), was=money(base_v, cur) if sale else "", off=sale["off"] if sale else 0,
         orig=money(base_v, cur), orig_value=float(base_v), sale_start=sale["start"] if sale else 0, sale_end=sale["end"] if sale else 0,
         images=l.get("images") or [], sizes=size_range(full), formats=formats(full), tags=list(l.get("tags") or []),

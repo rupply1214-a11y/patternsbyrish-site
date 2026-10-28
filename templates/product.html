@@ -63,10 +63,9 @@
             {% if p.formats %}<li>{{ tool("scissors") }}<span>Print on</span><strong>{{ p.formats | join(', ') }}</strong></li>{% endif %}
             <li>{{ tool("thread") }}<span>Delivered</span><strong>Through your Etsy purchases</strong></li>
           </ul>
-          <a class="btn btn-big" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=product" rel="noopener"><span>Buy on Etsy for <span data-live-price>{{ p.price }}</span></span></a>
+          <a class="btn btn-big" href="{{ p.etsy }}" rel="noopener"><span>Buy on Etsy for <span data-live-price>{{ p.price }}</span></span></a>
           <button type="button" class="btn btn-ghost btn-big save-btn" data-heart="{{ p.id }}" data-name="{{ p.short }}" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 4 2.3h3.4c.7-1.2 2-2.3 4-2.3C21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg><span data-heart-label>Save to my sewing room</span></button>
           <div class="buy-row">
-            {% if p.images %}<a class="btn btn-ghost" href="https://www.pinterest.com/pin/create/button/?url={{ (canon() or p.etsy)|urlencode }}&media={{ p.images[0].full|urlencode }}&description={{ (p.name ~ ' sewing pattern PDF')|urlencode }}" rel="noopener" target="_blank">Save to Pinterest</a>{% endif %}
             <button type="button" class="btn btn-ghost" data-share data-title="{{ p.short }} sewing pattern">Copy link</button>
           </div>
           <p class="buy-help">Prices in US dollars. Etsy shows your own currency at checkout. New to PDF patterns? <a href="{{ u('how-it-works/') }}">See how printing works</a>.</p>
@@ -104,6 +103,6 @@
 <div class="buy-bar" data-buybar>
   <span class="buy-bar-name">{{ p.short }}</span>
   <span class="buy-bar-price">{{ price(p) }}</span>
-  <a class="btn btn-small" href="{{ p.etsy }}?utm_source=website&utm_medium=referral&utm_campaign=sticky" rel="noopener">Buy on Etsy</a>
+  <a class="btn btn-small" href="{{ p.etsy }}" rel="noopener">Buy on Etsy</a>
 </div>
 {% endblock %}
