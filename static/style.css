@@ -1813,3 +1813,4 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
   .lb-teaser-in { grid-template-columns: 1fr; }
   .lb-teaser-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 18px; }
 }
+.fr-face { place-items: start center; padding: 7px 7px 0; }

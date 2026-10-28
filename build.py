@@ -400,7 +400,7 @@ def main():
                                    photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
                                    photo_box=crop_style(photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
                                    sketch=(sk["medium"] or sk["full"]) if sk else "",
-                                   sketch_box=crop_style(None, (0.0, 0.115, 0.53, 0.985))))
+                                   sketch_box=crop_style(None, (0.0, 0.145, 0.435, 0.985))))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]
