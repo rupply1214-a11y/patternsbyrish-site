@@ -369,6 +369,11 @@ def main():
         if y1 - y0 < .5:
             return None
         return (x0, y0, x1, y1)
+    def sketch_box(box):
+        # measured left/right edges of the drawing are reliable; top and bottom use the page's usual drawing area
+        if box and box[2] <= .5 and box[2] - box[0] > .15:
+            return (max(0, box[0] - .01), .145, min(.5, box[2] + .02), .985)
+        return (0.0, .145, .40, .985)
     def crop_style(box, default):
         x0, y0, x1, y1 = box or default
         w, h = max(.05, x1 - x0), max(.05, y1 - y0)
@@ -400,7 +405,7 @@ def main():
                                    photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
                                    photo_box=crop_style(photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
                                    sketch=(sk["medium"] or sk["full"]) if sk else "",
-                                   sketch_box=crop_style(None, (0.0, 0.145, 0.435, 0.985))))
+                                   sketch_box=crop_style(sketch_box(CROPS.get((sk["medium"] or sk["full"]) if sk else "")), None)))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]
