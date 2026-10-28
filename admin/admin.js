@@ -34,6 +34,7 @@
     const { data: me } = await db.from("admins").select("email");
     if (!me || !me.length) return location.replace("../sewing-room/");  // signed in, but not the shop owner
     $("#who").textContent = session.user.email;
+    $("#me-dot").textContent = (session.user.email || "R")[0].toUpperCase();
     $("#login").hidden = true; $("#app").hidden = false;
     const [c, l, b] = await Promise.all([
       db.from("site_content").select("data").eq("id", 1).maybeSingle(),
@@ -48,10 +49,19 @@
   }
 
   /* ---------- tabs ---------- */
+  const drawer = (open) => {
+    document.body.classList.toggle("nav-open", open);
+    $("#nav-scrim").hidden = !open; $("#nav-open").setAttribute("aria-expanded", open);
+  };
+  $("#nav-open").addEventListener("click", () => drawer(true));
+  $("#nav-close").addEventListener("click", () => drawer(false));
+  $("#nav-scrim").addEventListener("click", () => drawer(false));
+  addEventListener("keydown", (e) => { if (e.key === "Escape") drawer(false); });
   $$(".tabs [role=tab]").forEach((t) => t.addEventListener("click", () => {
     $$(".tabs [role=tab]").forEach((x) => x.setAttribute("aria-selected", x === t));
     $$("[data-pane]").forEach((p) => (p.hidden = p.dataset.pane !== t.dataset.tab));
-    scrollTo(0, 0);
+    $("#crumb").textContent = t.querySelector("span").textContent;
+    drawer(false); scrollTo(0, 0);
   }));
 
   /* ---------- save bar ---------- */
