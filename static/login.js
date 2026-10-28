@@ -96,6 +96,9 @@
     msg("Almost there! We've sent you an email. Open the link in it to finish making your account.", true);
   });
 
+  // hide "Continue with Google" until Google sign-in is switched on in Supabase
+  fetch(box.dataset.sbUrl + "/auth/v1/settings", { headers: { apikey: box.dataset.sbKey } })
+    .then((r) => r.json()).then((st) => { if (!(st.external && st.external.google)) { $("[data-google]").hidden = true; box.querySelector(".lg-or").hidden = true; } }).catch(() => {});
   $("[data-google]").addEventListener("click", async () => {
     busy(true); msg("");
     const { error } = await db.auth.signInWithOAuth({ provider: "google", options: { redirectTo: here + location.search } });
