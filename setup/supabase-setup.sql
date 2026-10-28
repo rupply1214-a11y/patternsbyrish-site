@@ -77,3 +77,55 @@ create policy "own wishlist" on public.wishlist for all using (auth.uid() = user
 
 -- 7. Lets the login page check whether the signed-in person is an admin (returns true or false only).
 grant execute on function public.is_admin() to authenticated;
+
+-- 8. Website orders (PayPal). Orders are written only by the payment check on the server, never by the browser.
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users (id) on delete set null,
+  email text not null,
+  items jsonb not null default '[]'::jsonb,        -- [{ "id": "<etsy listing id>", "name": "...", "price": 4.50 }]
+  amount numeric(10,2) not null,
+  currency text not null default 'USD',
+  paypal_order_id text unique,
+  paypal_capture_id text,
+  status text not null default 'created' check (status in ('created','paid','refunded','failed')),
+  created_at timestamptz default now(),
+  paid_at timestamptz
+);
+create index if not exists orders_user_idx on public.orders (user_id);
+create index if not exists orders_created_idx on public.orders (created_at);
+alter table public.orders enable row level security;
+drop policy if exists "own orders" on public.orders;
+create policy "own orders" on public.orders for select using (auth.uid() = user_id or public.is_admin());
+drop policy if exists "admins delete orders" on public.orders;
+create policy "admins delete orders" on public.orders for delete using (public.is_admin());
+
+-- 9. Google Drive download link for each pattern. Only admins can see or change these;
+--    buyers get a link only for patterns they have paid for (see my_downloads below).
+create table if not exists public.pattern_files (
+  listing_id text primary key,
+  drive_url text not null,
+  updated_at timestamptz default now()
+);
+alter table public.pattern_files enable row level security;
+drop policy if exists "admins manage files" on public.pattern_files;
+create policy "admins manage files" on public.pattern_files for all using (public.is_admin()) with check (public.is_admin());
+
+create or replace function public.my_downloads()
+returns table (listing_id text, name text, drive_url text, paid_at timestamptz)
+language sql stable security definer set search_path = public as $$
+  select distinct on (i->>'id') i->>'id', i->>'name', f.drive_url, o.paid_at
+  from public.orders o
+  cross join lateral jsonb_array_elements(o.items) i
+  left join public.pattern_files f on f.listing_id = i->>'id'
+  where o.status = 'paid' and o.user_id = auth.uid()
+  order by i->>'id', o.paid_at desc;
+$$;
+grant execute on function public.my_downloads() to authenticated;
+
+-- 10. Storage meter for the admin panel (free plan = 500 MB database).
+create or replace function public.db_usage()
+returns bigint language sql stable security definer set search_path = public as $$
+  select case when public.is_admin() then pg_database_size(current_database()) else null end;
+$$;
+grant execute on function public.db_usage() to authenticated;
