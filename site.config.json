@@ -33,7 +33,11 @@
   },
   "supabase_url": "https://odqwfposfokhipejjaps.supabase.co",
   "supabase_key": "sb_publishable_c-88cgkbsndqZmIZ7kxPAQ_44fXGY5y",
-  "github_repo": "rupply1214-a11y/patternsbyrish-site",
+  "paypal": {
+    "mode": "sandbox",
+    "client_id": "AajnwKEE-RSW-qeE7woksiGEO-xEU6l5VED9nND28a5xs32VVnAWNXzycLfTEwn3CYc3L9zD-JMw-g9H"
+  },
+  "github_repo":"rupply1214-a11y/patternsbyrish-site",
   "social": {
     "instagram": "",
     "facebook": "",
