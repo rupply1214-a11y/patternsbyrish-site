@@ -369,11 +369,15 @@ def main():
         if y1 - y0 < .5:
             return None
         return (x0, y0, x1, y1)
-    def sketch_box(box):
-        # measured left/right edges of the drawing are reliable; top and bottom use the page's usual drawing area
-        if box and box[2] <= .5 and box[2] - box[0] > .15:
-            return (max(0, box[0] - .01), .145, min(.5, box[2] + .02), .985)
-        return (0.0, .145, .36, .985)
+    def sketch_of(p):
+        # the third listing image is usually a "features" sketch; use it only when the measure found a clean drawing on the left
+        if len(p["images"]) < 3:
+            return None
+        u3 = p["images"][2]["medium"] or p["images"][2]["full"]
+        box = CROPS.get("sk4:" + u3)
+        if box and box[2] <= .5 and box[2] - box[0] > .12 and box[3] - box[1] > .35:
+            return u3, (max(0, box[0] - .01), max(0, box[1] - .01), min(1, box[2] + .01), min(1, box[3] + .01))
+        return None
     def crop_style(box, default):
         x0, y0, x1, y1 = box or default
         w, h = max(.05, x1 - x0), max(.05, y1 - y0)
@@ -390,7 +394,8 @@ def main():
             if k in t:
                 return name, slug
         return "Cotton poplin or linen", "cotton-poplin"
-    pools = [[p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle"] for c in cat_list if c["slug"] not in ("bundles",)]
+    pools = [sorted([p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle"], key=lambda p: sketch_of(p) is None)
+             for c in cat_list if c["slug"] not in ("bundles",)]
     runway, seen = [], set()
     while len(runway) < 18 and any(pools):
         for pool in pools:
@@ -400,12 +405,11 @@ def main():
                 x = pool.pop(0); seen.add(x["id"])
                 fn, fs = fabric_for(x)
                 ph = x["images"][0]
-                sk = x["images"][2] if len(x["images"]) > 2 else None
+                sk = sketch_of(x)
                 runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1,
                                    photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
                                    photo_box=crop_style(photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
-                                   sketch=(sk["medium"] or sk["full"]) if sk else "",
-                                   sketch_box=crop_style(sketch_box(CROPS.get("sk4:" + (sk["medium"] or sk["full"]) if sk else "")), None)))
+                                   sketch=sk[0] if sk else "", sketch_box=crop_style(sk[1], None) if sk else ""))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]
