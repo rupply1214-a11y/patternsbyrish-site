@@ -12,7 +12,7 @@
           <div class="reel-top"><span class="reel-avatar">{{ tool("needle") }}</span><span class="reel-host"><b>Stitch Studio</b><small>{{ r.tag }} · {{ r.minutes }}</small></span><span class="reel-live">tips</span></div>
           {% for s in r.scenes %}
           <div class="reel-scene{{ ' on' if loop.first }}" data-scene>
-            <img src="{{ u(s.img) }}" alt="" loading="lazy" style="object-position: {{ s.pos }}">
+            <img src="{{ u(s.img) }}" alt="" loading="{{ 'eager' if loop.first else 'lazy' }}" style="object-position: {{ s.pos }}">
             <div class="reel-text"><span class="reel-step">{{ '%02d'|format(loop.index) }}</span><p class="reel-big">{{ s.big }}</p><p class="reel-small">{{ s.small }}</p></div>
           </div>
           {% endfor %}

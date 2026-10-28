@@ -7,6 +7,7 @@
     let i = 0, t0 = 0, held = 0, playing = false, visible = false, raf = 0;
     const show = (n) => {
       i = (n + scenes.length) % scenes.length;
+      [i, i + 1].forEach((k) => { const im = scenes[k % scenes.length].querySelector("img"); if (im) im.loading = "eager"; });
       scenes.forEach((s, k) => { s.classList.toggle("on", k === i); if (k === i) { s.classList.remove("go"); void s.offsetWidth; s.classList.add("go"); } });
       bars.forEach((b, k) => { b.style.transform = `scaleX(${k < i ? 1 : 0})`; });
       t0 = performance.now(); held = 0;
@@ -31,7 +32,7 @@
     show(0);
     if (still) { reel.classList.add("still"); return; }
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? play() : pause(); }, { threshold: .55 }).observe(reel);
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? play() : pause(); }, { threshold: .3 }).observe(reel);
     }
   });
 })();
