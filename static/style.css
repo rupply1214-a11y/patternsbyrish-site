@@ -2012,3 +2012,57 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
 .lg { align-items: start; }
 .lg-scene { position: sticky; top: 100px; }
 @media (max-width: 860px) { .lg-scene { position: relative; top: 0; } }
+
+/* ===== Sign in v2: studio video behind a glass pattern card ===== */
+.lg { position: relative; display: grid; grid-template-columns: 1fr; place-items: center; max-width: none; margin: 0; padding: clamp(40px, 7vh, 90px) 16px clamp(60px, 9vh, 110px); min-height: calc(100svh - 110px); overflow: hidden; isolation: isolate; background: #2B2522; }
+.lg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.lg-shade { position: absolute; inset: 0; z-index: -1; background:
+  radial-gradient(ellipse at 50% 45%, rgba(26, 23, 23, .15), rgba(26, 23, 23, .55) 75%),
+  linear-gradient(180deg, rgba(138, 40, 34, .18), rgba(26, 23, 23, .35)); }
+.lg .lg-card { width: min(430px, 100%); padding: 34px 34px 28px; border-radius: 28px; color: var(--ink);
+  background: rgba(255, 252, 247, .62); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25);
+  border: 1px solid rgba(255, 255, 255, .7); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .8); animation: lg-rise .8s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes lg-rise { from { opacity: 0; transform: translateY(26px) scale(.98); } to { opacity: 1; transform: none; } }
+.lg .lg-stitch rect { width: calc(100% - 20px); height: calc(100% - 20px); stroke: rgba(138, 40, 34, .75); }
+.lg-logo { display: block; width: max-content; margin: 0 auto 18px; }
+.lg-logo img { height: 34px; width: auto; display: block; }
+.lg .lg-title { text-align: center; font-size: clamp(1.7rem, 3.4vw, 2.2rem); margin: 0 0 6px; }
+.lg .lg-sub { text-align: center; font-size: .92rem; margin: 0 0 22px; color: #4A4643; }
+.lg .lg-form { gap: 14px; }
+.lg .lg-field { position: relative; display: block; }
+.lg .lg-field input { background: transparent; border: 0; border-bottom: 2px solid rgba(26, 23, 23, .75); border-radius: 0; padding: 12px 40px 10px 4px; font-size: 1rem; box-shadow: none; }
+.lg .lg-field input::placeholder { color: #4A4643; }
+.lg .lg-field input:focus { background: transparent; border-bottom-color: var(--red); box-shadow: none; }
+.lg .lg-field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background-image: linear-gradient(90deg, var(--red) 55%, transparent 55%); background-size: 10px 2px; transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.lg .lg-field:focus-within::after { transform: scaleX(1); }
+.lg-ico, .lg .lg-eye svg { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.lg .lg-eye { position: absolute; right: 0; top: 0; bottom: 0; width: 36px; transform: none; padding: 0; }
+.lg .lg-eye svg { right: 8px; }
+.lg .lg-eye.open svg path { d: path("M8 11V8a4 4 0 0 1 7.5-2"); }
+.lg-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .86rem; }
+.lg-row.up { display: none; }
+.lg-check { display: inline-flex; align-items: center; gap: 6px; color: #3A3634; }
+.lg-check input { accent-color: var(--ink); }
+.lg .lg-link { font-size: .86rem; color: var(--ink); text-decoration: none; }
+.lg .lg-link:hover { color: var(--red); text-decoration: underline; }
+.lg-submit { position: relative; overflow: hidden; width: 100%; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font: 600 1rem var(--body); padding: 14px; cursor: pointer; transition: background .2s, transform .2s; }
+.lg-submit:hover { background: var(--red); }
+.lg-submit:active { transform: scale(.99); }
+.lg-submit:disabled { opacity: .85; cursor: progress; }
+.lg .lg-msg { text-align: center; color: var(--red); font-weight: 500; }
+.lg .lg-msg.ok { color: #1F5446; }
+.lg .lg-or { margin: 4px 0 12px; }
+.lg .lg-or::before, .lg .lg-or::after { border-top-color: rgba(26, 23, 23, .2); }
+.lg .lg-google { background: rgba(255, 255, 255, .85); border-color: rgba(26, 23, 23, .15); }
+.lg-switch { display: block; text-align: center; margin: 18px 0 0; font-size: .9rem; color: #3A3634; background: none; padding: 0; }
+.lg-switch button { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--ink); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.lg-switch button:hover { color: var(--red); }
+.lg .lg-fine { text-align: center; font-size: .76rem; margin-top: 12px; color: #4A4643; }
+.lg-caption { position: absolute; left: 0; right: 0; bottom: 18px; margin: 0; text-align: center; font: 600 clamp(1.3rem, 2.4vw, 1.8rem)/1 var(--hand); color: #FFF6E5; letter-spacing: .04em; text-shadow: 0 2px 10px rgba(0, 0, 0, .45); }
+.lg-card.done { box-shadow: 0 0 0 3px rgba(47, 102, 86, .5), 0 40px 80px -30px rgba(0, 0, 0, .55); }
+@media (max-width: 620px) {
+  .lg { min-height: calc(100svh - 96px); padding-top: 28px; }
+  .lg .lg-card { padding: 28px 22px 22px; border-radius: 24px; background: rgba(255, 252, 247, .72); }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .lg .lg-card { background: rgba(255, 252, 247, .94); } }
+@media (prefers-reduced-motion: reduce) { .lg .lg-card { animation: none; } }

@@ -1,4 +1,16 @@
 (() => {
+  // background video: wide for computers, square for phones
+  const v = document.querySelector("[data-bg-video]");
+  if (v) {
+    const pick = () => {
+      const wide = matchMedia("(min-aspect-ratio: 1/1)").matches;
+      const src = wide ? v.dataset.wide : v.dataset.square;
+      if (v.dataset.now === src) return;
+      v.dataset.now = src; v.poster = wide ? v.dataset.widePoster : v.dataset.squarePoster; v.src = src;
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) v.play().catch(() => {});
+    };
+    pick(); addEventListener("resize", pick);
+  }
   const box = document.querySelector("[data-login]");
   if (!box || !window.supabase) return;
   const $ = (s) => box.querySelector(s);
@@ -27,14 +39,15 @@
 
   function setMode(m) {
     mode = m;
-    box.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-selected", b.dataset.mode === m ? "true" : "false"));
+    box.querySelectorAll("[data-when]").forEach((el) => { el.hidden = el.dataset.when !== m; });
     $("[data-title]").innerHTML = m === "in" ? 'Welcome back to <em class="acc">the studio</em>' : 'Pull up a <em class="acc">sewing chair</em>';
     $("[data-sub]").textContent = m === "in"
-      ? "Sign in to see your saved patterns. The shop owner is taken to the admin panel."
+      ? "Sign in to see the patterns you've saved. The shop owner goes straight to the admin panel."
       : "Make a free account to save the patterns you love and find them again in your sewing room.";
     $("[data-submit-label]").textContent = m === "in" ? "Sign in" : "Create my account";
     form.password.autocomplete = m === "in" ? "current-password" : "new-password";
     $("[data-forgot]").hidden = m !== "in";
+    $(".lg-row").classList.toggle("up", m !== "in");
     msg("");
   }
   box.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
@@ -43,7 +56,7 @@
   $("[data-eye]").addEventListener("click", (e) => {
     const show = form.password.type === "password";
     form.password.type = show ? "text" : "password";
-    e.currentTarget.textContent = show ? "hide" : "show";
+    e.currentTarget.classList.toggle("open", show);
     e.currentTarget.setAttribute("aria-label", show ? "Hide password" : "Show password");
   });
 
@@ -113,7 +126,7 @@
   db.auth.onAuthStateChange((event, session) => {
     if (event === "PASSWORD_RECOVERY") {
       recovering = true; form.hidden = true; newpass.hidden = false;
-      box.querySelector(".lg-tabs").hidden = true; $("[data-google]").hidden = true; box.querySelector(".lg-or").hidden = true;
+      box.querySelector(".lg-switch").hidden = true; $("[data-google]").hidden = true; box.querySelector(".lg-or").hidden = true;
       $("[data-title]").innerHTML = 'Choose a <em class="acc">new password</em>';
       $("[data-sub]").textContent = "Type a new password for your account.";
     } else if (event === "SIGNED_IN" && !recovering && !card.classList.contains("done")) {
