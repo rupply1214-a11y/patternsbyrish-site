@@ -12,4 +12,16 @@
     <div class="list-hero-art blog-art" aria-hidden="true">{{ tool("scissors", "float f-spool") }}{{ tool("thread", "float f-needle") }}</div>
   </div>
 </section>
+<script>
+/* an old pattern address (the title changed on Etsy): find the pattern by its Etsy id and go to its current page */
+(() => {
+  const m = location.pathname.match(/\/pattern\/[^/]*?-(\d{6,})\/?$/);
+  if (!m) return;
+  const base = location.pathname.slice(0, location.pathname.indexOf("/pattern/") + 1);
+  fetch(base + "static/catalog.json").then((r) => r.json()).then((cat) => {
+    const p = cat.find((x) => String(x.id) === m[1]);
+    if (p) location.replace(base + "pattern/" + p.s + "/");
+  }).catch(() => {});
+})();
+</script>
 {% endblock %}

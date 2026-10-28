@@ -389,12 +389,12 @@ def main():
         if str(p["id"]) in admin:
             return admin[str(p["id"])]
         for k, v in (RW.get(table) or {}).items():
-            if p["slug"].startswith(k):
+            if k == str(p["id"]) or p["slug"].startswith(k):
                 return v
         return None
     def rw_has(lst, p):
         admin = {"skip": ARW.get("skip"), "no_sketch": ARW.get("no_sketch")}.get(lst) or []
-        return str(p["id"]) in map(str, admin) or any(p["slug"].startswith(k) for k in RW.get(lst) or [])
+        return str(p["id"]) in map(str, admin) or any(k == str(p["id"]) or p["slug"].startswith(k) for k in RW.get(lst) or [])
     def sketch_of(p):
         # 1) a clean sketch file you added, 2) a hand-set crop, 3) the measured "features" sketch from the listing
         f = rw_get("sketch_files", p)
@@ -484,6 +484,20 @@ def main():
     render("studio/", "studio.html", st=studio.data(), stats=stats)
     render("how-it-works/", "how.html", faqs=FAQS)
     render("about/", "about.html", stats=stats)
+    # when a title changes on Etsy the page address changes too; keep every old address working
+    hist_path = os.path.join(ROOT, "content", "slug_history.json")
+    hist = load("content/slug_history.json", {}) or {}
+    if not DATA.get("sample"):
+        for p in every:
+            seen = hist.setdefault(str(p["id"]), [])
+            if p["slug"] not in seen:
+                seen.append(p["slug"])
+        json.dump(hist, open(hist_path, "w", encoding="utf-8"), indent=0, sort_keys=True)
+    live = {str(p["id"]): p["slug"] for p in products}
+    for pid, slugs in hist.items():
+        for old in slugs:
+            if pid in live and old != live[pid]:
+                redirect(f"pattern/{old}/", f"pattern/{live[pid]}/")
     render("404.html", "404.html")
 
     base = SITE_URL or ""
