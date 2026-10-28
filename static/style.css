@@ -1883,3 +1883,15 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
 .lb-file img { width: 100%; height: auto; }
 .lb-file { aspect-ratio: auto; padding: 14% 6%; }
 .fr-face .lb-file { width: 100%; align-self: center; }
+@media (max-width: 620px) {
+  .tab-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 6px; padding: 2px 0 16px; }
+  .tab-chip { flex-direction: column; justify-content: flex-start; gap: 6px; padding: 0; border: 0; background: none; border-radius: 0; font-size: .74rem; line-height: 1.15; text-align: center; color: var(--ink); }
+  .tab-chip .tab-sw { width: 58px; transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+  .tab-chip small { display: none; }
+  .tab-chip[aria-selected="true"] { background: none; color: var(--red); }
+  .tab-chip[aria-selected="true"] .tab-sw { transform: scale(1.08); box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--red); border-radius: 50%; }
+  .tab-chip[aria-selected="true"] small { background: none; }
+  .tab-name { font-weight: 600; }
+  .slide-cta { flex-wrap: nowrap; gap: 8px; }
+  .slide-cta .btn { padding: 12px 16px; font-size: .92rem; white-space: nowrap; }
+}
