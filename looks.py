@@ -66,12 +66,12 @@ for l in listings:
         jobs.append((imgs[0].get("medium") or imgs[0].get("full"), dict(top=0.0, bottom=1.0, max_right=0.62)))
     if len(imgs) > 2:  # sketches: thin pencil lines, so measure at a higher resolution with a lower threshold
         u2 = imgs[2].get("medium") or imgs[2].get("full")
-        jobs.append(("sk2:" + u2 if u2 else None, dict(top=0.13, bottom=0.99, max_right=0.7, W=480, thr=28, gap_frac=0.022, need=1)))
+        jobs.append(("sk3:" + u2 if u2 else None, dict(top=0.13, bottom=0.99, max_right=0.7, W=480, thr=34, gap_frac=0.02, need=3)))
     for key, opts in jobs:
         if not key or key in cache:
             continue
         try:
-            cache[key] = block(fetch(key[4:] if key.startswith("sk2:") else key), **opts)
+            cache[key] = block(fetch(key[4:] if key.startswith(("sk2:", "sk3:")) else key), **opts)
             new += 1
         except Exception as e:
             print("skip", key, e, file=sys.stderr)
