@@ -1900,3 +1900,115 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
 .fr-face .lb-crop { width: min(100cqw, 100cqh * var(--ar, .6)); max-height: 100cqh; height: auto; }
 .fr-face .lb-file { width: 100cqw; max-height: 100cqh; padding: 6%; aspect-ratio: auto; }
 .fr-back { background: #fff; }
+
+/* ===== Sign in: the sewing studio ===== */
+.lg { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(20px, 4vw, 60px); align-items: center; max-width: var(--wrap); margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 80px); }
+.lg-scene { position: relative; }
+.lg-svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 40px rgba(35, 79, 67, .3)); }
+.lg-hand { font: 600 22px var(--hand); fill: #8A2822; }
+.lg-note { position: absolute; left: 6%; top: 4%; margin: 0; font: 600 1.6rem/1 var(--hand); color: var(--tape); transform: rotate(-4deg); text-shadow: 0 2px 0 rgba(0, 0, 0, .25); }
+.lg-tape { animation: lg-tape 14s linear infinite; }
+@keyframes lg-tape { to { transform: translateX(-600px); } }
+.lg-spool { transform-box: fill-box; }
+.lg-spool-lines { animation: lg-spin 1.2s linear infinite; }
+@keyframes lg-spin { to { transform: translateY(8px); } }
+.lg-thread { stroke-dasharray: 4 3; animation: lg-thread 1s linear infinite; }
+@keyframes lg-thread { to { stroke-dashoffset: -14; } }
+.lg-seam { stroke-dashoffset: 0; animation: lg-sew 3.2s linear infinite; }
+@keyframes lg-sew { from { stroke-dashoffset: 260; } to { stroke-dashoffset: 0; } }
+.lg-scissors-move { animation: lg-cut 5s cubic-bezier(.5, 0, .5, 1) infinite; }
+@keyframes lg-cut { 0% { transform: translate(40px, 360px) rotate(-2.5deg); } 70% { transform: translate(250px, 351px) rotate(-2.5deg); } 100% { transform: translate(40px, 360px) rotate(-2.5deg); } }
+.lg-blade-a, .lg-blade-b { transform-origin: 0 0; animation: lg-snip .35s ease-in-out infinite alternate; }
+.lg-blade-b { animation-name: lg-snip-b; }
+@keyframes lg-snip { from { transform: rotate(-14deg); } to { transform: rotate(0deg); } }
+@keyframes lg-snip-b { from { transform: rotate(14deg); } to { transform: rotate(0deg); } }
+.lg-pin { animation: lg-drop .8s cubic-bezier(.3, 1.6, .5, 1) both; }
+.lg-pin.p2 { animation-delay: .25s; }
+@keyframes lg-drop { from { opacity: 0; translate: 0 -40px; } to { opacity: 1; translate: 0 0; } }
+.lg-button { animation: lg-roll 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes lg-roll { 50% { rotate: 25deg; } }
+
+.lg-card { position: relative; background: var(--surface); border-radius: 26px; padding: clamp(26px, 4vw, 40px); box-shadow: 0 40px 60px -40px rgba(26, 23, 23, .55); }
+.lg-card .washi { top: -12px; }
+.lg-stitch { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.lg-stitch rect { width: calc(100% - 18px); height: calc(100% - 18px); fill: none; stroke: var(--red); stroke-width: 2; stroke-dasharray: 8 7; animation: lg-border 2.4s ease-out both; }
+@keyframes lg-border { from { stroke-dashoffset: 1600; opacity: .2; } to { stroke-dashoffset: 0; opacity: 1; } }
+.lg-card.sewing .lg-stitch rect { animation: lg-border-run 1s linear infinite; }
+@keyframes lg-border-run { to { stroke-dashoffset: -30; } }
+.lg-card.done .lg-stitch rect { stroke: #2F6656; stroke-dasharray: none; stroke-width: 2.5; transition: stroke .4s; }
+.lg-label { position: absolute; right: 26px; top: 20px; font: 600 .66rem/1 var(--body); letter-spacing: .22em; color: var(--ink-2); }
+.lg-notch { position: absolute; width: 0; height: 0; border: 8px solid transparent; }
+.lg-notch.n1 { left: 1px; top: 46%; border-left-color: var(--ink); }
+.lg-notch.n2 { right: 1px; top: 62%; border-right-color: var(--ink); }
+.lg-title { font-size: clamp(2rem, 4vw, 2.9rem); line-height: 1.02; margin: 10px 0 10px; }
+.lg-sub { color: var(--ink-2); margin: 0 0 20px; }
+.lg-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--paper-2); border-radius: 999px; padding: 4px; margin-bottom: 16px; }
+.lg-tabs button { border: 0; background: none; border-radius: 999px; padding: 10px; font-weight: 600; cursor: pointer; color: var(--ink-2); }
+.lg-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.lg-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; font-weight: 600; cursor: pointer; transition: border-color .2s; }
+.lg-google:hover { border-color: var(--ink); }
+.lg-google svg { width: 20px; height: 20px; }
+.lg-or { display: flex; align-items: center; gap: 12px; color: var(--ink-2); font-size: .82rem; margin: 16px 0; }
+.lg-or::before, .lg-or::after { content: ""; flex: 1; border-top: 1.5px dashed var(--line); }
+.lg-form { display: grid; gap: 12px; }
+.lg-field { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
+.lg-field input { font: inherit; font-weight: 400; padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink); width: 100%; }
+.lg-field input:focus { outline: none; border-color: var(--ink); background: #fff; box-shadow: 0 0 0 4px rgba(245, 215, 110, .45); }
+.lg-pass { position: relative; display: block; }
+.lg-pass input { padding-right: 64px; }
+.lg-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: 0; background: none; font: 600 .78rem var(--body); color: var(--red); cursor: pointer; padding: 6px; }
+.lg-submit { position: relative; overflow: hidden; margin-top: 4px; }
+.lg-machine { position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; opacity: 0; }
+.lg-machine i { display: block; height: 100%; background-image: linear-gradient(90deg, #fff 55%, transparent 55%); background-size: 10px 2px; }
+.lg-card.sewing .lg-machine { opacity: 1; }
+.lg-card.sewing .lg-machine i { animation: lg-machine .6s linear infinite; }
+@keyframes lg-machine { to { background-position: 10px 0; } }
+.lg-link { justify-self: start; border: 0; background: none; padding: 0; color: var(--red); font-weight: 600; font-size: .88rem; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.lg-msg { margin: 0; min-height: 1.2em; font-size: .9rem; color: var(--red); }
+.lg-msg.ok { color: #2F6656; }
+.lg-fine { margin: 18px 0 0; font-size: .8rem; color: var(--ink-2); }
+@media (max-width: 860px) {
+  .lg { grid-template-columns: 1fr; padding-top: 14px; }
+  .lg-scene { max-width: 360px; width: 72%; margin: 0 auto -40px; position: relative; z-index: 0; }
+  .lg-side { position: relative; z-index: 1; }
+  .lg-note { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg-tape, .lg-spool-lines, .lg-thread, .lg-seam, .lg-scissors-move, .lg-blade-a, .lg-blade-b, .lg-button, .lg-stitch rect { animation: none !important; }
+}
+
+/* ===== hearts, account button, sewing room ===== */
+.card { position: relative; }
+.heart { position: absolute; top: 10px; right: 10px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; border: 0; background: rgba(255, 253, 249, .92); display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 14px -8px rgba(26, 23, 23, .5); transition: transform .2s; }
+.heart svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.8; transition: fill .2s, stroke .2s; }
+.heart:hover { transform: scale(1.08); }
+.heart[aria-pressed="true"] svg, .save-btn[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+.heart.pop svg, .save-btn.pop svg { animation: heart-pop .5s cubic-bezier(.3, 1.8, .5, 1); }
+@keyframes heart-pop { 30% { transform: scale(1.4); } }
+.save-btn { display: inline-flex; gap: 8px; margin-top: 10px; }
+.save-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.save-btn[aria-pressed="true"] { border-color: var(--red); color: var(--red); }
+.acct-btn { position: relative; }
+.acct-btn svg { fill: none; stroke: currentColor; stroke-width: 1.8; }
+.acct-btn.signed svg { fill: var(--red); stroke: var(--red); }
+.acct-n { position: absolute; top: 2px; right: 0; min-width: 17px; height: 17px; border-radius: 9px; background: var(--red); color: #fff; font: 700 .64rem/17px var(--body); text-align: center; padding: 0 4px; }
+.acct-n[hidden] { display: none; }
+.mnav-acct { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; padding: 12px; margin: 0 0 16px; background: var(--blush); border-radius: 16px; text-decoration: none; color: var(--ink); }
+.mnav-acct svg { width: 24px; height: 24px; fill: var(--red); stroke: var(--red); }
+.mnav-acct b { display: block; font: 600 1.1rem/1.15 var(--display); }
+.mnav-acct small { color: var(--ink-2); font-size: .82rem; }
+.mnav-acct i { font-style: normal; }
+.room-hero { padding: clamp(36px, 5vw, 64px) 0 clamp(24px, 3vw, 36px); }
+.room-hero-in { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; }
+.room-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1; margin: 12px 0; }
+.room-side { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.room-empty { display: grid; justify-items: center; gap: 10px; text-align: center; padding: 40px 16px; }
+.room-empty h2 { margin: 6px 0 0; }
+.room-empty-art { display: flex; gap: 10px; }
+.room-empty-art .tool { width: 54px; height: 54px; }
+.card.leaving { opacity: 0; transform: scale(.94); transition: opacity .3s, transform .3s; }
+@media (max-width: 620px) { .heart { width: 34px; height: 34px; top: 8px; right: 8px; } .room-side { align-items: flex-start; } }
+[hidden] { display: none !important; }
+.lg { align-items: start; }
+.lg-scene { position: sticky; top: 100px; }
+@media (max-width: 860px) { .lg-scene { position: relative; top: 0; } }

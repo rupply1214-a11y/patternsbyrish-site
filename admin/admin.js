@@ -14,7 +14,8 @@
   let content = null, saved = "", listings = [], posts = [], editing = null;
 
   /* ---------- sign in ---------- */
-  const showLogin = (msg = "") => { $("#app").hidden = true; $("#login").hidden = false; $("#login-msg").textContent = msg; };
+  // one sign-in page for everyone: the admin panel sends you there and it sends admins back here
+  const showLogin = () => { location.replace("../login/?next=admin/"); };
   $("#login-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     $("#login-msg").textContent = "Signing in…";
@@ -22,13 +23,13 @@
     if (error) { $("#login-msg").textContent = error.message === "Invalid login credentials" ? "That email and password don't match. Check them and try again." : error.message; return; }
     start();
   });
-  $("#logout").addEventListener("click", async () => { await db.auth.signOut(); showLogin("You're signed out."); });
+  $("#logout").addEventListener("click", async () => { await db.auth.signOut(); try { localStorage.removeItem("pbr_user"); localStorage.removeItem("pbr_saved"); } catch {} location.replace("../"); });
 
   async function start() {
     const { data: { session } } = await db.auth.getSession();
     if (!session) return showLogin();
     const { data: me } = await db.from("admins").select("email");
-    if (!me || !me.length) { await db.auth.signOut(); return showLogin("This account isn't on the admin list. Add its email to the admins table in Supabase."); }
+    if (!me || !me.length) return location.replace("../sewing-room/");  // signed in, but not the shop owner
     $("#who").textContent = session.user.email;
     $("#login").hidden = true; $("#app").hidden = false;
     const [c, l, b] = await Promise.all([

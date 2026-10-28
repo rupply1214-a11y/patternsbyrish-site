@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool, woven %}
+{% block title %}My sewing room | Patterns by Rish{% endblock %}
+{% block description %}Your saved sewing patterns from Patterns by Rish.{% endblock %}
+{% block og %}<meta property="og:type" content="website"><meta name="robots" content="noindex">{% endblock %}
+{% block main %}
+<div class="room" data-room data-sb-url="{{ cfg.supabase_url }}" data-sb-key="{{ cfg.supabase_key }}" data-home="{{ u('') }}">
+  <section class="room-hero">
+    <div class="wrap room-hero-in">
+      <div>
+        <p class="brand-label">My sewing room</p>
+        <h1>Your <em class="acc">saved patterns</em></h1>
+        <p class="lede" data-hello>Opening your sewing room…</p>
+      </div>
+      <div class="room-side">
+        {{ woven("Patterns by Rish", "member's sewing room", "woven-lg") }}
+        <button type="button" class="btn btn-ghost btn-small" data-signout>Sign out</button>
+      </div>
+    </div>
+  </section>
+  <section class="band band-paper">
+    <div class="wrap">
+      <div class="grid" data-room-grid></div>
+      <div class="room-empty" data-room-empty hidden>
+        <span class="room-empty-art" aria-hidden="true">{{ tool("spool") }}{{ tool("scissors") }}{{ tool("pins") }}</span>
+        <h2>Your sewing room is <em class="acc">empty</em></h2>
+        <p>Tap the ♡ on any pattern to keep it here for later.</p>
+        <a class="btn" href="{{ u('patterns/') }}">Browse patterns</a>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="{{ u('static/room.js') }}?v={{ ver }}" defer></script>
+{% endblock %}

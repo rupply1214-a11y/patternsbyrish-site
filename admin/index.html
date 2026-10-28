@@ -15,18 +15,8 @@
 <body class="admin">
 <div class="tape" aria-hidden="true"></div>
 
-<!-- sign in -->
-<section class="login" id="login" hidden>
-  <form class="login-card" id="login-form">
-    <p class="buy-k">Patterns by Rish</p>
-    <h1>Website admin</h1>
-    <p class="muted">Sign in with the admin email you added in Supabase.</p>
-    <label class="field"><span>Email</span><input type="email" id="login-email" autocomplete="username" required></label>
-    <label class="field"><span>Password</span><input type="password" id="login-pass" autocomplete="current-password" required></label>
-    <button class="btn btn-big" type="submit">Sign in</button>
-    <p class="form-msg" id="login-msg" role="alert"></p>
-  </form>
-</section>
+<!-- sign in happens on the website's one sign-in page (../login/) -->
+<section class="login" id="login" hidden><form id="login-form"><input id="login-email"><input id="login-pass"><p id="login-msg"></p></form></section>
 
 <!-- app -->
 <div class="app" id="app" hidden>

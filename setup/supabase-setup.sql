@@ -63,3 +63,17 @@ drop policy if exists "admins change site images" on storage.objects;
 create policy "admins change site images" on storage.objects for update using (bucket_id = 'site-images' and public.is_admin());
 drop policy if exists "admins delete site images" on storage.objects;
 create policy "admins delete site images" on storage.objects for delete using (bucket_id = 'site-images' and public.is_admin());
+
+-- 6. Customer wishlists ("My sewing room"): each signed-in customer sees and changes only their own saved patterns.
+create table if not exists public.wishlist (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  listing_id text not null,
+  created_at timestamptz default now(),
+  primary key (user_id, listing_id)
+);
+alter table public.wishlist enable row level security;
+drop policy if exists "own wishlist" on public.wishlist;
+create policy "own wishlist" on public.wishlist for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- 7. Lets the login page check whether the signed-in person is an admin (returns true or false only).
+grant execute on function public.is_admin() to authenticated;

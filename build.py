@@ -462,6 +462,8 @@ def main():
     render("answers/", "answers.html", answers=load("content/answers.json", []))
     render("fabrics/", "fabrics.html", fabrics=load("content/fabrics.json", []))
     render("runway/", "runway.html", looks=runway, total=len(products))
+    render("login/", "login.html")
+    render("sewing-room/", "sewing_room.html")
     render("journal/", "journal.html")
     for b in posts:
         render(f"journal/{b['slug']}/", "journal_post.html", b=b, more=[x for x in posts if x is not b][:3])

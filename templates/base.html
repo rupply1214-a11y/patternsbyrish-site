@@ -70,6 +70,7 @@
       <a class="nav-link nav-extra" href="{{ u('studio/') }}" {% if path == 'studio/' %}aria-current="page"{% endif %}>Our studio</a>
     </nav>
     <div class="top-actions">
+      <a class="icon-btn acct-btn" href="{{ u('login/') }}" data-account aria-label="Sign in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 4 2.3h3.4c.7-1.2 2-2.3 4-2.3C21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg><span class="acct-n" data-saved-count hidden></span></a>
       <button type="button" class="icon-btn" data-search-open aria-label="Search patterns">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       </button>
@@ -104,6 +105,7 @@
       <li><a href="{{ u(href) }}" {% if path.startswith(href) %}aria-current="page"{% endif %}><span class="mnav-ico">{{ tool(ico) }}</span><span><b>{{ label }}</b><small>{{ note }}</small></span><i aria-hidden="true">→</i></a></li>
       {% endfor %}
     </ul>
+    <a class="mnav-acct" href="{{ u('login/') }}" data-account><span class="mnav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 4 2.3h3.4c.7-1.2 2-2.3 4-2.3C21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg></span><span><b data-account-label>Sign in</b><small>save patterns to your sewing room</small></span><i aria-hidden="true">→</i></a>
     <a class="btn btn-big mnav-etsy" href="{{ shop.url or 'https://www.etsy.com/shop/' ~ cfg.etsy_shop_name }}" rel="noopener">Visit our Etsy shop</a>
     {{ woven("Patterns by Rish", "PDF sewing patterns", "mnav-woven") }}
   </div>
@@ -165,6 +167,8 @@
   </div>
   <p class="wrap fine">© {{ year }} Patterns by Rish. Prices are in US dollars; Etsy shows your local currency at checkout. The term "Etsy" is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
 </footer>
+<script>window.PBR = {{ {"base": u(''), "sb": cfg.supabase_url, "key": cfg.supabase_key} | tojson }};</script>
 <script src="{{ u('static/app.js') }}?v={{ ver }}" defer></script>
+<script src="{{ u('static/account.js') }}?v={{ ver }}" defer></script>
 </body>
 </html>

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool %}
+{% block title %}Sign in | Patterns by Rish{% endblock %}
+{% block description %}Sign in to your Patterns by Rish sewing room to save the patterns you love.{% endblock %}
+{% block og %}<meta property="og:type" content="website"><meta name="robots" content="noindex">{% endblock %}
+{% block main %}
+<div class="lg" data-login data-sb-url="{{ cfg.supabase_url }}" data-sb-key="{{ cfg.supabase_key }}" data-home="{{ u('') }}">
+  <section class="lg-scene" aria-hidden="true">
+    <svg class="lg-svg" viewBox="0 0 600 640">
+      <defs>
+        <pattern id="lg-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="rgba(255,255,255,.14)"/></pattern>
+        <pattern id="lg-ging" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#F6DCE2"/><rect width="9" height="18" fill="rgba(138,40,34,.18)"/><rect width="18" height="9" fill="rgba(138,40,34,.18)"/></pattern>
+        <pattern id="lg-linen" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#EADFC8"/><path d="M0 2H6M0 5H6" stroke="rgba(120,95,60,.16)"/></pattern>
+      </defs>
+      <rect x="10" y="10" width="580" height="620" rx="30" fill="#2F6656"/>
+      <rect x="10" y="10" width="580" height="620" rx="30" fill="url(#lg-grid)"/>
+      <g stroke="#F5D76E" stroke-width="2">{% for x in range(40, 590, 30) %}<path d="M{{ x }} 10V{{ 24 if x % 150 == 40 else 18 }}"/>{% endfor %}</g>
+
+      {# paper pattern piece, cut along the dotted line by the scissors #}
+      <g class="lg-paper">
+        <path d="M60 380 L250 370 L262 600 L48 610 Z" fill="#FFFDF9" stroke="#1A1717" stroke-width="2"/>
+        <text x="152" y="470" text-anchor="middle" class="lg-hand">cut 1 on fold</text>
+        <path d="M152 420 V540 M144 430 L152 420 L160 430 M144 530 L152 540 L160 530" stroke="#1A1717" stroke-width="1.6" fill="none"/>
+        <path class="lg-cutline" d="M40 360 L270 350" stroke="#8A2822" stroke-width="2" stroke-dasharray="6 6"/>
+      </g>
+      <g class="lg-scissors-move">
+        <g class="lg-scissors">
+          <g class="lg-blade-a"><path d="M0 0 L58 -6 L60 0 L0 4 Z" fill="#C9CED2" stroke="#1A1717" stroke-width="1.5"/><circle cx="-16" cy="-8" r="10" fill="none" stroke="#8A2822" stroke-width="5"/></g>
+          <g class="lg-blade-b"><path d="M0 0 L58 6 L60 0 L0 -4 Z" fill="#E1E5E8" stroke="#1A1717" stroke-width="1.5"/><circle cx="-16" cy="8" r="10" fill="none" stroke="#8A2822" stroke-width="5"/></g>
+          <circle r="3" fill="#1A1717"/>
+        </g>
+      </g>
+
+      {# fabric bodice with a seam being sewn #}
+      <g class="lg-fabric">
+        <path d="M330 90 L420 70 Q470 120 520 70 L560 100 L540 210 Q545 300 560 380 L330 380 Q345 300 340 210 Z" fill="url(#lg-ging)" stroke="#1A1717" stroke-width="2"/>
+        <path id="lg-seam" class="lg-seam" d="M352 110 L345 210 Q340 300 350 360" fill="none" stroke="#8A2822" stroke-width="2.4" stroke-dasharray="7 6"/>
+        <g class="lg-needle"><path d="M0 -46 L2 -44 L1 6 L-1 6 L-2 -44 Z" fill="#C9CED2" stroke="#1A1717" stroke-width="1.2"/><ellipse cx="0" cy="-38" rx="1" ry="4" fill="#2F6656"/>
+          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="0"><mpath href="#lg-seam"/></animateMotion></g>
+      </g>
+
+      {# spool, buttons, pins #}
+      <g class="lg-spool" transform="translate(470 470)">
+        <rect x="-34" y="-50" width="68" height="14" rx="4" fill="#C79A6A" stroke="#1A1717" stroke-width="2"/>
+        <rect x="-26" y="-36" width="52" height="72" fill="#8A2822" stroke="#1A1717" stroke-width="2"/>
+        <g class="lg-spool-lines" stroke="#5E1B17" stroke-width="2">{% for y in range(-30, 36, 8) %}<path d="M-26 {{ y }}H26"/>{% endfor %}</g>
+        <rect x="-34" y="36" width="68" height="14" rx="4" fill="#C79A6A" stroke="#1A1717" stroke-width="2"/>
+      </g>
+      <path class="lg-thread" d="M444 470 C400 450, 380 420, 352 360" fill="none" stroke="#8A2822" stroke-width="2"/>
+      <g class="lg-button" transform="translate(330 560)"><circle r="22" fill="#F5D76E" stroke="#1A1717" stroke-width="2"/><circle cx="-6" cy="-6" r="3" fill="#1A1717"/><circle cx="6" cy="-6" r="3" fill="#1A1717"/><circle cx="-6" cy="6" r="3" fill="#1A1717"/><circle cx="6" cy="6" r="3" fill="#1A1717"/></g>
+      <g class="lg-pin p1" transform="translate(300 120) rotate(-30)"><path d="M0 0V54" stroke="#9AA3A6" stroke-width="2"/><circle r="8" fill="#E07A93" stroke="#1A1717" stroke-width="1.5"/></g>
+      <g class="lg-pin p2" transform="translate(556 260) rotate(25)"><path d="M0 0V54" stroke="#9AA3A6" stroke-width="2"/><circle r="8" fill="#F5D76E" stroke="#1A1717" stroke-width="1.5"/></g>
+
+      {# tape measure sliding along the bottom #}
+      <g class="lg-tape"><rect x="10" y="616" width="1200" height="22" fill="#F5D76E"/><g stroke="#1A1717" stroke-width="1.4">{% for x in range(10, 1210, 12) %}<path d="M{{ x }} 616v{{ 10 if (x - 10) % 60 == 0 else 5 }}"/>{% endfor %}</g></g>
+    </svg>
+    <p class="lg-note">welcome to the studio ♡</p>
+  </section>
+
+  <section class="lg-side">
+    <div class="lg-card" data-card>
+      <svg class="lg-stitch" aria-hidden="true"><rect x="9" y="9" rx="18" ry="18"/></svg>
+      <span class="washi" aria-hidden="true"></span>
+      <span class="lg-label" aria-hidden="true">PIECE 1 · cut 1</span>
+      <span class="lg-notch n1" aria-hidden="true"></span><span class="lg-notch n2" aria-hidden="true"></span>
+
+      <p class="brand-label">Patterns by Rish</p>
+      <h1 class="lg-title" data-title>Welcome back to <em class="acc">the studio</em></h1>
+      <p class="lg-sub" data-sub>Sign in to see your saved patterns. The shop owner is taken to the admin panel.</p>
+
+      <div class="lg-tabs" role="tablist" aria-label="Sign in or create an account">
+        <button type="button" role="tab" aria-selected="true" data-mode="in">Sign in</button>
+        <button type="button" role="tab" aria-selected="false" data-mode="up">Create account</button>
+      </div>
+
+      <button type="button" class="lg-google" data-google>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.2-2.7l-3.5-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.2v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.8 14.2a6.6 6.6 0 0 1 0-4.3V7.1H2.2a11 11 0 0 0 0 9.9z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.2 7.1l3.6 2.8C6.7 7.3 9.1 5.4 12 5.4z"/></svg>
+        Continue with Google
+      </button>
+      <p class="lg-or"><span>or with your email</span></p>
+
+      <form class="lg-form" data-form novalidate>
+        <label class="lg-field"><span>Email</span><input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label class="lg-field" data-pass-row><span>Password</span>
+          <span class="lg-pass"><input type="password" name="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"><button type="button" class="lg-eye" data-eye aria-label="Show password">show</button></span>
+        </label>
+        <button class="btn btn-big lg-submit" type="submit" data-submit><span data-submit-label>Sign in</span><span class="lg-machine" aria-hidden="true"><i></i></span></button>
+        <button type="button" class="lg-link" data-forgot>Forgot your password?</button>
+        <p class="lg-msg" data-msg role="status" aria-live="polite"></p>
+      </form>
+
+      <form class="lg-form" data-newpass hidden>
+        <label class="lg-field"><span>New password</span><input type="password" name="newpass" autocomplete="new-password" minlength="6" required></label>
+        <button class="btn btn-big" type="submit">Save new password</button>
+        <p class="lg-msg" data-msg2 role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="lg-fine">Shopping happens on Etsy, so you never share payment details here. Your account only keeps the patterns you save.</p>
+    </div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="{{ u('static/login.js') }}?v={{ ver }}" defer></script>
+{% endblock %}
