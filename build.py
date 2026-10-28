@@ -293,6 +293,8 @@ KIT = [  # the "sewing kit" section; links go to the blog guide
 # ---------- rendering ----------
 env = Environment(loader=FileSystemLoader(os.path.join(ROOT, "templates")), autoescape=select_autoescape(["html", "xml"]),
                   trim_blocks=True, lstrip_blocks=True)
+from markupsafe import Markup, escape as _esc
+env.filters["accent"] = lambda t: Markup(re.sub(r"\*(.+?)\*", r'<em class="acc">\1</em>', str(_esc(t or ""))))
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
 
 

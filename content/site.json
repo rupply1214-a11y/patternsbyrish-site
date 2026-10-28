@@ -7,7 +7,7 @@
   ],
   "hero_slides": [
     {
-      "title": "Sew the dress you can't find in stores",
+      "title": "Sew the dress *you can't find in stores*",
       "text": "Linen maxis, tea dresses, wrap dresses and bridal gowns. Printable PDF patterns, graded XS to 5XL.",
       "button": "Shop dress patterns",
       "link": "category/dresses/",
@@ -17,7 +17,7 @@
       "note": "cut 1 on fold"
     },
     {
-      "title": "Patterns drafted for every body",
+      "title": "Patterns drafted *for every body*",
       "text": "Plus size dresses, trousers and tops with proper room through the bust, waist and hips.",
       "button": "Shop plus size",
       "link": "category/plus-size/",
@@ -27,7 +27,7 @@
       "note": "XS to 5XL"
     },
     {
-      "title": "More patterns, less money",
+      "title": "More patterns, *less money*",
       "text": "Matching sets and bundles cost less than buying each pattern on its own.",
       "button": "See the bundles",
       "link": "category/bundles/",
@@ -49,7 +49,7 @@
   "hidden_ids": [],
   "category_text": {},
   "promo": {
-    "title": "Build your own bundle",
+    "title": "Build your *own bundle*",
     "text": "Pick any 5 or any 20 patterns from the shop in one order and pay much less per pattern.",
     "button": "See the bundles",
     "link": "category/bundles/"

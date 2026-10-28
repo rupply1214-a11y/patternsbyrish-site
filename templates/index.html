@@ -22,7 +22,7 @@
       <div class="wrap slide-in">
         <div class="slide-copy">
           <p class="slide-note">{{ s.note }}</p>
-          {% if first %}<h1 class="slide-title">{{ s.title }}</h1>{% else %}<h2 class="slide-title">{{ s.title }}</h2>{% endif %}
+          {% if first %}<h1 class="slide-title">{{ s.title|accent }}</h1>{% else %}<h2 class="slide-title">{{ s.title|accent }}</h2>{% endif %}
           <p class="slide-text">{{ s.text }}</p>
           <div class="slide-cta">
             <a class="btn" href="{{ u(s.link) }}">{{ s.button }}</a>
@@ -71,7 +71,7 @@
 {# ---------- newest ---------- #}
 <section class="band">
   <div class="wrap">
-    <div class="head-row">{{ heading("Fresh off the cutting table") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>
+    <div class="head-row">{{ heading("Fresh off the *cutting table*") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>
     <div class="grid home-new">{% for p in newest %}{{ card(p, u, eager=loop.index <= 4) }}{% endfor %}</div>
   </div>
 </section>
@@ -80,7 +80,7 @@
 {% if rows %}
 <section class="band band-paper shop-tabs" data-tabs>
   <div class="wrap">
-    <div class="head-row">{{ heading("Pick your next make") }}<a class="more" href="{{ u('patterns/') }}">All {{ products|length }} patterns</a></div>
+    <div class="head-row">{{ heading("Pick your *next make*") }}<a class="more" href="{{ u('patterns/') }}">All {{ products|length }} patterns</a></div>
     <div class="tab-row" role="tablist" aria-label="Pattern categories">
       {% for r in rows %}
       <button type="button" class="tab-chip" role="tab" id="tab-{{ r.c.slug }}" aria-controls="panel-{{ r.c.slug }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>
@@ -123,7 +123,7 @@
   <div class="wrap">
     <div class="film-head">
       <p class="brand-label">Inside our studio</p>
-      <h2>Watch a pattern come to life</h2>
+      <h2>Watch a pattern <em class="acc">come to life</em></h2>
       <p class="lede">From the first sketch to a dress on the dress form, in under a minute.</p>
     </div>
     {% include "_film.html" %}
@@ -135,7 +135,7 @@
 {% if worlds_nav %}
 <section class="band band-paper">
   <div class="wrap">
-    <div class="head-row">{{ heading("Choose your sewing world") }}<a class="more" href="{{ u('worlds/') }}">All {{ worlds_nav|length }} worlds</a></div>
+    <div class="head-row">{{ heading("Choose your *sewing world*") }}<a class="more" href="{{ u('worlds/') }}">All {{ worlds_nav|length }} worlds</a></div>
     <ul class="home-worlds">
       {% for w in worlds_nav %}
       <li><a class="world tint-{{ w.tint }}" href="{{ u('worlds/' ~ w.slug ~ '/') }}" style="--tilt: 0deg">
@@ -155,7 +155,7 @@
     <a class="promo" href="{{ u(content.promo.link) }}">
       <span class="promo-copy">
         <span class="promo-k">{{ tool("scissors") }} Bundles</span>
-        <span class="promo-title">{{ content.promo.title }}</span>
+        <span class="promo-title">{{ content.promo.title|accent }}</span>
         <span class="promo-text">{{ content.promo.text }}</span>
         <span class="btn">{{ content.promo.button }}</span>
       </span>
@@ -171,7 +171,7 @@
 <section class="mat">
   <div class="wrap">
     <div class="mat-head">
-      {{ heading("What you need to sew a PDF pattern", cls="on-dark") }}
+      {{ heading("What you need to sew a *PDF pattern*", cls="on-dark") }}
       <p>No special machine or paper. If you have a home printer and these basics, you can start tonight.</p>
     </div>
     <ul class="kit">
@@ -186,7 +186,7 @@
 {# ---------- how it works ---------- #}
 <section class="band">
   <div class="wrap">
-    {{ heading("From Etsy checkout to sewing machine") }}
+    {{ heading("From Etsy checkout to *sewing machine*") }}
     <ol class="steps">
       <li><span class="step-n">1</span>{{ tool("button") }}<h3>Buy on Etsy</h3><p>Every pattern links to our Etsy shop. You pay there, through Etsy's secure checkout, in your own currency.</p></li>
       <li><span class="step-n">2</span>{{ tool("paper") }}<h3>Download the files</h3><p>The download appears on your order straight away. Nothing is posted, so there's no shipping wait from any country.</p></li>
@@ -199,7 +199,7 @@
 {% if posts %}
 <section class="band band-paper">
   <div class="wrap">
-    <div class="head-row">{{ heading("From the Stitch Journal") }}<a class="more" href="{{ u('journal/') }}">All stories</a></div>
+    <div class="head-row">{{ heading("From the *Stitch Journal*") }}<a class="more" href="{{ u('journal/') }}">All stories</a></div>
     <div class="post-grid home-posts">
       {% for b in posts[:3] %}
       <a class="post-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
@@ -218,7 +218,7 @@
 <section class="band">
   <div class="wrap faq-wrap">
     <div>
-      {{ heading("Good to know before you buy") }}
+      {{ heading("Good to know *before you buy*") }}
       <p class="lede">Short answers to what new PDF pattern buyers ask us most.</p>
       <a class="btn btn-ghost" href="{{ u('answers/') }}">All sewing answers</a>
     </div>

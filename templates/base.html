@@ -1,4 +1,4 @@
-{% from "_macros.html" import tool, catswatch, garment %}<!doctype html>
+{% from "_macros.html" import tool, catswatch, garment, woven %}<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.etsystatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ u('static/style.css') }}">
 {% block schema %}{% endblock %}
 </head>
@@ -100,6 +100,10 @@
 
 <footer class="foot">
   <div class="cut-line" aria-hidden="true">{{ tool("scissors", "cut-scissors") }}</div>
+  <div class="wrap foot-sign">
+    <p class="foot-big">Sew the dress<br><em class="acc">you can't find in stores.</em></p>
+    <div class="foot-sign-side">{{ woven("Patterns by Rish", "PDF sewing patterns · sizes XS to 5XL", "woven-lg") }}<a class="btn btn-light" href="{{ u('patterns/') }}">Browse every pattern</a></div>
+  </div>
   <div class="wrap foot-in">
     <div class="foot-brand">
       <img class="foot-logo" src="{{ u('static/logo-white.svg') }}" alt="Patterns by Rish" width="220" height="77" loading="lazy">

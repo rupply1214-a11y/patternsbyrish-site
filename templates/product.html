@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import card, garment, price, tool %}
+{% from "_macros.html" import card, garment, price, tool, woven %}
 {% block title %}{{ p.short }} Sewing Pattern PDF{{ (', ' ~ p.sub) if p.sub else '' }}{{ (', ' ~ p.sizes) if p.sizes else '' }} | Patterns by Rish{% endblock %}
 {% block description %}{{ p.meta }}{% endblock %}
 {% block og %}
@@ -51,6 +51,7 @@
       </div>
       <div class="buy">
         <div class="buy-card">
+          {{ woven("Patterns by Rish", "Original PDF pattern", "buy-woven") }}
           <p class="buy-k">{{ catmap[p.cat][0] }} sewing pattern</p>
           <h1>{{ p.short }}</h1>
           {% if p.sub %}<p class="buy-sub">{{ p.sub }}</p>{% endif %}

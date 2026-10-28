@@ -114,5 +114,7 @@
 {% endmacro %}
 
 {% macro heading(text, tag="h2", cls="") %}
-<{{ tag }} class="stitch-h {{ cls }}"><span>{{ text }}</span></{{ tag }}>
+<{{ tag }} class="stitch-h {{ cls }}"><span>{{ text|accent }}</span></{{ tag }}>
 {% endmacro %}
+
+{% macro woven(top="Patterns by Rish", bottom="PDF sewing patterns", cls="") %}<span class="woven {{ cls }}" aria-hidden="true"><span class="woven-in"><b>{{ top }}</b><small>{{ bottom }}</small></span></span>{% endmacro %}
