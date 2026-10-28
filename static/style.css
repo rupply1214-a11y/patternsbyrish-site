@@ -2117,3 +2117,21 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
   .cart-list img { width: 60px; height: 76px; }
   .dl-list li { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---------- seasonal collections ---------- */
+.season-now, .season-when { display: inline-block; font: 600 .82rem/1 var(--body); border-radius: 999px; padding: 6px 12px; margin: 0 0 10px; }
+.season-now { background: var(--rose); color: #fff; }
+.season-when { background: rgba(255, 255, 255, .7); color: var(--ink-2); }
+.season-lede { max-width: 70ch; color: var(--ink-2); margin: -4px 0 20px; }
+.season-lede a { color: var(--rose); }
+.season-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; }
+.season-card { display: grid; gap: 14px; padding: 16px; border-radius: 22px; background: var(--tint, var(--paper-2)); color: var(--ink); text-decoration: none; height: 100%; transition: transform .2s; }
+.season-card:hover { transform: translateY(-3px); }
+.season-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.season-photos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; border: 3px solid #fff; }
+.season-copy { display: grid; gap: 2px; justify-items: start; }
+.season-copy b { font: 600 1.35rem/1.15 var(--display); }
+.season-copy > span:last-child { color: var(--ink-2); font-size: .9rem; }
+.season-card .season-now, .season-card .season-when { margin-bottom: 6px; }
+.season-card.tint-blush { --tint: var(--blush); } .season-card.tint-butter { --tint: var(--butter); } .season-card.tint-mint { --tint: var(--mint); }
+.season-card.tint-sky { --tint: var(--sky); } .season-card.tint-lilac { --tint: var(--lilac); }

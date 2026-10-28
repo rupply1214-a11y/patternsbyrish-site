@@ -384,7 +384,11 @@
     }
     $("#faq-add").addEventListener("click", () => { A.content.faqs.push({ q: "", a: "" }); A.dirty(); faqPane(); });
 
-    A.hooks.push(shopPane, studioPane, faqPane);
+    function seasonPane() {
+      const se = A.content.seasonal = Object.assign({ enabled: true, banner: true, bar: true }, A.content.seasonal || {});
+      [["se-on", "enabled"], ["se-banner", "banner"], ["se-bar", "bar"]].forEach(([id, k]) => { const el = $("#" + id); el.checked = se[k] !== false; el.onchange = () => { se[k] = el.checked; A.dirty(); }; });
+    }
+    A.hooks.push(shopPane, studioPane, faqPane, seasonPane); seasonPane();
     shopPane(); studioPane(); faqPane(); A.markClean();
     (async () => {
       const { data } = await db.from("pattern_files").select("listing_id, drive_url");

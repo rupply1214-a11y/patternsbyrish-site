@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool, woven %}
 {% block title %}Our Studio | Patterns by Rish PDF Sewing Patterns{% endblock %}
-{% block description %}Step inside the Patterns by Rish studio: how our PDF sewing patterns go from sketchbook to drafted, graded pattern, and how you print, cut and sew them at home.{% endblock %}
+{% block description %}{% filter clip(158) %}Step inside the Patterns by Rish studio: how our PDF sewing patterns go from sketchbook to drafted, graded pattern, and how you print, cut and sew them at home.{% endfilter %}{% endblock %}
 {% block main %}
 {% set S = content.studio or {} %}
 <section class="studio-hero studio-hero-photo">

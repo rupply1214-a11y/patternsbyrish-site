@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, tool, img, heading, catswatch, garment %}
-{% block title %}PDF Sewing Patterns for Dresses, Tops, Plus Size & Men | Patterns by Rish{% endblock %}
-{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download, sold securely on Etsy.{% endblock %}
+{% block title %}PDF Sewing Patterns for Dresses, Tops & Men | Patterns by Rish{% endblock %}
+{% block description %}Printable PDF sewing patterns for linen dresses, tops, skirts, jumpsuits, menswear and kids, most in sizes XS to 5XL. Instant download.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
-  {"@type": "Organization", "name": cfg.brand, "url": canon('') or none, "sameAs": [shop.url or ("https://www.etsy.com/shop/" ~ cfg.etsy_shop_name)]},
+  {"@type": "Organization", "name": cfg.brand, "url": canon('') or none, "logo": (canon('static/logo.svg') or none),
+   "sameAs": ([shop.url or ("https://www.etsy.com/shop/" ~ cfg.etsy_shop_name)] + ((content.social or cfg.social or {}).values() | select | list))},
   {"@type": "WebSite", "name": cfg.brand, "url": canon('') or none,
    "potentialAction": {"@type": "SearchAction", "target": (canon('patterns/') or '') ~ "?q={search_term_string}", "query-input": "required name=search_term_string"}}
 ]} | tojson }}
@@ -70,6 +71,16 @@
 </section>
 
 {# ---------- newest ---------- #}
+{% if season %}
+<section class="band band-paper season-band">
+  <div class="wrap">
+    <div class="head-row">{{ heading("In season: *" ~ season.name ~ "*") }}<a class="more" href="{{ u('seasonal/' ~ season.slug ~ '/') }}">See all {{ season.count }}</a></div>
+    <p class="season-lede">{{ season.intro }}{% if seasons_now|length > 1 %} Also in season: {% for x in seasons_now[1:3] %}<a href="{{ u('seasonal/' ~ x.slug ~ '/') }}">{{ x.name }}</a>{{ ', ' if not loop.last }}{% endfor %}.{% endif %} <a href="{{ u('seasonal/') }}">See the sewing calendar</a>.</p>
+    <div class="grid home-new">{% for p in season.pats[:4] %}{{ card(p, u) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
 <section class="band">
   <div class="wrap">
     <div class="head-row">{{ heading("Fresh off the *cutting table*") }}<a class="more" href="{{ u('patterns/') }}">See everything new</a></div>

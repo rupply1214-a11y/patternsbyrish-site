@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool, woven %}
-{% block title %}The Runway: From Sketch to Look, PDF Sewing Patterns | Patterns by Rish{% endblock %}
-{% block description %}The Patterns by Rish runway: {{ looks|length }} looks, each shown as its technical sketch and the finished garment, with fabric ideas and sizes. Every look is a PDF sewing pattern.{% endblock %}
+{% block title %}The Runway: Sketch to Finished Look | Patterns by Rish{% endblock %}
+{% block description %}{% filter clip(158) %}The Patterns by Rish runway: {{ looks|length }} looks, each shown as its technical sketch and the finished garment, with fabric ideas and sizes. Every look is a PDF sewing pattern.{% endfilter %}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": "The Runway", "url": canon() or none,

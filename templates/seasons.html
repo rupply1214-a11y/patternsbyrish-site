@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tool %}
+{% block title %}Seasonal Sewing Calendar: What to Sew When | Patterns by Rish{% endblock %}
+{% block description %}A sewing calendar for the US and UK: Valentine's Day, Easter, Mother's Day, wedding season, summer, back to school, Halloween costumes and holiday party dresses, with PDF patterns for each.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Seasonal sewing calendar", "url": canon() or none,
+    "hasPart": seasons | map(attribute='title') | list} | tojson }}
+</script>
+{% endblock %}
+{% block main %}
+<section class="list-hero tint-butter">
+  <div class="wrap list-hero-in">
+    <div class="list-hero-copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Sewing calendar</span></nav>
+      <h1>What to sew, season by season</h1>
+      <p class="lede">From Valentine's Day to Christmas, here's what sewists in the US and UK make through the year, with the patterns for each moment. Collections in season now are marked.</p>
+    </div>
+    <div class="list-hero-art" aria-hidden="true">{{ tool("tape", "float f-tape") }}</div>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap">
+    <ul class="season-grid">
+      {% for se in seasons %}
+      <li><a class="season-card tint-{{ se.tint }}" href="{{ u('seasonal/' ~ se.slug ~ '/') }}">
+        <span class="season-photos" aria-hidden="true">{% for im in se.photos %}<img src="{{ im.medium or im.full }}" alt="" loading="lazy">{% endfor %}</span>
+        <span class="season-copy">
+          {% if se.active %}<span class="season-now">In season now</span>{% else %}<span class="season-when">{{ se.when }}</span>{% endif %}
+          <b>{{ se.name }}</b>
+          <span>{{ se.count }} patterns</span>
+        </span>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool %}
-{% block title %}Sewing Answers: PDF Patterns, Printing, Fit, Fabric & Techniques | Patterns by Rish{% endblock %}
-{% block description %}Quick answers to common sewing questions: downloading and printing PDF patterns, choosing your size, preparing fabric, sewing techniques, needles, thread and knits.{% endblock %}
+{% block title %}Sewing Answers: Printing, Fit & Fabric Help | Patterns by Rish{% endblock %}
+{% block description %}{% filter clip(158) %}Quick answers to common sewing questions: downloading and printing PDF patterns, choosing your size, preparing fabric, sewing techniques, needles, thread and knits.{% endfilter %}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for s in answers %}{% set outer = loop %}{% for q, a in s.qs %}{"@type": "Question", "name": {{ q|tojson }}, "acceptedAnswer": {"@type": "Answer", "text": {{ a|tojson }}}}{{ ", " if not (outer.last and loop.last) }}{% endfor %}{% endfor %}]}

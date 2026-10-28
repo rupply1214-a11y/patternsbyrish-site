@@ -233,8 +233,18 @@ def site_price(v, own):
     return d.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
+def seo_title(p):
+    brand = " | Patterns by Rish"
+    for t in (f"{p['short']} Sewing Pattern PDF, {p['sizes']}{brand}" if p["sizes"] else None, f"{p['short']} Sewing Pattern PDF{brand}",
+              f"{p['short']} Sewing Pattern PDF", f"{p['short']} Pattern"):
+        if t and len(t) <= 62:
+            return t
+    return p["short"][:58]
+
+
 for p in products:
     p.setdefault("own", False)
+    p["seo_title"] = seo_title(p)
     sp = site_price(p["price_value"], p["own"])
     p["site_value"], p["site_price"] = float(sp), money(sp, p["currency"])
     p["site_save"] = 0 if p["own"] else int(round(DISCOUNT))
@@ -280,6 +290,64 @@ for w in load("content/worlds.json", []):
         WORLDS.append(dict(w, items=items, count=len(items), photos=[p["images"][0] for p in items if p["images"]][:3]))
 
 
+# ---------- seasons: collections that switch on by date (US and UK calendars) ----------
+def _easter(y):
+    a, b, c = y % 19, y // 100, y % 100
+    d, e = b // 4, b % 4
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = c // 4, c % 4
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    mo = (h + l - 7 * m + 114) // 31
+    return date(y, mo, (h + l - 7 * m + 114) % 31 + 1)
+
+
+def _windows(se, y):
+    """(start, end) date windows for season se in year y."""
+    if se.get("rule") == "easter":
+        e = _easter(y)
+        return [(e - timedelta(days=28), e)]
+    if se.get("rule") == "mothers-day":
+        uk = _easter(y) - timedelta(days=21)  # Mothering Sunday
+        may1 = date(y, 5, 1)
+        us = may1 + timedelta(days=(6 - may1.weekday()) % 7 + 7)  # second Sunday of May
+        return [(uk - timedelta(days=21), uk), (us - timedelta(days=21), us)]
+    sm, sd = map(int, se["start"].split("-"))
+    em, ed = map(int, se["end"].split("-"))
+    if (em, ed) < (sm, sd):  # crosses the new year
+        return [(date(y - 1, sm, sd), date(y, em, ed)), (date(y, sm, sd), date(y + 1, em, ed))]
+    return [(date(y, sm, sd), date(y, em, ed))]
+
+
+TODAY = date.fromisoformat(os.environ["SEASON_DATE"]) if os.environ.get("SEASON_DATE") else datetime.now(timezone.utc).date()
+SEASON_CFG = CONTENT.get("seasonal") or {}
+SEASONS = []
+for se in load("content/seasons.json", []) or []:
+    keys = [k.lower() for k in se["match"]]
+    scored = []
+    for p in products:
+        text = " " + (p["title"] + " " + " ".join(p["tags"])).lower() + " "
+        n = sum(1 for k in keys if k in text)
+        if n and (p["kind"] != "bundle" or se["slug"] == "handmade-gifts"):
+            scored.append((n, p))
+    scored.sort(key=lambda x: (-x[0], -x[1]["created"]))
+    items = [p for _, p in scored]
+    if len(items) < 4:
+        continue
+    wins = _windows(se, TODAY.year)
+    now = next(((a, b) for a, b in wins if a <= TODAY <= b), None)
+    nxt = min((a for a, b in _windows(se, TODAY.year) + _windows(se, TODAY.year + 1) if a > TODAY), default=None)
+    SEASONS.append(dict(se, pats=items, count=len(items), active=bool(now), ends=now[1] if now else None, next=nxt,
+                        when=(f"until {now[1].strftime('%-d %B')}" if now else (f"from {nxt.strftime('%-d %B')}" if nxt else "")),
+                        tint=TINTS[len(SEASONS) % len(TINTS)], photos=[p["images"][0] for p in items if p["images"]][:3]))
+ACTIVE_SEASONS = sorted([x for x in SEASONS if x["active"]], key=lambda x: -x["priority"]) if SEASON_CFG.get("enabled", True) else []
+SEASON_NOW = ACTIVE_SEASONS[0] if ACTIVE_SEASONS else None
+if SEASON_NOW and SEASON_CFG.get("bar", True):  # seasonal message leads the tape bar
+    CONTENT["announcements"] = [SEASON_NOW["bar"]] + [a for a in CONTENT.get("announcements") or [] if a != SEASON_NOW["bar"]]
+
+
 def resolve_slides():
     out = []
     for s in CONTENT.get("hero_slides") or []:
@@ -289,6 +357,11 @@ def resolve_slides():
         if len(picks) < 3:
             picks += [p for p in products if p not in picks and p["images"]][: 3 - len(picks)]
         out.append(dict(s, picks=picks[:3], image=s.get("image") or ""))
+    if SEASON_NOW and SEASON_CFG.get("banner", True):  # a seasonal banner walks in first
+        se = SEASON_NOW
+        out.insert(0, dict(title=se["title"].split(":")[0], text=se["intro"], button=f"Shop {se['name']} patterns",
+                           link=f"seasonal/{se['slug']}/", category="", product_ids=[], color=se["tint"], note=se["note"],
+                           picks=[p for p in se["pats"] if p["images"]][:3], image=""))
     return out
 
 
@@ -369,6 +442,10 @@ PP = CFG.get("paypal") or {}
 env.globals["pbr"] = dict(sb=CFG.get("supabase_url"), key=CFG.get("supabase_key"), sell=SELL, pp=PP.get("client_id", "") if SELL else "",
                           ppmode=PP.get("mode", "sandbox"), discount=DISCOUNT, test=SHOP_TEST)
 env.globals["shopcfg"] = SHOP
+def _clip(t, n=158):
+    t = re.sub(r"\s+", " ", str(t or "")).strip()
+    return t if len(t) <= n else t[: n - 1].rsplit(" ", 1)[0].rstrip(",;:-") + "…"
+env.filters["clip"] = _clip
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
 
 
@@ -530,7 +607,7 @@ def main():
     bj = os.path.join(DIST, "tools", "build.json")
     json.dump(dict(json.load(open(bj)), runway=[str(x["p"]["id"]) for x in runway], own=sum(1 for p in every if p["own"])), open(bj, "w"))
     render("", "index.html", st=film_data(), slides=resolve_slides(), products=products, newest=(featured + [p for p in products if p not in featured])[:8],
-           stats=stats, rows=rows, runway=runway, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
+           stats=stats, rows=rows, runway=runway, season=SEASON_NOW, seasons_now=ACTIVE_SEASONS, kit=KIT, bundles=by_cat.get("bundles", [])[:4], faqs=FAQS[:4])
     render("patterns/", "list.html", items=products, current=None, heading="All sewing patterns",
            intro=f"Every pattern in the shop, newest first. {len(products)} printable PDF patterns, each with an instant download.")
     for c in cat_list:
@@ -541,6 +618,9 @@ def main():
         related = [q for q in by_cat.get(p["cat"], []) if q["id"] != p["id"]][:8]
         guide = next((b for b in posts if b["category"] == p["cat"]), posts[0] if posts else None)
         render(f"pattern/{p['slug']}/", "product.html", p=p, related=related, guide=guide, faqs=FAQS)
+    render("seasonal/", "seasons.html", seasons=sorted(SEASONS, key=lambda x: (not x["active"], x["ends"] or x["next"] or date.max)), today=TODAY)
+    for se in SEASONS:
+        render(f"seasonal/{se['slug']}/", "list.html", items=se["pats"], current=None, season=se, seasons=SEASONS, heading=se["title"].split(":")[0], intro=se["intro"])
     render("worlds/", "worlds.html", worlds=WORLDS)
     for w in WORLDS:
         render(f"worlds/{w['slug']}/", "list.html", items=w["items"], current=None, world=w, heading=w["name"], intro=w["intro"])
@@ -579,8 +659,8 @@ def main():
     base = SITE_URL or ""
     open(os.path.join(DIST, "robots.txt"), "w").write("User-agent: *\nAllow: /\nDisallow: /tools/\nDisallow: /admin/\nDisallow: /cart/\n" + (f"Sitemap: {base}/sitemap.xml\n" if base else ""))
     if base:
-        urls = ["", "patterns/", "runway/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
-               [f"pattern/{p['slug']}/" for p in products] + [f"journal/{b['slug']}/" for b in posts]
+        urls = ["", "patterns/", "seasonal/", "runway/", "studio/", "worlds/", "journal/", "answers/", "fabrics/", "how-it-works/", "about/"] + [f"worlds/{w['slug']}/" for w in WORLDS] + [f"category/{c['slug']}/" for c in cat_list] + \
+               [f"pattern/{p['slug']}/" for p in products] + [f"journal/{b['slug']}/" for b in posts] + [f"seasonal/{x['slug']}/" for x in SEASONS]
         now = datetime.now(timezone.utc).date().isoformat()
         open(os.path.join(DIST, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
             "".join(f"<url><loc>{base}/{x}</loc><lastmod>{now}</lastmod></url>\n" for x in urls) + "</urlset>\n")

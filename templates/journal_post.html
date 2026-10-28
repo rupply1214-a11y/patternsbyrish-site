@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, tool %}
-{% block title %}{{ b.title }} | The Stitch Journal{% endblock %}
-{% block description %}{{ b.description }}{% endblock %}
+{% block title %}{{ b.title }}{{ ' | Patterns by Rish' if (b.title|length) < 44 else '' }}{% endblock %}
+{% block description %}{% filter clip(158) %}{{ b.description }}{% endfilter %}{% endblock %}
 {% block og %}<meta property="og:type" content="article">{% if b.cover %}<meta property="og:image" content="{{ b.cover if b.cover.startswith('http') else (canon(b.cover) or u(b.cover)) }}">{% endif %}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">

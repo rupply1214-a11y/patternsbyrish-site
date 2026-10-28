@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool %}
-{% block title %}The Stitch Journal: Sewing Guides, Fabric Notes & Fit Help | Patterns by Rish{% endblock %}
-{% block description %}The Stitch Journal by Patterns by Rish: build a dress piece by piece and pick up sewing tips on printing PDF patterns, choosing your size, fabric, cutting and pressing.{% endblock %}
+{% block title %}Stitch Journal: Sewing Guides & Fit Help | Patterns by Rish{% endblock %}
+{% block description %}{% filter clip(158) %}The Stitch Journal by Patterns by Rish: build a dress piece by piece and pick up sewing tips on printing PDF patterns, choosing your size, fabric, cutting and pressing.{% endfilter %}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@type": "Blog", "name": "The Stitch Journal", "publisher": {"@type": "Organization", "name": cfg.brand}, "url": canon() or none,

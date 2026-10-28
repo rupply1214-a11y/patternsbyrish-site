@@ -11,6 +11,7 @@
 <meta property="og:description" content="{{ self.description() }}">
 {% if canon() %}<meta property="og:url" content="{{ canon() }}">{% endif %}
 {% block og %}<meta property="og:type" content="website">{% endblock %}
+{% block ogimage %}{% if canon() %}<meta property="og:image" content="{{ canon('static/img/studio-desk.jpg') }}">{% endif %}{% endblock %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAF9F8">
 <link rel="alternate" type="application/rss+xml" title="New patterns from {{ cfg.brand }}" href="{{ u('feed.xml') }}">
@@ -153,6 +154,7 @@
         <li><a href="{{ u('answers/') }}">Sewing answers</a></li>
         <li><a href="{{ u('fabrics/') }}">Fabric library</a></li>
         <li><a href="{{ u('worlds/') }}">Sewing worlds</a></li>
+        <li><a href="{{ u('seasonal/') }}">Sewing calendar</a></li>
       </ul>
     </div>
     <div>

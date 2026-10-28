@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, garment, price, tool, woven %}
-{% block title %}{{ p.short }} Sewing Pattern PDF{{ (', ' ~ p.sub) if p.sub else '' }}{{ (', ' ~ p.sizes) if p.sizes else '' }} | Patterns by Rish{% endblock %}
+{% block title %}{{ p.seo_title }}{% endblock %}
 {% block description %}{{ p.meta }}{% endblock %}
 {% block og %}
 <meta property="og:type" content="product">
-{% if p.images %}<meta property="og:image" content="{{ p.images[0].full }}">{% endif %}
+
 <meta property="product:price:amount" content="{{ '%.2f'|format(p.site_value if p.buy_live else p.price_value) }}">
 <meta property="product:price:currency" content="{{ p.currency }}">
 {% endblock %}
+{% block ogimage %}{% if p.images %}<meta property="og:image" content="{{ p.images[0].full }}">{% endif %}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [

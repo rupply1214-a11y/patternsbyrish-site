@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import card, select, tool, garment %}
-{% block title %}{{ heading }} (PDF){% if current %}, {{ items|length }} Designs{% endif %} | Patterns by Rish{% endblock %}
-{% block description %}{{ intro }} Printable PDF, instant download from Etsy.{% endblock %}
+{% block title %}{{ heading }} PDF{{ " | Patterns by Rish" if (heading|length) < 40 else "" }}{% endblock %}
+{% block description %}{{ (intro ~ " Printable PDF, instant download.") | clip(158) }}{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@graph": [
@@ -36,7 +36,12 @@
 <section class="list-hero{{ (' tint-' ~ c.tint) if c else ' tint-lilac' }}">
   <div class="wrap list-hero-in">
     <div class="list-hero-copy">
+      {% if season is defined and season %}
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span><a href="{{ u('seasonal/') }}">Sewing calendar</a><span aria-hidden="true">/</span><span aria-current="page">{{ season.name }}</span></nav>
+      {% if season.active %}<p class="season-now">In season now, {{ season.when }}</p>{% elif season.when %}<p class="season-when">Coming up {{ season.when }}</p>{% endif %}
+      {% else %}
       <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ u('') }}">Home</a><span aria-hidden="true">/</span>{% if current %}<a href="{{ u('patterns/') }}">Patterns</a><span aria-hidden="true">/</span>{% endif %}<span aria-current="page">{{ c.name if c else 'Patterns' }}</span></nav>
+      {% endif %}
       <h1>{{ heading }}</h1>
       <p class="lede">{{ intro }}</p>
       <p class="list-count"><span><b>{{ items|length }}</b> patterns</span>{% if sale %}<span class="list-sale sale-bit" data-sale-end="{{ sale.end }}">{{ sale.off }}% off on Etsy, <span data-countdown="{{ sale.end }}">limited time</span></span>{% endif %}</p>
@@ -76,6 +81,14 @@
   </div>
 </section>
 
+{% if season is defined and season %}
+<section class="band band-paper">
+  <div class="wrap">
+    <h2 class="stitch-h"><span>More from the sewing calendar</span></h2>
+    <ul class="world-chips">{% for x in seasons if x.slug != season.slug %}<li><a class="tint-{{ x.tint }}" href="{{ u('seasonal/' ~ x.slug ~ '/') }}">{{ x.name }} <small>{{ 'now' if x.active else x.count }}</small></a></li>{% endfor %}</ul>
+  </div>
+</section>
+{% endif %}
 {% if world is defined and world %}
 <section class="band band-paper">
   <div class="wrap">
