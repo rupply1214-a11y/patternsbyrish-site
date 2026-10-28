@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import tool %}
 {% block title %}The Stitch Journal: Sewing Guides, Fabric Notes & Fit Help | Patterns by Rish{% endblock %}
-{% block description %}The Stitch Journal by Patterns by Rish: practical guides on printing PDF patterns, choosing your size, fabric, tools and sewing techniques.{% endblock %}
+{% block description %}The Stitch Journal by Patterns by Rish: build a dress piece by piece and pick up sewing tips on printing PDF patterns, choosing your size, fabric, cutting and pressing.{% endblock %}
 {% block schema %}
 <script type="application/ld+json">
 {{ {"@context": "https://schema.org", "@type": "Blog", "name": "The Stitch Journal", "publisher": {"@type": "Organization", "name": cfg.brand}, "url": canon() or none,
@@ -9,65 +9,159 @@
 </script>
 {% endblock %}
 {% block main %}
-<div class="dark-zone" data-journal>
-  <section class="j-hero">
-    <div class="wrap">
-      <p class="j-kicker">Patterns by Rish presents</p>
-      <h1 class="j-title"><span class="j-line">The</span><span class="j-line j-outline">Stitch</span><span class="j-line">Journal</span></h1>
-      <p class="j-sub">Notes from our cutting table. How to print, fit, choose fabric and sew it beautifully, written for real people with real sewing machines.</p>
-    </div>
-    <div class="j-thread" aria-hidden="true">
-      <svg viewBox="0 0 1400 300" preserveAspectRatio="none"><path d="M-20 240 C250 120 380 300 640 170 S1050 40 1420 160"/></svg>
-    </div>
-  </section>
+{% set slugs = posts | map(attribute='slug') | list %}
+{% macro guide(slug, fallback, label="Read the full guide") %}{% if slug in slugs %}<a class="pz-link" href="{{ u('journal/' ~ slug ~ '/') }}">{{ label }}<span aria-hidden="true">→</span></a>{% else %}<a class="pz-link" href="{{ u(fallback[0]) }}">{{ fallback[1] }}<span aria-hidden="true">→</span></a>{% endif %}{% endmacro %}
+{% set chapters = [
+  dict(n="01", k="Before you start", t="Gather a small kit", piece="Left bodice", tool="scissors",
+       line="You don't need a sewing room. A printer, fabric scissors, pins and a tape measure will see you through your first dress.",
+       tips=["Keep one pair of scissors only for fabric. Paper blunts them fast.", "Pins or clips both work. Clips are kinder to slippery fabric."],
+       slug="sewing-tools-for-beginners", fb=("answers/", "Browse sewing answers")),
+  dict(n="02", k="Print it right", t="Print at 100%, then check the square", piece="Right bodice", tool="paper",
+       line="Choose actual size in your print settings and measure the test square before you print the rest of the pages.",
+       tips=["Print the test page on its own first.", "Tape the pages edge to edge, matching the little page markers."],
+       slug="how-to-print-pdf-sewing-patterns", fb=("answers/#printing", "Printing answers")),
+  dict(n="03", k="Find your size", t="Measure, don't guess", piece="Waistband", tool="tape",
+       line="Pattern sizes are not shop sizes. Measure your bust, waist and hips and match them to the size chart in the pattern.",
+       tips=["Measure over light clothing, with the tape snug but not tight.", "Between two sizes? You can blend from one size to the other at the waist."],
+       slug="how-to-choose-your-sewing-pattern-size", fb=("answers/#fit", "Fit answers")),
+  dict(n="04", k="Choose your fabric", t="Linen makes a happy first dress", piece="Left skirt", tool="fabric",
+       line="Washed linen is breathable and forgiving to sew, and it gets softer with every wash.",
+       tips=["Pre-wash before you cut. Linen can shrink.", "A mid-weight linen is easier to handle than a very fine one."],
+       slug="best-fabric-for-linen-dresses", fb=("fabrics/#linen", "Linen in the fabric library")),
+  dict(n="05", k="Woven or knit", t="Match the fabric to the pattern", piece="Right skirt", tool="spool",
+       line="Every pattern says which kind of fabric it was drafted for. Swapping a woven for a knit, or the other way round, changes the fit.",
+       tips=["Woven fabric doesn't stretch and has crisp edges.", "Knit fabric stretches, never frays and likes a ballpoint needle."],
+       slug="woven-vs-knit-fabric", fb=("fabrics/", "Open the fabric library")),
+  dict(n="06", k="Cut with care", t="Grainline first, scissors second", piece="Left sleeve", tool="pins",
+       line="Line the grainline arrow up with the straight edge of your fabric, then pin or weight the pieces before you cut.",
+       tips=["Snip the little notches. They show which edges meet.", "Cut on a flat table, never on carpet or a bed."],
+       slug="", fb=("fabrics/", "Fabric tips by type")),
+  dict(n="07", k="Sew and press", t="Press every seam as you go", piece="Right sleeve", tool="needle",
+       line="A quick press after each seam is the difference between home-made and hand-made.",
+       tips=["Stay-stitch curved necklines so they don't stretch out.", "Test your stitch on a scrap of the same fabric first."],
+       slug="", fb=("answers/", "More sewing answers")),
+] %}
 
-  <div class="j-marquee" aria-hidden="true"><div class="j-marquee-track">
-    {% for r in [1, 2] %}<span>{% for w in ['print', 'cut', 'sew', 'press', 'wear', 'repeat'] %}<b>{{ w }}</b>{{ tool("button", "j-sep") }}{% endfor %}</span>{% endfor %}
-  </div></div>
+<section class="pz" data-puzzle aria-label="Build a dress, one sewing tip at a time">
+  <div class="pz-stage">
+    <div class="pz-mat-wrap" aria-hidden="true">
+      <svg class="pz-mat" viewBox="0 0 600 720" role="presentation">
+        <defs>
+          <pattern id="pzgrid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="rgba(255,255,255,.13)" stroke-width="1"/></pattern>
+          <pattern id="pf-gingham" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#FBE2E8"/><rect width="8" height="16" fill="rgba(138,40,34,.22)"/><rect width="16" height="8" fill="rgba(138,40,34,.22)"/></pattern>
+          <pattern id="pf-linen" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#E9DDC6"/><path d="M0 1.5H6M0 4.5H6" stroke="rgba(120,95,60,.18)"/><path d="M2 0V6" stroke="rgba(255,255,255,.4)"/></pattern>
+          <pattern id="pf-floral" width="26" height="26" patternUnits="userSpaceOnUse"><rect width="26" height="26" fill="#FCF1C9"/><circle cx="7" cy="7" r="3.2" fill="#E07A93"/><circle cx="7" cy="7" r="1.2" fill="#F5D76E"/><circle cx="20" cy="19" r="3.2" fill="#8A2822" opacity=".8"/><circle cx="20" cy="19" r="1.2" fill="#FCF1C9"/><path d="M12 14q2-3 5-2" stroke="#4FB08A" stroke-width="1.4" fill="none"/></pattern>
+          <pattern id="pf-stripe" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#DDEBFA"/><rect width="5" height="14" fill="rgba(90,155,216,.45)"/></pattern>
+          <pattern id="pf-sage" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#BFD8C5"/><path d="M0 8L8 0" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/></pattern>
+          <pattern id="pf-dots" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#ECEAF1"/><circle cx="6" cy="6" r="2" fill="#59686B" opacity=".55"/></pattern>
+          <pattern id="pf-rose" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#F3C9D3"/><circle cx="5" cy="5" r="1.1" fill="#fff" opacity=".8"/></pattern>
+          <linearGradient id="pzshine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <clipPath id="pzdress"><path d="M250 105L200 118Q150 140 120 205L160 230L212 205L218 330L130 630Q300 652 470 630L382 330L388 205L440 230L480 205Q450 140 400 118L350 105Q325 138 300 140Q275 138 250 105Z"/></clipPath>
+        </defs>
+        <rect class="pz-board" x="0" y="0" width="600" height="720" rx="26"/>
+        <rect x="0" y="0" width="600" height="720" rx="26" fill="url(#pzgrid)"/>
+        <path class="pz-ruler" d="M0 14H600" />
+        <g class="pz-ruler-ticks">{% for x in range(0, 600, 30) %}<path d="M{{ x }} 0V{{ 12 if x % 150 == 0 else 7 }}"/>{% endfor %}</g>
+        <text class="pz-matlabel" x="22" y="702">PATTERNS BY RISH · CUTTING MAT · cm</text>
 
-  {% if posts %}
-  {% set lead = posts[0] %}
-  <section class="wrap j-lead-wrap">
-    <a class="j-lead j-reveal" href="{{ u('journal/' ~ lead.slug ~ '/') }}">
-      <span class="j-lead-pic">{% if lead.cover %}<img src="{{ lead.cover }}" alt="" loading="eager">{% endif %}</span>
-      <span class="j-lead-copy">
-        <span class="j-chip">Latest</span>
-        <span class="j-lead-title">{{ lead.title }}</span>
-        <span class="j-lead-desc">{{ lead.description }}</span>
-        <span class="j-meta"><span>{{ lead.tag }}</span><span>{{ lead.minutes }} min read</span></span>
-        <span class="j-arrow-btn">Read the story</span>
-      </span>
-    </a>
-  </section>
+        {# hanger, shown at the end #}
+        <g class="pz-hanger"><path d="M300 104V84q0-14 13-18a12 12 0 1 0-15-14"/><path d="M196 120L300 88L404 120"/></g>
 
-  <section class="wrap j-list-wrap">
-    <div class="j-tabs" role="group" aria-label="Filter by topic">
-      <button type="button" class="j-tab" aria-pressed="true" data-topic="">All stories</button>
-      {% for t in posts | map(attribute='tag') | unique %}<button type="button" class="j-tab" aria-pressed="false" data-topic="{{ t }}">{{ t }}</button>{% endfor %}
+        {# the outline of the finished dress, where the pieces land #}
+        <path class="pz-ghost" d="M250 105L200 118Q150 140 120 205L160 230L212 205L218 330L130 630Q300 652 470 630L382 330L388 205L440 230L480 205Q450 140 400 118L350 105Q325 138 300 140Q275 138 250 105Z"/>
+
+        {% set pieces = [
+          ("M250 105L200 118Q198 165 212 205L220 300L300 300L300 140Q275 138 250 105Z", "pf-gingham", 258, 225, "1", "LEFT BODICE", "cut 1", -230, -40, -24),
+          ("M350 105L400 118Q402 165 388 205L380 300L300 300L300 140Q325 138 350 105Z", "pf-floral", 342, 225, "2", "RIGHT BODICE", "cut 1", 220, -60, 20),
+          ("M220 300L380 300L382 330L218 330Z", "pf-stripe", 300, 318, "3", "WAISTBAND", "", 0, 300, 9),
+          ("M218 330L300 330L300 640Q210 646 130 630Z", "pf-linen", 240, 520, "4", "LEFT SKIRT", "cut 1", -240, 70, -14),
+          ("M382 330L300 330L300 640Q390 646 470 630Z", "pf-sage", 360, 520, "5", "RIGHT SKIRT", "cut 1", 230, 40, 12),
+          ("M200 118Q198 165 212 205L160 230L120 205Q150 140 200 118Z", "pf-dots", 168, 182, "6", "SLEEVE", "", -130, 330, -38),
+          ("M400 118Q402 165 388 205L440 230L480 205Q450 140 400 118Z", "pf-rose", 432, 182, "7", "SLEEVE", "", 110, -110, 34),
+        ] %}
+        {% for d, fab, lx, ly, num, name, cut, dx, dy, rot in pieces %}
+        <g class="pz-piece" data-piece="{{ loop.index }}" style="--dx: {{ dx }}px; --dy: {{ dy }}px; --rot: {{ rot }}deg">
+          <path class="pz-fill" d="{{ d }}" fill="url(#{{ fab }})"/>
+          <path class="pz-stitch" d="{{ d }}" pathLength="100"/>
+          <text class="pz-num" x="{{ lx }}" y="{{ ly - 10 }}">{{ num }}</text>
+          <text class="pz-name" x="{{ lx }}" y="{{ ly + 8 }}">{{ name }}</text>
+          {% if cut %}<path class="pz-grain" d="M{{ lx }} {{ ly + 22 }}V{{ ly + 64 }}M{{ lx - 5 }} {{ ly + 28 }}L{{ lx }} {{ ly + 22 }}L{{ lx + 5 }} {{ ly + 28 }}M{{ lx - 5 }} {{ ly + 58 }}L{{ lx }} {{ ly + 64 }}L{{ lx + 5 }} {{ ly + 58 }}"/>{% endif %}
+        </g>
+        {% endfor %}
+        {# notches where pieces meet #}
+        <g class="pz-notches"><path d="M296 220h8M296 470h8M216 316h6M378 316h6M203 160h8M389 160h8"/></g>
+        <g class="pz-shine" clip-path="url(#pzdress)"><rect class="pz-shine-bar" x="-200" y="80" width="160" height="600" fill="url(#pzshine)"/></g>
+        <g class="pz-tag"><rect x="402" y="560" width="150" height="64" rx="10" transform="rotate(-7 477 592)"/><text x="477" y="586" transform="rotate(-7 477 592)">made by</text><text class="pz-tag-big" x="477" y="610" transform="rotate(-7 477 592)">you</text></g>
+      </svg>
+      {{ tool("scissors", "pz-scissors") }}
+      {{ tool("spool", "pz-spool") }}
+      {{ tool("pins", "pz-pins") }}
     </div>
-    <ol class="j-grid">
+
+    <div class="pz-copy">
+      <div class="pz-ch pz-intro" data-ch="0">
+        <p class="pz-k">The Stitch Journal</p>
+        <h1 class="pz-t">Build a dress,<br><span>one tip at a time.</span></h1>
+        <p class="pz-line">Scroll to piece the dress together. Every pattern piece you add opens one of our sewing tips.</p>
+        <p class="pz-hint" aria-hidden="true"><span class="pz-mouse"></span>Scroll to start</p>
+      </div>
+      {% for c in chapters %}
+      <article class="pz-ch" data-ch="{{ loop.index }}">
+        <p class="pz-k"><b>{{ c.n }}</b> {{ c.k }}</p>
+        <h2 class="pz-t">{{ c.t }}</h2>
+        <p class="pz-line">{{ c.line }}</p>
+        <ul class="pz-tips">{% for t in c.tips %}<li>{{ tool(c.tool) }}<span>{{ t }}</span></li>{% endfor %}</ul>
+        <p class="pz-foot"><span class="pz-piece-name">Piece {{ loop.index }} of 7 · {{ c.piece }}</span>{{ guide(c.slug, c.fb) }}</p>
+      </article>
+      {% endfor %}
+      <div class="pz-ch pz-final" data-ch="8">
+        <p class="pz-k">All 7 pieces in place</p>
+        <h2 class="pz-t">You just built a dress.</h2>
+        <p class="pz-line">Now make it real. Pick a pattern tonight, print the test square and start with piece number one.</p>
+        <p class="pz-cta"><a class="btn" href="{{ u('category/dresses/') }}">Shop dress patterns</a><a class="btn btn-ghost" href="#stories">Read every story</a></p>
+      </div>
+    </div>
+
+    <ol class="pz-dots" aria-hidden="true">{% for i in range(9) %}<li data-dot="{{ i }}"></li>{% endfor %}</ol>
+    <div class="pz-progress" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+{% if posts %}
+<section class="band band-paper js-stories" id="stories">
+  <div class="wrap">
+    <div class="js-head">
+      <div>
+        <p class="pz-k">The Stitch Journal</p>
+        <h2>Every story, from our cutting table</h2>
+      </div>
+      <div class="j-tabs" role="group" aria-label="Filter by topic">
+        <button type="button" class="j-tab" aria-pressed="true" data-topic="">All</button>
+        {% for t in posts | map(attribute='tag') | unique %}<button type="button" class="j-tab" aria-pressed="false" data-topic="{{ t }}">{{ t }}</button>{% endfor %}
+      </div>
+    </div>
+    <ol class="js-list">
       {% for b in posts %}
-      <li class="j-reveal" data-topic="{{ b.tag }}" style="--i: {{ loop.index0 % 3 }}">
-        <a class="j-card" href="{{ u('journal/' ~ b.slug ~ '/') }}">
-          <span class="j-num">{{ '%02d'|format(loop.index) }}</span>
-          <span class="j-card-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}</span>
-          <span class="j-meta"><span>{{ b.tag }}</span><span>{{ b.minutes }} min read</span></span>
-          <span class="j-card-title">{{ b.title }}</span>
-          <span class="j-card-desc">{{ b.description }}</span>
+      <li data-topic="{{ b.tag }}">
+        <a class="js-item" href="{{ u('journal/' ~ b.slug ~ '/') }}">
+          <span class="js-n">{{ '%02d'|format(loop.index) }}</span>
+          <span class="js-pic">{% if b.cover %}<img src="{{ b.cover }}" alt="" loading="lazy">{% endif %}</span>
+          <span class="js-copy"><span class="js-meta"><b>{{ b.tag }}</b> · {{ b.minutes }} min read</span><span class="js-title">{{ b.title }}</span><span class="js-desc">{{ b.description }}</span></span>
+          <span class="js-go" aria-hidden="true">→</span>
         </a>
       </li>
       {% endfor %}
     </ol>
-  </section>
-  {% endif %}
+  </div>
+</section>
+{% endif %}
 
-  <section class="j-help">
-    <div class="wrap j-help-in">
-      <a class="j-help-card j-reveal" href="{{ u('answers/') }}">{{ tool("needle") }}<b>Sewing answers</b><span>Quick answers to the questions sewists ask us most.</span></a>
-      <a class="j-help-card j-reveal" href="{{ u('fabrics/') }}" style="--i: 1">{{ tool("fabric") }}<b>Fabric library</b><span>What each fabric feels like, how it drapes and what to sew with it.</span></a>
-      <a class="j-help-card j-reveal" href="{{ u('worlds/') }}" style="--i: 2">{{ tool("spool") }}<b>Sewing worlds</b><span>Patterns grouped by vibe, from linen days to after dark.</span></a>
-    </div>
-  </section>
-</div>
+<section class="band">
+  <div class="wrap js-help">
+    <a class="js-help-card tint-mint" href="{{ u('answers/') }}">{{ tool("needle") }}<b>Sewing answers</b><span>Quick answers to the questions sewists ask us most.</span></a>
+    <a class="js-help-card tint-butter" href="{{ u('fabrics/') }}">{{ tool("fabric") }}<b>Fabric library</b><span>How each fabric feels, drapes and what to sew with it.</span></a>
+    <a class="js-help-card tint-blush" href="{{ u('worlds/') }}">{{ tool("spool") }}<b>Sewing worlds</b><span>Patterns grouped by vibe, from linen days to after dark.</span></a>
+  </div>
+</section>
 <script src="{{ u('static/journal.js') }}" defer></script>
 {% endblock %}
