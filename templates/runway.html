@@ -9,7 +9,7 @@
 </script>
 {% endblock %}
 {% block main %}
-{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
+{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ L.sketch if L.sketch.startswith('http') else u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
 {% set first = looks[0] if looks else none %}
 <div class="lb" data-runway>
   <section class="lb-hero">

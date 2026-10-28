@@ -8,7 +8,7 @@
 <link rel="icon" href="../static/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../static/style.css">
 <link rel="stylesheet" href="admin.css">
 </head>
@@ -38,7 +38,10 @@
       <button role="tab" data-tab="topbar" aria-selected="false">Top bar &amp; sale</button>
       <button role="tab" data-tab="home" aria-selected="false">Homepage</button>
       <button role="tab" data-tab="patterns" aria-selected="false">Patterns</button>
-      <button role="tab" data-tab="blog" aria-selected="false">Blog</button>
+      <button role="tab" data-tab="runway" aria-selected="false">Runway</button>
+      <button role="tab" data-tab="blog" aria-selected="false">Stitch Journal</button>
+      <button role="tab" data-tab="shorts" aria-selected="false">Shorts (reels)</button>
+      <button role="tab" data-tab="social" aria-selected="false">Social &amp; footer</button>
     </nav>
     <div class="side-foot">
       <p class="muted small" id="who"></p>
@@ -100,8 +103,8 @@
     <section data-pane="home" hidden>
       <h1>Homepage</h1>
       <div class="card-box">
-        <h2>Category rows</h2>
-        <p class="muted">Each chosen category gets its own banner and a row of patterns on the homepage. Click to add or remove; they show in the order you pick them.</p>
+        <h2>"Pick your next make" categories</h2>
+        <p class="muted">The order of the category circles on the homepage. Click to put a category first; categories you don't pick follow after.</p>
         <div class="chips" id="rows"></div>
       </div>
       <div class="card-box">
@@ -131,17 +134,21 @@
     <!-- blog -->
     <section data-pane="blog" hidden>
       <div id="post-list-view">
-        <div class="pane-head"><h1>Blog</h1><button class="btn btn-small" type="button" id="new-post">Write a new post</button></div>
+        <div class="pane-head"><h1>The Stitch Journal</h1><button class="btn btn-small" type="button" id="new-post">Write a new post</button></div>
         <p class="muted">Guides help people find your shop on Google. A post goes on the website once it's published.</p>
+        <h2 class="sub-h">Your posts</h2>
         <ul class="post-rows" id="post-rows"></ul>
+        <h2 class="sub-h">Built-in guides</h2>
+        <p class="muted">These five full guides come with the website. You can hide one, or write a post with the same web address to replace it.</p>
+        <ul class="post-rows" id="guide-rows"></ul>
       </div>
       <form id="post-edit" hidden>
         <div class="pane-head"><button class="btn btn-ghost btn-small" type="button" id="back-posts">All posts</button><div class="btn-row">
           <button class="btn btn-ghost btn-small danger" type="button" id="del-post">Delete</button>
           <button class="btn btn-small" type="submit">Save post</button></div></div>
         <label class="field"><span>Title</span><input id="p-title" required></label>
-        <label class="field"><span>Web address</span><span class="slug-row"><span class="muted">/blog/</span><input id="p-slug" required pattern="[a-z0-9-]+"><span class="muted">/</span></span></label>
-        <label class="field"><span>Short summary (shown on Google and the blog page)</span><textarea id="p-desc" rows="2" maxlength="200"></textarea></label>
+        <label class="field"><span>Web address</span><span class="slug-row"><span class="muted">/journal/</span><input id="p-slug" required pattern="[a-z0-9-]+"><span class="muted">/</span></span></label>
+        <label class="field"><span>Short summary (shown on Google and the Journal page)</span><textarea id="p-desc" rows="2" maxlength="200"></textarea></label>
         <div class="field"><span>Related patterns category</span><div class="chips" id="p-cat"></div></div>
         <div class="two">
           <label class="field"><span>Label</span><input id="p-tag" placeholder="Guide, Fabric, Fit"></label>
@@ -164,6 +171,52 @@
         <label class="toggle"><input type="checkbox" id="p-pub"><span></span>Published on the website</label>
         <p class="form-msg" id="post-msg" role="status"></p>
       </form>
+    </section>
+
+    <!-- runway -->
+    <section data-pane="runway" hidden>
+      <h1>The Runway</h1>
+      <p class="muted">The Runway shows 18 looks: each pattern's technical sketch next to the model photo. It fills itself from your Etsy listings. Here you can choose which looks walk first, leave a pattern off, or give a pattern your own clean sketch.</p>
+      <div class="card-box">
+        <h2>Looks that walk first</h2>
+        <p class="muted">In this order. The rest of the 18 are filled in automatically across categories. Leave empty to let the website choose.</p>
+        <div class="pick-row" id="rw-pick"></div>
+      </div>
+      <div class="card-box">
+        <h2>Your own sketches</h2>
+        <p class="muted">If a pattern's Etsy sketch shows notes or is missing, upload a clean sketch (white background, PNG or JPG). It replaces the Etsy one on the Runway.</p>
+        <ul class="sk-list" id="rw-sketches"></ul>
+        <button class="btn btn-ghost btn-small" type="button" id="rw-add-sketch">Add a sketch for a pattern</button>
+      </div>
+      <div class="card-box">
+        <h2>Hide the Etsy sketch</h2>
+        <p class="muted">The look still walks, with just the model photo.</p>
+        <div class="pick-row" id="rw-nosketch"></div>
+      </div>
+      <div class="card-box">
+        <h2>Leave off the Runway</h2>
+        <div class="pick-row" id="rw-skip"></div>
+      </div>
+    </section>
+
+    <!-- shorts -->
+    <section data-pane="shorts" hidden>
+      <h1>Stitch Studio shorts</h1>
+      <p class="muted">The three 20-second tip reels on the Journal and Our studio pages. Each reel has five scenes: a photo, a big line and a small line.</p>
+      <div id="reels"></div>
+    </section>
+
+    <!-- social -->
+    <section data-pane="social" hidden>
+      <h1>Social &amp; footer</h1>
+      <div class="card-box">
+        <h2>Your social profiles</h2>
+        <p class="muted">Paste the full link to each profile. Each one shows as a button in the footer of every page; leave a box empty to hide that button.</p>
+        <label class="field"><span>Instagram</span><input type="url" id="soc-instagram" placeholder="https://www.instagram.com/yourname"></label>
+        <label class="field"><span>Facebook</span><input type="url" id="soc-facebook" placeholder="https://www.facebook.com/yourpage"></label>
+        <label class="field"><span>Pinterest</span><input type="url" id="soc-pinterest" placeholder="https://www.pinterest.com/yourname"></label>
+        <p class="form-msg" id="soc-msg" role="status"></p>
+      </div>
     </section>
   </main>
 </div>

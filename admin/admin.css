@@ -1,3 +1,4 @@
+[hidden] { display: none !important; }
 .admin { min-height: 100vh; }
 .admin .tape { height: 14px; }
 .muted { color: var(--ink-2); }
@@ -117,3 +118,22 @@ textarea.md { font: 400 .98rem/1.6 ui-monospace, "Cascadia Code", Menlo, monospa
   .pat-list li { grid-template-columns: 48px minmax(0, 1fr); }
   .pat-acts { grid-column: 1 / -1; justify-content: flex-start; }
 }
+
+/* round 2: runway, journal, shorts, social */
+.admin h1, .admin h2 { font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: -.02em; }
+.sub-h { font-size: 1.15rem; margin: 26px 0 10px; }
+.pick { position: relative; }
+.pick .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: #fff; font-size: .72rem; font-weight: 700; margin-right: 2px; }
+.sk-list { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 8px; }
+.sk-list li { display: grid; grid-template-columns: 48px 1fr 72px auto; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.sk-list li.muted { display: block; }
+.sk-list img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; }
+.sk-list img.sk { width: 72px; height: 54px; object-fit: contain; background: #fff; border: 1px solid var(--line); }
+.reel-edit select { width: 100%; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; background: var(--surface); }
+.scene-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; counter-reset: sc; }
+.scene-list li { counter-increment: sc; display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+.scene-img { position: relative; display: grid; gap: 6px; }
+.scene-img::before { content: counter(sc); position: absolute; left: 6px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--tape); display: grid; place-items: center; font-weight: 700; font-size: .78rem; }
+.scene-img img { width: 120px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; background: var(--paper-2); }
+.scene-text { display: grid; gap: 4px; }
+@media (max-width: 620px) { .scene-list li { grid-template-columns: 90px 1fr; } .scene-img img { width: 90px; } .sk-list li { grid-template-columns: 40px 1fr 56px; } .sk-list li .btn { grid-column: 1 / -1; } }

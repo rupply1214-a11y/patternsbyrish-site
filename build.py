@@ -249,10 +249,12 @@ for f, text in src:
     md.reset()
     posts.append(dict(slug=meta.get("slug") or f[:-3], title=meta.get("title", f[:-3]), description=meta.get("description", ""),
                       date=meta.get("date", "2026-10-27"), category=meta.get("category", ""), cover=meta.get("cover", ""),
-                      tag=meta.get("tag", "Guide"), html=md.convert(body), toc=md.toc_tokens, words=len(body.split())))
+                      tag=meta.get("tag", "Guide"), html=md.convert(body), toc=md.toc_tokens, words=len(body.split()), builtin=True))
 admin_posts = load("data/admin_posts.json")
-if admin_posts is not None:  # once the admin panel is set up, it is the only source of posts
-    posts = []
+# posts written in the admin panel are added to the built-in guides (same web address = the admin version wins)
+GUIDES = [dict(slug=b["slug"], title=b["title"]) for b in posts]
+hidden_posts = set(CONTENT.get("hidden_posts") or [])
+posts = [p for p in posts if p["slug"] not in hidden_posts]
 for a in admin_posts or []:
     if a.get("published"):
         md.reset()
@@ -295,7 +297,7 @@ env = Environment(loader=FileSystemLoader(os.path.join(ROOT, "templates")), auto
                   trim_blocks=True, lstrip_blocks=True)
 from markupsafe import Markup, escape as _esc
 env.filters["accent"] = lambda t: Markup(re.sub(r"\*(.+?)\*", r'<em class="acc">\1</em>', str(_esc(t or ""))))
-env.globals["reels"] = json.load(open(os.path.join(ROOT, "content", "reels.json"))) if os.path.exists(os.path.join(ROOT, "content", "reels.json")) else []
+env.globals["reels"] = CONTENT.get("reels") or (json.load(open(os.path.join(ROOT, "content", "reels.json"))) if os.path.exists(os.path.join(ROOT, "content", "reels.json")) else [])
 import hashlib as _h
 env.globals["ver"] = _h.md5(b"".join(open(os.path.join(ROOT, "static", f), "rb").read() for f in sorted(os.listdir(os.path.join(ROOT, "static"))) if f.endswith((".css", ".js")))).hexdigest()[:8]
 env.filters["isodate"] = lambda ts: datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
@@ -340,7 +342,8 @@ def main():
         shutil.copytree(os.path.join(ROOT, "admin"), os.path.join(DIST, "admin"))
         open(os.path.join(DIST, "admin", "config.js"), "w").write("window.SITE = " + json.dumps(dict(
             url=CFG.get("supabase_url", ""), key=CFG.get("supabase_key", ""), repo=CFG.get("github_repo", ""),
-            cats=[dict(slug=c["slug"], name=c["name"]) for c in cat_list], defaults=load("content/site.json", {}))) + ";\n")
+            cats=[dict(slug=c["slug"], name=c["name"]) for c in cat_list], defaults=dict(load("content/site.json", {}), reels=load("content/reels.json", []), social=CFG.get("social") or {}),
+            guides=GUIDES)) + ";\n")
     sold = shop.get("transaction_sold_count") or 0
     stats = dict(sold=(f"{sold // 100 * 100:,}+" if sold >= 1000 else str(sold)) if sold else "",
                  rating=shop.get("review_average"), reviews=shop.get("review_count"), count=len(products))
@@ -370,13 +373,18 @@ def main():
             return None
         return (x0, y0, x1, y1)
     RW = load("content/runway.json") or {}
+    ARW = CONTENT.get("runway") or {}  # set in the admin panel, by Etsy listing id
     def rw_get(table, p):
+        admin = {"sketch_files": ARW.get("sketches")}.get(table) or {}
+        if str(p["id"]) in admin:
+            return admin[str(p["id"])]
         for k, v in (RW.get(table) or {}).items():
             if p["slug"].startswith(k):
                 return v
         return None
     def rw_has(lst, p):
-        return any(p["slug"].startswith(k) for k in RW.get(lst) or [])
+        admin = {"skip": ARW.get("skip"), "no_sketch": ARW.get("no_sketch")}.get(lst) or []
+        return str(p["id"]) in map(str, admin) or any(p["slug"].startswith(k) for k in RW.get(lst) or [])
     def sketch_of(p):
         # 1) a clean sketch file you added, 2) a hand-set crop, 3) the measured "features" sketch from the listing
         f = rw_get("sketch_files", p)
@@ -411,21 +419,28 @@ def main():
     pools = [sorted([p for p in by_cat[c["slug"]] if p["images"] and p["kind"] != "bundle" and not rw_has("skip", p)], key=lambda p: sketch_of(p) is None)
              for c in cat_list if c["slug"] not in ("bundles",)]
     runway, seen = [], set()
+    def add_look(x):
+        seen.add(x["id"])
+        fn, fs = fabric_for(x)
+        ph = x["images"][0]
+        sk = sketch_of(x)
+        runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1,
+                           photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
+                           photo_box=crop_style(tuple(rw_get("photo_box", x) or ()) or photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
+                           sketch=(sk[0] if isinstance(sk[0], str) else sk[0][1]) if sk else "",
+                           sketch_file=bool(sk and not isinstance(sk[0], str)),
+                           sketch_box=(crop_style(sk[1], None) if sk[1] else "") if sk else ""))
+    # looks picked in the admin panel walk first, in the order chosen; the rest are filled in across categories
+    for i in ARW.get("pick") or []:
+        x = by_id.get(str(i))
+        if x and x["images"] and x["id"] not in seen and len(runway) < 18:
+            add_look(x)
     while len(runway) < 18 and any(pools):
         for pool in pools:
             while pool and pool[0]["id"] in seen:
                 pool.pop(0)
             if pool and len(runway) < 18:
-                x = pool.pop(0); seen.add(x["id"])
-                fn, fs = fabric_for(x)
-                ph = x["images"][0]
-                sk = sketch_of(x)
-                runway.append(dict(p=x, fabric=fn, fabric_slug=fs, n=len(runway) + 1,
-                                   photo=ph["medium"] or ph["full"], photo_big=ph["full"] or ph["medium"],
-                                   photo_box=crop_style(tuple(rw_get("photo_box", x) or ()) or photo_box(CROPS.get(ph["medium"] or ph["full"])), (0.008, 0.085, 0.505, 0.93)),
-                                   sketch=(sk[0] if isinstance(sk[0], str) else sk[0][1]) if sk else "",
-                                   sketch_file=bool(sk and not isinstance(sk[0], str)),
-                                   sketch_box=(crop_style(sk[1], None) if sk[1] else "") if sk else ""))
+                add_look(pool.pop(0))
     order = [s for s in CONTENT.get("home_rows") or [] if s in cat_by]
     order += [c["slug"] for c in cat_list if c["slug"] not in order and c["slug"] != "bundles"]
     rows = [dict(c=cat_by[s], picks=by_cat[s][:12]) for s in order if by_cat.get(s)]

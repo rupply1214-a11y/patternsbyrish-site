@@ -61,14 +61,14 @@
   addEventListener("beforeunload", (e) => { if (content && JSON.stringify(content) !== saved) { e.preventDefault(); e.returnValue = ""; } });
 
   const byId = (id) => listings.find((p) => String(p.id) === String(id));
-  function renderAll() { slides(); topbar(); home(); patterns(); }
+  function renderAll() { slides(); topbar(); home(); patterns(); runwayPane(); reelsPane(); socialPane(); }
 
   /* ---------- overview ---------- */
   function overview(b) {
     const when = b.built ? new Date(b.built).toLocaleString() : "not yet";
     $("#stats").innerHTML = [
       [b.patterns ?? "-", "patterns on the website"], [b.hidden ?? 0, "hidden from the website"],
-      [b.posts ?? "-", "blog posts"], [when, "last website update"],
+      [b.posts ?? "-", "Journal posts"], [when, "last website update"],
     ].map(([v, t]) => `<div class="stat"><b>${esc(v)}</b><span>${esc(t)}</span></div>`).join("");
     $("#run-link").href = `https://github.com/${S.repo}/actions/workflows/sync-and-deploy.yml`;
   }
@@ -189,6 +189,79 @@
   const toggle = (arr, id) => { const i = arr.indexOf(String(id)); i >= 0 ? arr.splice(i, 1) : arr.push(String(id)); };
   $("#pat-q").addEventListener("input", patterns);
 
+
+  /* ---------- runway ---------- */
+  const thumbChip = (id, onRemove) => {
+    const p = byId(id); if (!p) return null;
+    const el = document.createElement("span"); el.className = "pick";
+    el.innerHTML = `<img src="${esc(p.i)}" alt="">${esc(p.n)}<button type="button" aria-label="Remove ${esc(p.n)}">×</button>`;
+    $("button", el).addEventListener("click", onRemove);
+    return el;
+  };
+  function runwayPane() {
+    const rw = content.runway = content.runway || {};
+    ["pick", "skip", "no_sketch"].forEach((k) => { rw[k] = (rw[k] || []).map(String); });
+    rw.sketches = rw.sketches || {};
+    const lists = [["rw-pick", "pick", 18, "Choose looks"], ["rw-nosketch", "no_sketch", 40, "Choose patterns"], ["rw-skip", "skip", 60, "Choose patterns"]];
+    lists.forEach(([box, key, max, label]) => {
+      const el = $("#" + box); el.innerHTML = "";
+      rw[key].forEach((id, n) => {
+        const c = thumbChip(id, () => { rw[key].splice(n, 1); runwayPane(); dirty(); });
+        if (c) { if (key === "pick") c.insertAdjacentHTML("afterbegin", `<span class="n">${n + 1}</span>`); el.appendChild(c); }
+      });
+      const b = document.createElement("button"); b.type = "button"; b.className = "btn btn-ghost btn-small"; b.textContent = label;
+      b.addEventListener("click", () => picker(rw[key], max, (ids) => { rw[key] = ids; runwayPane(); dirty(); }));
+      el.appendChild(b);
+    });
+    $("#rw-sketches").innerHTML = Object.entries(rw.sketches).map(([id, url]) => {
+      const p = byId(id);
+      return `<li><img src="${esc(p ? p.i : "")}" alt=""><span><b>${esc(p ? p.n : "Pattern " + id)}</b></span><img class="sk" src="${esc(url)}" alt="Sketch"><button type="button" class="btn btn-ghost btn-small danger" data-sk-rm="${esc(id)}">Remove</button></li>`;
+    }).join("") || '<li class="muted">No sketches added yet.</li>';
+    $$("[data-sk-rm]").forEach((b) => b.addEventListener("click", () => { delete rw.sketches[b.dataset.skRm]; runwayPane(); dirty(); }));
+  }
+  $("#rw-add-sketch").addEventListener("click", () => picker([], 1, (ids) => {
+    if (!ids.length) return;
+    const inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*";
+    inp.addEventListener("change", async () => { const url = await upload(inp.files[0], "sketches"); if (url) { content.runway.sketches[ids[0]] = url; runwayPane(); dirty(); } });
+    inp.click();
+  }));
+
+  /* ---------- shorts (reels) ---------- */
+  const imgSrc = (p) => (/^https?:/.test(p || "") ? p : "../" + (p || ""));
+  function reelsPane() {
+    const reels = content.reels = (content.reels && content.reels.length ? content.reels : structuredClone(S.defaults.reels || []));
+    const box = $("#reels"); box.innerHTML = "";
+    reels.forEach((r, k) => {
+      const card = document.createElement("div"); card.className = "card-box reel-edit";
+      card.innerHTML = `<h2>Reel ${k + 1}: ${esc(r.title)}</h2>
+        <div class="two"><label class="field"><span>Title</span><input data-r="title" value="${esc(r.title)}"></label>
+        <label class="field"><span>Label</span><input data-r="tag" value="${esc(r.tag)}" placeholder="Printing, Fabric, Fit"></label></div>
+        <label class="field"><span>"Read the full guide" goes to</span><select data-r="link">${(S.guides || []).map((g) => `<option value="journal/${esc(g.slug)}/" ${r.link === `journal/${g.slug}/` ? "selected" : ""}>${esc(g.title)}</option>`).join("")}<option value="journal/" ${r.link === "journal/" ? "selected" : ""}>The Journal page</option></select></label>
+        <ol class="scene-list">${r.scenes.map((sc, i) => `<li>
+          <span class="scene-img"><img src="${esc(imgSrc(sc.img))}" alt=""><label class="btn btn-ghost btn-small">Change photo<input type="file" accept="image/*" hidden data-up="${i}"></label></span>
+          <span class="scene-text"><label class="field"><span>Big line</span><input data-s="${i}" data-f="big" value="${esc(sc.big)}" maxlength="34"></label>
+          <label class="field"><span>Small line</span><input data-s="${i}" data-f="small" value="${esc(sc.small)}" maxlength="40"></label></span></li>`).join("")}</ol>`;
+      $$("[data-r]", card).forEach((inp) => inp.addEventListener("input", () => { r[inp.dataset.r] = inp.value; dirty(); }));
+      $$("[data-s]", card).forEach((inp) => inp.addEventListener("input", () => { r.scenes[+inp.dataset.s][inp.dataset.f] = inp.value; dirty(); }));
+      $$("[data-up]", card).forEach((inp) => inp.addEventListener("change", async () => { const url = await upload(inp.files[0], "reels"); if (url) { r.scenes[+inp.dataset.up].img = url; reelsPane(); dirty(); } }));
+      box.appendChild(card);
+    });
+  }
+
+  /* ---------- social & footer ---------- */
+  function socialPane() {
+    const soc = content.social = content.social || {};
+    ["instagram", "facebook", "pinterest"].forEach((k) => {
+      const el = $("#soc-" + k); el.value = soc[k] || "";
+      el.oninput = () => {
+        const v = el.value.trim();
+        const ok = !v || /^https:\/\/(www\.)?(instagram\.com|facebook\.com|fb\.com|pinterest\.[a-z.]+|pin\.it)\//i.test(v);
+        $("#soc-msg").textContent = ok ? "" : `That doesn't look like a ${k} link. Copy it from the address bar of your profile.`;
+        if (ok) { soc[k] = v; dirty(); }
+      };
+    });
+  }
+
   /* ---------- pattern picker ---------- */
   function picker(selected, max, done) {
     let sel = selected.map(String);
@@ -231,10 +304,18 @@
     const { data, error } = await db.from("posts").select("*").order("date", { ascending: false });
     if (error) return toast("Couldn't load posts: " + error.message);
     posts = data;
-    $("#post-rows").innerHTML = posts.map((p) => `<li><span><b>${esc(p.title)}</b><small class="muted">/blog/${esc(p.slug)}/ · ${esc(p.date || "")}</small></span>
+    $("#post-rows").innerHTML = posts.map((p) => `<li><span><b>${esc(p.title)}</b><small class="muted">/journal/${esc(p.slug)}/ · ${esc(p.date || "")}</small></span>
       <span class="btn-row"><span class="badge ${p.published ? "on" : ""}">${p.published ? "Published" : "Draft"}</span><button type="button" class="btn btn-ghost btn-small" data-edit="${esc(p.slug)}">Edit</button></span></li>`).join("")
       || '<li class="muted">No posts yet. Write your first guide.</li>';
     $$("[data-edit]").forEach((b) => b.addEventListener("click", () => openPost(posts.find((p) => p.slug === b.dataset.edit))));
+    guides();
+  }
+  function guides() {
+    const hid = content.hidden_posts = content.hidden_posts || [];
+    $("#guide-rows").innerHTML = (S.guides || []).map((g) => `<li><span><b>${esc(g.title)}</b><small class="muted">/journal/${esc(g.slug)}/</small></span>
+      <span class="btn-row"><a class="btn btn-ghost btn-small" href="../journal/${esc(g.slug)}/" target="_blank" rel="noopener">View</a>
+      <button type="button" class="chip" aria-pressed="${hid.includes(g.slug)}" data-gh="${esc(g.slug)}">${hid.includes(g.slug) ? "Hidden" : "Hide"}</button></span></li>`).join("");
+    $$("[data-gh]").forEach((b) => b.addEventListener("click", () => { toggle(hid, b.dataset.gh); guides(); dirty(); }));
   }
   const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 70);
   function openPost(p) {

@@ -12,7 +12,7 @@
 </script>
 {% endblock %}
 {% block main %}
-{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
+{% macro skimg(L, alt="") %}{% if L.sketch_file %}<span class="lb-file"><img src="{{ L.sketch if L.sketch.startswith('http') else u(L.sketch) }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% else %}<span class="lb-crop" style="{{ L.sketch_box }}"><img src="{{ L.sketch }}" alt="{{ alt }}" loading="lazy" decoding="async"></span>{% endif %}{% endmacro %}
 
 {# ---------- banner carousel ---------- #}
 <section class="hero" data-hero aria-roledescription="carousel" aria-label="Featured patterns">
