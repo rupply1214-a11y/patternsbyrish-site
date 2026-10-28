@@ -26,16 +26,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Save new studio and journal images into the repo
-        run: |
-          python fetch_images.py
-          if [ -n "$(git status --porcelain static)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add static
-            git commit -m "Save generated images [skip ci]"
-            git push || echo "push skipped"
-          fi
       - name: Read listings from Etsy (read only)
         env:
           ETSY_API_KEY: ${{ secrets.ETSY_API_KEY }}
@@ -43,6 +33,17 @@ jobs:
         run: python sync_etsy.py
       - name: Read admin panel content
         run: python fetch_admin.py
+      - name: Save new images and photo measurements into the repo
+        run: |
+          python fetch_images.py
+          python looks.py
+          if [ -n "$(git status --porcelain static content/look_crops.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add static content/look_crops.json
+            git commit -m "Save generated images and photo measurements [skip ci]"
+            git push || echo "push skipped"
+          fi
       - name: Build website
         env:
           SITE_URL: ${{ vars.SITE_URL }}
