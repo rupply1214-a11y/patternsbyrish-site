@@ -325,11 +325,12 @@ TODAY = date.fromisoformat(os.environ["SEASON_DATE"]) if os.environ.get("SEASON_
 SEASON_CFG = CONTENT.get("seasonal") or {}
 SEASONS = []
 for se in load("content/seasons.json", []) or []:
-    keys = [k.lower() for k in se["match"]]
+    # whole words only, so "red" doesn't match "flared" and "men" doesn't match "women"
+    keys = [re.compile(r"(?<![a-z])" + re.escape(k.lower()).replace(r"\ ", r"[\s-]+") + r"(?:s|es)?(?![a-z])") for k in se["match"]]
     scored = []
     for p in products:
-        text = " " + (p["title"] + " " + " ".join(p["tags"])).lower() + " "
-        n = sum(1 for k in keys if k in text)
+        text = (p["title"] + " " + " ".join(p["tags"])).lower()
+        n = sum(1 for k in keys if k.search(text))
         if n and (p["kind"] != "bundle" or se["slug"] == "handmade-gifts"):
             scored.append((n, p))
     scored.sort(key=lambda x: (-x[0], -x[1]["created"]))
