@@ -19,7 +19,7 @@
   /* ---------- sign in ---------- */
   // one sign-in page for everyone: the admin panel sends you there and it sends admins back here
   const showLogin = () => { location.replace("../login/?next=admin/"); };
-  $("#login-form").addEventListener("submit", async (e) => {
+  $("#login-form") && $("#login-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     $("#login-msg").textContent = "Signing in…";
     const { error } = await db.auth.signInWithPassword({ email: $("#login-email").value.trim(), password: $("#login-pass").value });
@@ -36,6 +36,7 @@
     $("#who").textContent = session.user.email;
     $("#me-dot").textContent = (session.user.email || "R")[0].toUpperCase();
     $("#login").hidden = true; $("#app").hidden = false;
+    document.querySelectorAll(".boot-msg").forEach((m) => m.remove());
     const [c, l, b] = await Promise.all([
       db.from("site_content").select("data").eq("id", 1).maybeSingle(),
       fetch("../tools/listings.json").then((r) => r.json()).catch(() => []),

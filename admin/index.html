@@ -404,6 +404,20 @@
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+/* never a blank page: if the panel can't start, say why */
+(function () {
+  function oops(msg) {
+    var app = document.getElementById("app");
+    if ((app && !app.hidden) || document.querySelector(".boot-msg")) return;
+    var d = document.createElement("div"); d.className = "boot-msg";
+    d.innerHTML = '<img src="../static/logo-line.svg" alt="Patterns by Rish" width="190" height="35"><h1>The admin panel didn\'t open</h1><p></p><p class="btn-row"><button class="btn" type="button" onclick="location.reload()">Try again</button><a class="btn btn-ghost" href="../login/?next=admin/">Sign in again</a></p>';
+    d.querySelector("p").textContent = msg; document.body.appendChild(d);
+  }
+  window.addEventListener("error", function (e) { oops((e && e.message) || "Something went wrong while loading."); });
+  setTimeout(function () { oops("It's taking too long to connect. Close other tabs of this website, then press Try again."); }, 15000);
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="config.js"></script>
