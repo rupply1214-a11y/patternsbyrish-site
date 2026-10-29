@@ -62,6 +62,7 @@
     $$(".tabs [role=tab]").forEach((x) => x.setAttribute("aria-selected", x === t));
     $$("[data-pane]").forEach((p) => (p.hidden = p.dataset.pane !== t.dataset.tab));
     $("#crumb").textContent = t.querySelector("span").textContent;
+    const more = $("#nav-more"); if (more && t.closest("details")) more.open = true;
     drawer(false); scrollTo(0, 0);
   }));
 

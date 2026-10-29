@@ -50,9 +50,11 @@
       ].map(([v, t]) => `<div class="stat"><b>${esc(v)}</b><span>${esc(t)}</span></div>`).join("");
 
       const missing = allPatterns().filter((p) => !p.h && !files[p.id]).length;
+      $("#task-orders").textContent = today.length ? `Today: ${money(sum(today))} from ${today.length} order${today.length === 1 ? "" : "s"}` : `No orders yet today · ${paid.length} in total`;
+      $("#task-files").textContent = missing ? `${missing} pattern${missing === 1 ? " still needs" : "s still need"} a link` : "Every pattern has a link";
       $("#files-badge").textContent = missing; $("#files-badge").hidden = !missing;
-      const fa = $("#files-alert");
-      fa.hidden = !missing;
+      const fa = $("#files-alert") || document.createElement("div");
+      fa.hidden = true;
       fa.innerHTML = `<b>${missing} pattern${missing === 1 ? " has" : "s have"} no download link yet.</b> Buyers of ${missing === 1 ? "it" : "these"} will see "files being prepared" until you add one. <button type="button" class="link-btn" data-go="files">Add download links</button>`;
 
       const { data: bytes } = await db.rpc("db_usage");
@@ -80,7 +82,10 @@
     }
     document.addEventListener("click", (e) => {
       const g = e.target.closest("[data-go]");
-      if (g) { const t = $(`.tabs [data-tab="${g.dataset.go}"]`); if (t) t.click(); }
+      if (!g) return;
+      e.preventDefault();
+      const t = $(`.tabs [data-tab="${g.dataset.go}"]`);
+      if (t) { const more = t.closest("details"); if (more) more.open = true; t.click(); }
     });
     $("#publish-now").addEventListener("click", async () => {
       const m = $("#publish-msg"); m.className = "form-msg"; m.textContent = "Starting the update…";
