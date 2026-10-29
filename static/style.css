@@ -2135,3 +2135,17 @@ em.acc, .pz-intro .pz-t span { font-family: var(--display); font-style: italic; 
 .season-card .season-now, .season-card .season-when { margin-bottom: 6px; }
 .season-card.tint-blush { --tint: var(--blush); } .season-card.tint-butter { --tint: var(--butter); } .season-card.tint-mint { --tint: var(--mint); }
 .season-card.tint-sky { --tint: var(--sky); } .season-card.tint-lilac { --tint: var(--lilac); }
+
+/* ---------- email list in the footer ---------- */
+.foot-news { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px 40px; align-items: center; padding-top: 26px; padding-bottom: 34px; border-bottom: 1px dashed rgba(255, 255, 255, .18); }
+.foot-news h2 { margin: 0 0 6px; font-size: clamp(1.5rem, 2.6vw, 2rem); color: #fff; }
+.foot-news h2 .acc { color: var(--tape); }
+.foot-news p { margin: 0; color: rgba(255, 255, 255, .75); }
+.foot-news-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.foot-news-form input[type=email] { font: 400 1rem var(--body); padding: 14px 18px; border-radius: 999px; border: 1.5px solid rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .08); color: #fff; min-width: 0; }
+.foot-news-form input[type=email]::placeholder { color: rgba(255, 255, 255, .55); }
+.foot-news-form input[type=email]:focus { outline: none; border-color: var(--tape); }
+.foot-news-msg { grid-column: 1 / -1; min-height: 1.3em; font-size: .92rem; }
+.foot-news-msg.ok { color: var(--tape); } .foot-news-msg.err { color: #F2B8B0; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+@media (max-width: 760px) { .foot-news { grid-template-columns: 1fr; } .foot-news-form { grid-template-columns: 1fr; } }

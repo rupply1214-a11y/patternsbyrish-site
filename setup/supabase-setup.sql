@@ -175,3 +175,20 @@ alter table public.orders add column if not exists discount numeric(10,2) defaul
 alter table public.orders add column if not exists note text default '';
 drop policy if exists "admins update orders" on public.orders;
 create policy "admins update orders" on public.orders for update using (public.is_admin()) with check (public.is_admin());
+
+-- 14. Email list (newsletter sign-ups). Anyone may add their own email; only admins can see or remove the list.
+create table if not exists public.subscribers (
+  email text primary key check (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$' and length(email) <= 254),
+  source text default 'footer',
+  created_at timestamptz default now()
+);
+alter table public.subscribers enable row level security;
+drop policy if exists "anyone can subscribe" on public.subscribers;
+create policy "anyone can subscribe" on public.subscribers for insert with check (true);
+drop policy if exists "admins see subscribers" on public.subscribers;
+create policy "admins see subscribers" on public.subscribers for select using (public.is_admin());
+drop policy if exists "admins remove subscribers" on public.subscribers;
+create policy "admins remove subscribers" on public.subscribers for delete using (public.is_admin());
+
+-- 15. Orders: remember when the confirmation email went out.
+alter table public.orders add column if not exists emailed_at timestamptz;

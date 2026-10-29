@@ -35,6 +35,7 @@
       <button role="tab" data-tab="studio" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="12" height="12" rx="3"/><path d="M15.5 10.5l5-3v9l-5-3z"/></svg><span>Videos &amp; photos</span></button>
       <details class="nav-more" id="nav-more"><summary>More settings</summary>
         <button role="tab" data-tab="customers" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="8" r="2.5"/><path d="M15.5 13.6c2.3-.4 4.3 1.2 5 4.4"/></svg><span>Customers</span></button>
+        <button role="tab" data-tab="list" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg><span>Email list</span></button>
         <button role="tab" data-tab="coupons" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5V6h16v2.5a2.5 2.5 0 0 0 0 5V18H4v-4.5a2.5 2.5 0 0 0 0-5z"/><path d="M10 9l4 6M10 9.2h0M14 14.8h0"/></svg><span>Coupon codes</span></button>
         <button role="tab" data-tab="shop" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l1.5-5h13L20 10"/><path d="M4 10a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12.5V20h13v-7.5"/></svg><span>Selling settings</span></button>
         <button role="tab" data-tab="patterns" aria-selected="false"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3.5h6l1 3.5-2 1.2.8 12.3H9.2L10 8.2 8 7z"/></svg><span>Show or hide Etsy patterns</span></button>
@@ -131,6 +132,22 @@
       <div class="pane-head"><h1>Customers</h1><button class="btn btn-ghost btn-small" type="button" id="cust-csv">Download list (CSV)</button></div>
       <p class="muted">Everyone who has paid for a pattern on this website, with what they spent.</p>
       <ul class="ord-list" id="cust-list"></ul>
+    </section>
+
+    <!-- email list -->
+    <section data-pane="list" hidden>
+      <div class="pane-head"><h1>Email list</h1><button class="btn btn-ghost btn-small" type="button" id="nl-csv">Download list (CSV)</button></div>
+      <div class="howto"><b>How to</b><ol><li>People join with the box at the bottom of every page of the website.</li><li>To send them a newsletter, tap <b>Download list (CSV)</b> and import the file in Brevo: <b>Contacts → Import contacts</b>.</li><li>Change the box's words, or add a welcome coupon, below and tap <b>Save changes</b>.</li></ol></div>
+      <div class="stat-row"><div class="stat"><b id="nl-count">…</b><span>people on the list</span></div><div class="stat"><b id="nl-week">…</b><span>joined in the last 7 days</span></div></div>
+      <div class="card-box">
+        <h2>The sign-up box</h2>
+        <label class="toggle"><input type="checkbox" id="nl-on"><span></span>Show the sign-up box on the website</label>
+        <label class="field"><span>Heading (put *stars* around the words in red)</span><input id="nl-title" maxlength="80"></label>
+        <label class="field"><span>Text</span><textarea id="nl-text" rows="2" maxlength="220"></textarea></label>
+        <div class="two"><label class="field"><span>Button</span><input id="nl-button" maxlength="30"></label><label class="field"><span>Thank-you message</span><input id="nl-thanks" maxlength="160"></label></div>
+        <div class="two"><label class="field"><span>Welcome coupon code (optional, make it in Coupon codes first)</span><input id="nl-coupon" maxlength="30" placeholder="WELCOME10"></label><label class="field"><span>Its % off</span><input id="nl-pct" type="number" min="1" max="90" placeholder="10"></label></div>
+      </div>
+      <ul class="ord-list" id="nl-list"></ul>
     </section>
 
     <!-- download links -->

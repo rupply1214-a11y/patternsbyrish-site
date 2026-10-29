@@ -112,13 +112,20 @@
         ${o.coupon ? `<p class="small muted">Coupon ${esc(o.coupon)}: -${money(o.discount)}</p>` : ""}
         <p class="small muted">PayPal order ${esc(o.paypal_order_id || "")}${o.note ? " · " + esc(o.note) : ""}</p>
         ${o.status === "paid" ? `<div class="btn-row"><button type="button" class="btn btn-ghost btn-small danger" data-refund="${o.id}">Refund in PayPal</button>
-          <button type="button" class="btn btn-ghost btn-small" data-mark="${o.id}">Mark as refunded</button></div>` : ""}
+          <button type="button" class="btn btn-ghost btn-small" data-mark="${o.id}">Mark as refunded</button>
+          <button type="button" class="btn btn-ghost btn-small" data-resend="${o.id}">${o.emailed_at ? "Email the links again" : "Email the links"}</button></div>
+          <p class="small muted">${o.emailed_at ? "Download email sent " + esc(when(o.emailed_at)) : "No download email sent yet"}</p>` : ""}
       </li>`).join("") || '<li class="muted">No orders here yet.</li>';
       $$("[data-refund]").forEach((b) => b.addEventListener("click", async () => {
         if (b.dataset.sure !== "1") { b.dataset.sure = "1"; b.textContent = "Click again to refund the money"; return; }
         b.disabled = true; b.textContent = "Refunding…";
         try { await fn({ action: "refund", order_id: b.dataset.refund }); toast("Refunded in PayPal."); await refreshOrders(); }
         catch (err) { toast(err.message); b.disabled = false; b.textContent = "Refund in PayPal"; }
+      }));
+      $$("[data-resend]").forEach((b) => b.addEventListener("click", async () => {
+        b.disabled = true; b.textContent = "Sending…";
+        try { await fn({ action: "resend", order_id: b.dataset.resend }); toast("Email sent to the buyer."); refreshOrders(); }
+        catch (err) { toast(err.message); b.disabled = false; b.textContent = "Email the links"; }
       }));
       $$("[data-mark]").forEach((b) => b.addEventListener("click", async () => {
         const { error } = await db.from("orders").update({ status: "refunded", note: "Marked refunded in admin" }).eq("id", b.dataset.mark);
@@ -393,7 +400,30 @@
       const se = A.content.seasonal = Object.assign({ enabled: true, banner: true, bar: true }, A.content.seasonal || {});
       [["se-on", "enabled"], ["se-banner", "banner"], ["se-bar", "bar"]].forEach(([id, k]) => { const el = $("#" + id); el.checked = se[k] !== false; el.onchange = () => { se[k] = el.checked; A.dirty(); }; });
     }
-    A.hooks.push(shopPane, studioPane, faqPane, seasonPane); seasonPane();
+    /* ================= email list ================= */
+    let subs = [];
+    async function loadSubs() {
+      const { data, error } = await db.from("subscribers").select("*").order("created_at", { ascending: false }).limit(20000);
+      if (error) { $("#nl-count").textContent = "–"; return; }
+      subs = data || [];
+      $("#nl-count").textContent = subs.length;
+      $("#nl-week").textContent = subs.filter((x) => new Date(x.created_at) > Date.now() - 7 * 864e5).length;
+      $("#nl-list").innerHTML = subs.slice(0, 200).map((x) => `<li><div class="ord-top"><b class="small">${esc(x.email)}</b><span class="muted small">${esc(when(x.created_at))} · ${esc(x.source || "")}</span>
+        <button type="button" class="btn btn-ghost btn-small danger" data-nl-rm="${esc(x.email)}">Remove</button></div></li>`).join("") || '<li class="muted">Nobody yet. The box is at the bottom of every page.</li>';
+      $$("[data-nl-rm]").forEach((b) => b.addEventListener("click", async () => {
+        if (b.dataset.sure !== "1") { b.dataset.sure = "1"; b.textContent = "Click again to remove"; return; }
+        const { error } = await db.from("subscribers").delete().eq("email", b.dataset.nlRm); if (error) return toast(error.message); loadSubs();
+      }));
+    }
+    $("#nl-csv").addEventListener("click", () => csv([["Email", "Joined", "Page"], ...subs.map((x) => [x.email, x.created_at, x.source])], "patternsbyrish-email-list.csv"));
+    function listPane() {
+      const n = A.content.newsletter = Object.assign({}, (S.defaults || {}).newsletter || {}, A.content.newsletter || {});
+      $("#nl-on").checked = n.enabled !== false; $("#nl-on").onchange = () => { n.enabled = $("#nl-on").checked; A.dirty(); };
+      [["nl-title", "title"], ["nl-text", "text"], ["nl-button", "button"], ["nl-thanks", "thanks"], ["nl-coupon", "coupon"], ["nl-pct", "coupon_pct"]].forEach(([id, k]) => {
+        const el = $("#" + id); el.value = n[k] || ""; el.oninput = () => { n[k] = k === "coupon" ? el.value.trim().toUpperCase() : el.value; A.dirty(); };
+      });
+    }
+    A.hooks.push(shopPane, studioPane, faqPane, seasonPane, listPane); seasonPane(); listPane(); loadSubs();
     shopPane(); studioPane(); faqPane(); A.markClean();
     (async () => {
       const { data } = await db.from("pattern_files").select("listing_id, drive_url");

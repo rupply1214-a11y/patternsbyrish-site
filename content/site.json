@@ -150,5 +150,14 @@
       "q": "Can I return a pattern?",
       "a": "Digital files download instantly, so they can't be returned. If a file won't open or something looks wrong, message us and we'll help you sort it out."
     }
-  ]
+  ],
+  "newsletter": {
+    "enabled": true,
+    "title": "New patterns & sewing tips, *first*",
+    "text": "Join the Patterns by Rish list: new pattern launches, sale alerts and short sewing tips. No spam, unsubscribe any time.",
+    "button": "Join the list",
+    "thanks": "You're on the list! Watch your inbox for new patterns and sewing tips.",
+    "coupon": "",
+    "coupon_text": "Use code {code} for {pct}% off your first website order."
+  }
 }

@@ -78,6 +78,41 @@ async function downloads(items: { id: string; name: string }[]) {
   return items.map((i) => ({ id: i.id, name: i.name, url: (files || []).find((f) => f.listing_id === String(i.id))?.drive_url || "" }));
 }
 
+// ---------- order email (Brevo) ----------
+const LOGO = SITE + "/static/img/logo-email.png";
+const escH = (t: string) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+async function orderEmail(row: any, dl: { name: string; url: string }[]) {
+  const key = env("BREVO_API_KEY");
+  if (!key) return false;
+  const rows = dl.map((d) => `<tr><td style="padding:12px 0;border-bottom:1px dashed #E4DACC;font-size:15px;color:#1A1717;">${escH(d.name)}</td>
+    <td align="right" style="padding:12px 0;border-bottom:1px dashed #E4DACC;">${d.url
+      ? `<a href="${escH(d.url)}" style="display:inline-block;padding:9px 18px;border-radius:999px;background:#1A1717;color:#fff;text-decoration:none;font-weight:bold;font-size:14px;">Download</a>`
+      : `<span style="font-size:13px;color:#7A736C;">Coming shortly in My purchases</span>`}</td></tr>`).join("");
+  const html = `<!doctype html><html><body style="margin:0;background:#F6F1E9;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F6F1E9;padding:28px 12px;"><tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
+<tr><td style="height:8px;background:#F5D76E;border-radius:8px 8px 0 0;"></td></tr>
+<tr><td style="background:#FFFDF9;border:1px solid #E4DACC;border-top:0;border-radius:0 0 18px 18px;padding:34px 32px 30px;font-family:Helvetica,Arial,sans-serif;color:#1A1717;">
+<a href="${SITE}/"><img src="${LOGO}" width="220" alt="Patterns by Rish" style="display:block;border:0;width:220px;height:auto;margin:0 0 26px;"></a>
+<h1 style="margin:0 0 10px;font-family:Georgia,serif;font-weight:normal;font-size:28px;line-height:1.2;">Thank you! Your patterns are ready</h1>
+<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#4A4542;">Here are your downloads. They're also saved in <a href="${SITE}/sewing-room/#purchases" style="color:#8A2822;">My purchases</a>, so you can come back any time.</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
+<p style="margin:18px 0 0;font-size:15px;color:#1A1717;"><b>Total paid: $${Number(row.amount).toFixed(2)} USD</b>${row.coupon ? ` (coupon ${escH(row.coupon)})` : ""}</p>
+<p style="margin:6px 0 0;font-size:13px;color:#7A736C;">PayPal order ${escH(row.paypal_order_id || "")}</p>
+<p style="margin:22px 0 0;font-size:14px;line-height:1.6;color:#4A4542;">Printing tip: print the test square at 100% (actual size), never "fit to page". Need help? Just reply to this email.</p>
+<p style="margin:26px 0 0;padding-top:18px;border-top:1px dashed #E4DACC;font-size:13px;line-height:1.6;color:#7A736C;">Happy sewing,<br><span style="color:#8A2822;font-family:Georgia,serif;font-style:italic;font-size:16px;">The Patterns by Rish studio</span></p>
+</td></tr></table></td></tr></table></body></html>`;
+  const r = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST", headers: { "api-key": key, "Content-Type": "application/json", accept: "application/json" },
+    body: JSON.stringify({ sender: { name: "Patterns by Rish", email: env("SENDER_EMAIL", "patternsbyrish@gmail.com") },
+      replyTo: { email: env("SENDER_EMAIL", "patternsbyrish@gmail.com"), name: "Patterns by Rish" },
+      to: [{ email: row.email }], subject: "Your Patterns by Rish order: download your patterns", htmlContent: html }),
+  });
+  if (!r.ok) { console.error("brevo", r.status, await r.text()); return false; }
+  await db.from("orders").update({ emailed_at: new Date().toISOString() }).eq("id", row.id);
+  return true;
+}
+
 // ---------- actions ----------
 async function create(user: any, body: any) {
   const ids = [...new Set((body.items || []).map(String))].slice(0, 60) as string[];
@@ -130,7 +165,17 @@ async function capture(user: any, body: any) {
       if (c) await db.from("coupons").update({ used: (c.used || 0) + 1 }).eq("code", row.coupon);
     }
   }
-  return { ok: true, downloads: await downloads(row.items) };
+  const dl = await downloads(row.items);
+  if (!row.emailed_at) { try { await orderEmail(row, dl); } catch (e) { console.error("order email", e); } }
+  return { ok: true, downloads: dl };
+}
+
+async function resend(body: any) {
+  const { data: row } = await db.from("orders").select("*").eq("id", body.order_id).maybeSingle();
+  if (!row || row.status !== "paid") throw new Oops("Only paid orders can be emailed.");
+  if (!env("BREVO_API_KEY")) throw new Oops("Order emails aren't switched on yet (BREVO_API_KEY secret missing).", 503);
+  if (!(await orderEmail(row, await downloads(row.items)))) throw new Oops("Brevo didn't send the email. Check the Brevo key.", 502);
+  return { ok: true };
 }
 
 async function refund(body: any) {
@@ -158,7 +203,7 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}));
     if (body.action === "coupon") { const c = await coupon(body.code); if (!c) throw new Oops("Type a code first."); return json({ percent: c.percent }); }
-    if (body.action === "status") return json({ ok: true, paypal: !!env("PAYPAL_SECRET"), mode: env("PAYPAL_MODE", "sandbox"), publish: !!env("GH_TOKEN") });
+    if (body.action === "status") return json({ ok: true, paypal: !!env("PAYPAL_SECRET"), mode: env("PAYPAL_MODE", "sandbox"), publish: !!env("GH_TOKEN"), email: !!env("BREVO_API_KEY") });
     const user = await who(req);
     if (!user) throw new Oops("Please sign in first.", 401);
     if (body.action === "create") return json(await create(user, body));
@@ -167,6 +212,7 @@ Deno.serve(async (req) => {
       if (!(await isAdmin(user.email))) throw new Oops("Only the shop owner can do that.", 403);
       if (body.action === "refund") return json(await refund(body));
       if (body.action === "publish") return json(await publish());
+      if (body.action === "resend") return json(await resend(body));
     }
     throw new Oops("Unknown request.");
   } catch (e) {

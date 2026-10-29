@@ -17,6 +17,23 @@
     if (n) { n.textContent = saved.size || ""; n.hidden = !saved.size; }
   });
 
+  // email list sign-up in the footer
+  document.querySelectorAll("[data-newsletter]").forEach((f) => f.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const msg = f.querySelector("[data-nl-msg]"), email = f.email.value.trim().toLowerCase();
+    if (f.website.value) return; // a bot filled the hidden box
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.className = "foot-news-msg err"; return (msg.textContent = "Please type your email address."); }
+    msg.className = "foot-news-msg"; msg.textContent = "Adding you…";
+    try {
+      const r = await fetch(C.sb + "/rest/v1/subscribers?on_conflict=email", { method: "POST",
+        headers: { apikey: C.key, "Content-Type": "application/json", Prefer: "return=minimal,resolution=ignore-duplicates" },
+        body: JSON.stringify({ email, source: location.pathname.split("/").filter(Boolean).slice(-1)[0] || "home" }) });
+      if (!r.ok && r.status !== 409) throw new Error();
+      msg.className = "foot-news-msg ok"; msg.textContent = msg.dataset.thanks || "You're on the list!";
+      f.querySelector("button").disabled = true; f.email.value = "";
+    } catch { msg.className = "foot-news-msg err"; msg.textContent = "That didn't work. Please try again in a moment."; }
+  }));
+
   const paint = () => document.querySelectorAll("[data-heart]").forEach((b) => {
     const on = saved.has(b.dataset.heart);
     b.setAttribute("aria-pressed", on ? "true" : "false");
