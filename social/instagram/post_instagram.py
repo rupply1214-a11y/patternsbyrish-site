@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 import requests
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-API = "https://graph.facebook.com/v21.0"
+API = "https://graph.facebook.com/v26.0"
 REPO = os.environ.get("GITHUB_REPOSITORY", "rupply1214-a11y/patternsbyrish-site")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
 
