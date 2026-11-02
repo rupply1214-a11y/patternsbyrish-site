@@ -1,7 +1,8 @@
 """Publish the Instagram post planned for today (India time).
 
 Reads schedule.json, posts every planned post whose date is today (or the date given with --date)
-and that is not yet in posted.json, using the Instagram Graph API (Facebook Login for Business).
+and that is not yet in posted.json, using the Instagram Graph API (Facebook Login for Business),
+and the same post on the Facebook Page (needs the pages_manage_posts permission on the token).
 
 Needs two GitHub secrets:
   IG_USER_ID       the Instagram professional account id (a long number)
@@ -47,9 +48,29 @@ def api(method, path, **params):
     return body
 
 
+FB_PAGE_ID = os.environ.get("FB_PAGE_ID") or "1331685616683803"  # Facebook Page "Patterns by Rish"
+
+
 def check():
     me = api("GET", os.environ["IG_USER_ID"], fields="username,media_count")
-    print(f"Connected to Instagram account @{me.get('username')} ({me.get('media_count')} posts). Everything is set up.")
+    print(f"Connected to Instagram account @{me.get('username')} ({me.get('media_count')} posts). Instagram is set up.")
+    try:
+        pg = api("GET", FB_PAGE_ID, fields="name")
+        perms = api("GET", "me/permissions").get("data", [])
+    except RuntimeError as e:
+        print(f"Facebook Page: not ready ({e})")
+        return
+    ok = any(x.get("permission") == "pages_manage_posts" and x.get("status") == "granted" for x in perms)
+    if ok:
+        print(f"Connected to Facebook Page '{pg.get('name')}'. Facebook posting is set up.")
+    else:
+        print(f"Facebook Page '{pg.get('name')}' found, but the token has no pages_manage_posts permission yet, "
+              "so posts go to Instagram only.")
+
+
+def publish_facebook(post, image_url):
+    r = api("POST", f"{FB_PAGE_ID}/photos", url=image_url, message=post["caption"], published="true")
+    return r.get("post_id") or r["id"]
 
 
 def publish(post):
@@ -75,7 +96,7 @@ def publish(post):
             raise RuntimeError(f"Instagram could not process the image ({st}).")
         time.sleep(5)
     m = api("POST", f"{ig}/media_publish", creation_id=cid)
-    return m["id"]
+    return m["id"], image_url
 
 
 def main():
@@ -103,12 +124,19 @@ def main():
             print(f"[dry run] Would post {key}: {p['image']}")
             continue
         try:
-            mid = publish(p)
+            mid, image_url = publish(p)
             posted[key] = mid
-            print(f"Posted {key} (Instagram media id {mid}).")
+            print(f"Posted {key} to Instagram (media id {mid}).")
         except Exception as e:  # keep going with the next post, report at the end
             failed = True
             print(f"FAILED {key}: {e}")
+            continue
+        if os.environ.get("POST_TO_FACEBOOK", "yes").lower() != "no" and f"fb {key}" not in posted:
+            try:
+                posted[f"fb {key}"] = publish_facebook(p, image_url)
+                print(f"Posted {key} to Facebook Page.")
+            except Exception as e:  # Facebook is extra: never fails the Instagram run
+                print(f"Facebook not posted for {key}: {e}")
     with open(os.path.join(HERE, "posted.json"), "w", encoding="utf-8") as f:
         json.dump(posted, f, indent=1)
     if failed:

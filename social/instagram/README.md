@@ -17,7 +17,8 @@ You need: Instagram as a **Professional** account (Business or Creator), linked 
 1. **developers.facebook.com** › My Apps › **Create app** › "Other" › type **Business** › name it `PatternsByRish Poster`.
 2. In the app, add the product **Instagram** (Facebook Login for Business). The app can stay in development mode; you are its admin.
 3. Open **Graph API Explorer** (Tools menu). Choose your app, then "Get User Access Token" with these permissions:
-   `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`, `business_management`.
+   `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, `business_management`.
+   (`pages_manage_posts` lets the same post also go to the Facebook Page.)
 4. Copy that token into **Access Token Debugger** › **Extend Access Token** (gives a 60-day token).
 5. Back in Graph API Explorer, paste the long token and run `me/accounts`. Copy the `access_token` of your Facebook Page
    (this Page token does not expire) and the Page `id`.
