@@ -131,7 +131,7 @@ def main():
             failed = True
             print(f"FAILED {key}: {e}")
             continue
-        if os.environ.get("POST_TO_FACEBOOK", "yes").lower() != "no" and f"fb {key}" not in posted:
+        if os.environ.get("POST_TO_FACEBOOK", "no").lower() == "yes" and f"fb {key}" not in posted:
             try:
                 posted[f"fb {key}"] = publish_facebook(p, image_url)
                 print(f"Posted {key} to Facebook Page.")
