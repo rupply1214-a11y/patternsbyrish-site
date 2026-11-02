@@ -1,0 +1,57 @@
+name: Post to Instagram
+
+on:
+  schedule:
+    - cron: "0 14 * * *"   # every day 14:00 UTC = 7:30 pm India time
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check = test the connection, post = post now"
+        type: choice
+        options: [check, post]
+        default: check
+      date:
+        description: "Post the plan for this date instead of today (YYYY-MM-DD). Leave empty for today."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Post to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          EVENT: ${{ github.event_name }}
+          MODE: ${{ inputs.mode }}
+          POST_DATE: ${{ inputs.date }}
+        run: |
+          if [ "$EVENT" = "workflow_dispatch" ] && [ "$MODE" = "check" ]; then
+            python social/instagram/post_instagram.py --check
+          else
+            python social/instagram/post_instagram.py --date "$POST_DATE"
+          fi
+      - name: Remember what was posted
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain social/instagram/posted.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add social/instagram/posted.json
+            git commit -m "Instagram: remember posted [skip ci]"
+            git pull --rebase -q || true
+            git push || echo "push skipped"
+          fi
