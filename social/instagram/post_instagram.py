@@ -48,6 +48,7 @@ def api(method, path, **params):
     return body
 
 
+START_DATE = "2026-11-16"  # automatic posting starts on this day (India time)
 FB_PAGE_ID = os.environ.get("FB_PAGE_ID") or "1331685616683803"  # Facebook Page "Patterns by Rish"
 
 
@@ -111,6 +112,9 @@ def main():
         check()
         return
     day = a.date or dt.datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+    if not a.date and day < START_DATE:
+        print(f"Paused until {START_DATE}. Nothing posted today ({day}).")
+        return
     schedule = load("schedule.json", [])
     posted = load("posted.json", {})
     todo = [p for p in schedule if p["date"] == day and f"{p['date']} {p['sku']}" not in posted]
