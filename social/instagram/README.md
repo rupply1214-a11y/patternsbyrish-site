@@ -32,5 +32,5 @@ Never paste the token in a chat, file or commit. It only goes into the GitHub se
 
 ## Every day
 
-Nothing to do. To post a missed day: Actions › Post to Instagram › Run workflow › mode `post`, date `2026-11-05`.
+Nothing to do. One post goes out each day; if days are missed (paused, expired token), the oldest unposted post goes next, so nothing is skipped. To post a specific day now: Actions › Post to Instagram › Run workflow › mode `post`, date `2026-11-05`.
 To change a caption, edit `schedule.json` (same date, it posts the new text).

@@ -117,7 +117,13 @@ def main():
         return
     schedule = load("schedule.json", [])
     posted = load("posted.json", {})
-    todo = [p for p in schedule if p["date"] == day and f"{p['date']} {p['sku']}" not in posted]
+    if a.date:
+        todo = [p for p in schedule if p["date"] == day and f"{p['date']} {p['sku']}" not in posted]
+    else:
+        # catch-up queue: one post per day, the oldest planned post not yet posted
+        # (days missed during a pause or an expired token are not lost, the plan just shifts)
+        todo = [p for p in sorted(schedule, key=lambda p: p["date"])
+                if p["date"] <= day and f"{p['date']} {p['sku']}" not in posted][:1]
     if not todo:
         print(f"Nothing to post for {day}.")
         return
