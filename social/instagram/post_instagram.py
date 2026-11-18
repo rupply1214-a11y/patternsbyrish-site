@@ -57,20 +57,15 @@ def check():
     print(f"Connected to Instagram account @{me.get('username')} ({me.get('media_count')} posts). Instagram is set up.")
     try:
         pg = api("GET", FB_PAGE_ID, fields="name")
-        perms = api("GET", "me/permissions").get("data", [])
     except RuntimeError as e:
         print(f"Facebook Page: not ready ({e})")
         return
-    ok = any(x.get("permission") == "pages_manage_posts" and x.get("status") == "granted" for x in perms)
-    if ok:
-        print(f"Connected to Facebook Page '{pg.get('name')}'. Facebook posting is set up.")
-    else:
-        print(f"Facebook Page '{pg.get('name')}' found, but the token has no pages_manage_posts permission yet, "
-              "so posts go to Instagram only.")
+    on = os.environ.get("POST_TO_FACEBOOK", "no").lower() == "yes"
+    print(f"Connected to Facebook Page '{pg.get('name')}'. Facebook posting is {'ON' if on else 'OFF'}.")
 
 
 def publish_facebook(post, image_url):
-    r = api("POST", f"{FB_PAGE_ID}/photos", url=image_url, message=post["caption"], published="true")
+    r = api("POST", f"{FB_PAGE_ID}/photos", url=image_url, message=post.get("fb_caption") or post["caption"], published="true")
     return r.get("post_id") or r["id"]
 
 

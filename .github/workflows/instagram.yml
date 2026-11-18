@@ -38,6 +38,7 @@ jobs:
           EVENT: ${{ github.event_name }}
           MODE: ${{ inputs.mode }}
           POST_DATE: ${{ inputs.date }}
+          POST_TO_FACEBOOK: "yes"
         run: |
           if [ "$EVENT" = "workflow_dispatch" ] && [ "$MODE" = "check" ]; then
             python social/instagram/post_instagram.py --check
