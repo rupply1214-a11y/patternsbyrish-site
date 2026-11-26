@@ -48,7 +48,11 @@ R=[
 ("RL31_NewYear_SingerSparkle","2026-12-27","A New Year's Eve sequin top, stitched on a 100-year-old Singer ✨","Gold sequins, candle light and the steady click of a vintage machine. Ready for midnight.","vintage",None,None),
 ("RL34_BW_Atelier_CoatCraft","2026-12-28","How a luxury coat is made, start to finish 🖤","Thread, chalk, shears, steam and a perfect charcoal coat. Black and white tailoring at its best.","asmr",None,None),
 ("RL35_Epic_GiantSpoolCity","2026-12-29","They pushed the wheel… and found a city made of thread 🧵🏜️","A giant sewing machine in the desert hides something nobody expected. Would you go in?","vintage",None,None),
+("RL38_Cartoon_ChaosWorkshop","2026-12-30","When the royal ball is TONIGHT and nothing is sewn yet 😱🧵","Pins flying, irons steaming, ribbons everywhere, and somehow the pink ball gown gets finished. Every sewist knows this feeling.","toon",None,None),
 ("RL30_Sequin_NewYear","2026-12-31","New Year's Eve outfit idea ✨🎆","Green sequins, a pink glitter circle skirt and fireworks at midnight. This two piece set is a PDF sewing pattern.","dress",SHOP,"Shop PDF sewing patterns"),
+("RL36_Atelier_IvoryCape","2027-01-01","New year, new gown: a bridal cape made from scratch 🤍","Ivory crepe, a long seam and one magical walk across the field. Sew your own wedding look with our wedding dress PDF pattern.","dress",L("4602145557","wedding-dress-sewing-pattern-pdf"),"Wedding Dress pattern"),
+("RL39_Morph_CottonToShirt","2027-01-02","From cotton to a crisp white shirt in seconds 🤍","Cotton, thread, fabric, pattern pieces and a perfect white shirt. Every shirt starts as a flower.","journey",None,None),
+("RL37_Vintage_SewingRoom1960","2027-01-03","Step into a 1960s sewing room 💛","A turquoise machine, yellow polka dots and a swing dress made for twirling. Pure retro joy.","vintage",None,None),
 ]
 out=[]
 for lab,d,hook,body,ts,link,ll in R:
@@ -56,7 +60,7 @@ for lab,d,hook,body,ts,link,ll in R:
     cap=f"{hook}\n\n{body}\n\n🧵 PDF sewing patterns in sizes XS–5XL by PatternsByRish. Link in bio.\n\nWould you sew this? Tell us below 👇\n\n{TAGS[ts]}"
     fbtags=' '.join(TAGS[ts].split()[:6])
     fb=f"{hook}\n\n{body}\n\n🛒 {ll or 'Shop PDF sewing patterns'}: {link or SHOP}\n\nWould you sew this? Tell us below 👇\n\n{fbtags}"
-    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset={"RL31":19000,"RL32":18500,"RL33":17000,"RL34":8000,"RL35":9000}.get(k,8600),caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
+    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset={"RL31":19000,"RL32":18500,"RL33":17000,"RL34":8000,"RL35":9000,"RL36":9300,"RL37":9300,"RL38":9300,"RL39":9300}.get(k,8600),caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
 assert len({o['date'] for o in out})==len(out)
 json.dump(out,open('social/reels/schedule.json','w'),indent=1,ensure_ascii=False)
 print(len(out)); print(out[3]['caption']); print('---'); print(out[3]['fb_caption'])
