@@ -65,8 +65,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default="")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--extra", action="store_true", help="post from extra.json (occasional Claude-made reels)")
     a = ap.parse_args()
-    sched = load(os.path.join(HERE, "schedule.json"), [])
+    sched = load(os.path.join(HERE, "extra.json" if a.extra else "schedule.json"), [])
     if a.check:
         for r in sched[:3]:
             h = requests.head(r["video"], timeout=30, allow_redirects=True)

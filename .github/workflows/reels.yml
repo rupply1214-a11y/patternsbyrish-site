@@ -3,6 +3,7 @@ name: Post Reels to Instagram and Facebook
 on:
   schedule:
     - cron: "0 17 * * *"   # every day 17:00 UTC = 10:30 pm India time (noon in New York, 5 pm in London)
+    - cron: "0 1 * * *"    # 6:30 am India time (8 pm New York): occasional Claude-made reels from extra.json
   workflow_dispatch:
     inputs:
       mode:
@@ -39,7 +40,9 @@ jobs:
           MODE: ${{ inputs.mode }}
           POST_DATE: ${{ inputs.date }}
           POST_TO_FACEBOOK: "yes"
+          SCHED: ${{ github.event.schedule }}
         run: |
+          if [ "$SCHED" = "0 1 * * *" ]; then python social/reels/post_reels.py --extra; exit $?; fi
           if [ "$EVENT" = "workflow_dispatch" ] && [ "$MODE" = "check" ]; then
             python social/reels/post_reels.py --check
           else
