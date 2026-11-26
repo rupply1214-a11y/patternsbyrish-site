@@ -9,6 +9,7 @@ TAGS={
  "dress":"#sewingpattern #pdfsewingpattern #dressmaking #sewing #sewingreels #memade #handmadewardrobe #sewist #isew #diyfashion",
  "xmas":"#christmasdress #christmassewing #holidaysewing #sewingpattern #pdfsewingpattern #dressmaking #sewingreels #memade #handmadechristmas #sewist",
  "journey":"#fabric #slowfashion #sustainablefashion #fromscratch #sewing #sewingreels #handmade #textile #memade #pdfsewingpattern",
+ "toon":"#sewinghumor #sewingfun #sewingmachine #sewing #sewingreels #dressmaking #animation #sewist #handmade #pdfsewingpattern",
  "mini":"#miniatureworld #tinyworld #sewing #sewingmachine #sewingreels #satisfying #sewingfun #handmade #sewist #pdfsewingpattern",
 }
 # label, date, hook, body, tagset, link (or None), link_label
@@ -42,6 +43,9 @@ R=[
 ("RL28_Wool_ScarfToGift","2026-12-22","The best gift is the one you made 🎁","Red plaid wool, a few cuts and a scarf wrapped for someone you love.","xmas",None,None),
 ("RL29_GiantMachine_Desert","2026-12-23","They found a giant sewing machine in the desert… 🏜️","And then the wheel started to turn. Would you go closer?","vintage",None,None),
 ("RL23_Family_MatchingXmas","2026-12-24","Matching Christmas outfits, all handmade 🎄","Plaid flannel, a few evenings of sewing and a family photo to keep forever. Our Christmas outfit bundle has 5 patterns for the whole family.","xmas",L("4610232175","christmas-outfit-sewing-pattern-bundle"),"Christmas Outfit Bundle"),
+("RL32_Pixar_RobotStitcher","2026-12-25","When your sewing machine is smarter than you 🤖🧵","Two designers, one roll of red silk and a machine that sews a whole embroidered dress by itself. Would you trust it with your fabric?","toon",None,None),
+("RL33_Mini_PatternsCrew_Truck","2026-12-26","Our tiniest sewing crew has arrived 🚚🧵","Ladders up, gold thread in, and the giant needle starts stitching. Teamwork in miniature.","mini",None,None),
+("RL31_NewYear_SingerSparkle","2026-12-27","A New Year's Eve sequin top, stitched on a 100-year-old Singer ✨","Gold sequins, candle light and the steady click of a vintage machine. Ready for midnight.","vintage",None,None),
 ("RL30_Sequin_NewYear","2026-12-31","New Year's Eve outfit idea ✨🎆","Green sequins, a pink glitter circle skirt and fireworks at midnight. This two piece set is a PDF sewing pattern.","dress",SHOP,"Shop PDF sewing patterns"),
 ]
 out=[]
@@ -50,7 +54,7 @@ for lab,d,hook,body,ts,link,ll in R:
     cap=f"{hook}\n\n{body}\n\n🧵 PDF sewing patterns in sizes XS–5XL by PatternsByRish. Link in bio.\n\nWould you sew this? Tell us below 👇\n\n{TAGS[ts]}"
     fbtags=' '.join(TAGS[ts].split()[:6])
     fb=f"{hook}\n\n{body}\n\n🛒 {ll or 'Shop PDF sewing patterns'}: {link or SHOP}\n\nWould you sew this? Tell us below 👇\n\n{fbtags}"
-    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset=8600,caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
+    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset={"RL31":19000,"RL32":18500,"RL33":17000}.get(k,8600),caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
 assert len({o['date'] for o in out})==len(out)
 json.dump(out,open('social/reels/schedule.json','w'),indent=1,ensure_ascii=False)
 print(len(out)); print(out[3]['caption']); print('---'); print(out[3]['fb_caption'])
