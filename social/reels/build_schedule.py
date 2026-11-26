@@ -53,14 +53,19 @@ R=[
 ("RL36_Atelier_IvoryCape","2027-01-01","New year, new gown: a bridal cape made from scratch 🤍","Ivory crepe, a long seam and one magical walk across the field. Sew your own wedding look with our wedding dress PDF pattern.","dress",L("4602145557","wedding-dress-sewing-pattern-pdf"),"Wedding Dress pattern"),
 ("RL39_Morph_CottonToShirt","2027-01-02","From cotton to a crisp white shirt in seconds 🤍","Cotton, thread, fabric, pattern pieces and a perfect white shirt. Every shirt starts as a flower.","journey",None,None),
 ("RL37_Vintage_SewingRoom1960","2027-01-03","Step into a 1960s sewing room 💛","A turquoise machine, yellow polka dots and a swing dress made for twirling. Pure retro joy.","vintage",None,None),
+("RL40_Mini_ButtonRescue","2027-01-04","Button overboard! Send the rescue team 🔴🚨","The tiniest crew in the sewing room pulls off the biggest rescue. Teamwork in miniature.","mini",None,None),
+("RL42_Sketch_PartyDress","2027-01-05","From a pencil sketch to the party of the year 🖤","A quick sketch, black velvet and puff sleeves, then all eyes on her. Sew your own party dress.","dress",SHOP,"Shop PDF sewing patterns"),
+("RL43_Pixar_GrandmaLesson","2027-01-06","Grandma's first sewing lesson ❤️🧸","A torn teddy, an old sewing machine and the sweetest lesson. Who taught you to sew?","toon",None,None),
+("RL41_Vintage_RedFeatherweight","2027-01-07","This tiny red machine sews a whole apron 🍒","A vintage red portable, mint gingham and a sunny kitchen. Small machine, big joy.","vintage",None,None),
 ]
+TH=json.load(open("social/reels/thumb_offsets.json"))
 out=[]
 for lab,d,hook,body,ts,link,ll in R:
     k=lab.split('_')[0]
     cap=f"{hook}\n\n{body}\n\n🧵 PDF sewing patterns in sizes XS–5XL by PatternsByRish. Link in bio.\n\nWould you sew this? Tell us below 👇\n\n{TAGS[ts]}"
     fbtags=' '.join(TAGS[ts].split()[:6])
     fb=f"{hook}\n\n{body}\n\n🛒 {ll or 'Shop PDF sewing patterns'}: {link or SHOP}\n\nWould you sew this? Tell us below 👇\n\n{fbtags}"
-    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset={"RL31":19000,"RL32":18500,"RL33":17000,"RL34":8000,"RL35":9000,"RL36":9300,"RL37":9300,"RL38":9300,"RL39":9300}.get(k,8600),caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
+    out.append(dict(date=d,label=lab,video=BASE+k+".mp4",cover=BASE+k+".jpg",thumb_offset=TH.get(k,5000),caption=cap,fb_caption=fb,link=link or SHOP,title=hook))
 assert len({o['date'] for o in out})==len(out)
 json.dump(out,open('social/reels/schedule.json','w'),indent=1,ensure_ascii=False)
 print(len(out)); print(out[3]['caption']); print('---'); print(out[3]['fb_caption'])
