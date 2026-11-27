@@ -74,7 +74,11 @@ def main():
             print(f"{r['label']}: {h.status_code} {h.headers.get('content-type')} {h.headers.get('content-length')} bytes")
         pi.check()
         return
-    day = a.date or dt.datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+    now = dt.datetime.now(ZoneInfo("Asia/Kolkata"))
+    d0 = now.date()
+    if not a.date and not a.extra and now.hour < 12:
+        d0 -= dt.timedelta(days=1)  # a late-running evening job still belongs to last evening
+    day = a.date or d0.isoformat()
     posted = load(POSTED, {})
     key = lambda r: f"reel {r['date']} {r['label']}"
     if a.date:

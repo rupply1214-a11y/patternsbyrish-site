@@ -2,7 +2,7 @@ name: Post to Instagram
 
 on:
   schedule:
-    - cron: "0 14 * * *"   # every day 14:00 UTC = 7:30 pm India time
+    - cron: "7 13 * * *"   # every day ~6:40 pm India time (off the busy :00 minute)
   workflow_dispatch:
     inputs:
       mode:
