@@ -3,7 +3,6 @@ name: Post Reels to Instagram and Facebook
 on:
   schedule:
     - cron: "23 16 * * *"  # every day ~10 pm India time (off the busy :00 minute so GitHub starts it on time)
-    - cron: "41 0 * * *"   # ~6:10 am India time (evening in New York): occasional Claude-made reels from extra.json
   workflow_dispatch:
     inputs:
       mode:
