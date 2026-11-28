@@ -42,7 +42,7 @@ jobs:
           POST_TO_FACEBOOK: "yes"
           SCHED: ${{ github.event.schedule }}
         run: |
-          if [ "$SCHED" = "41 0 * * *" ] || [ "$MODE" = "extra" ]; then python social/reels/post_reels.py --extra; exit $?; fi
+          if [ "$SCHED" = "41 0 * * *" ] || [ "$MODE" = "extra" ]; then python social/reels/post_reels.py --extra --date "$POST_DATE"; exit $?; fi
           if [ "$EVENT" = "workflow_dispatch" ] && [ "$MODE" = "check" ]; then
             python social/reels/post_reels.py --check
           else
